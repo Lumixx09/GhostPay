@@ -70,12 +70,22 @@ Powered by **iExec Nox**, ensuring that salary data moves through secure enclave
    npx hardhat compile
    ```
 
-### Configuration
-Create a `.env` in the `frontend` directory:
-```env
-VITE_GHOST_PAY_ADDRESS=0xyour_contract_address
-VITE_CHAINGPT_API_KEY=your_key
-```
+### Configuration & Keys
+To get the protocol running, you need to configure your environment variables.
+
+#### 1. Contract Environment (`/contracts/.env`)
+Create a `.env` file in the `contracts` directory:
+- **`PRIVATE_KEY`**: Your wallet's private key (e.g., from MetaMask). Needed for deployment.
+- **`ARBITRUM_SEPOLIA_RPC`**: Defaults to `https://sepolia-rollup.arbitrum.io/rpc`.
+
+#### 2. Frontend Environment (`/frontend/.env`)
+Create a `.env` file in the `frontend` directory:
+- **`VITE_GHOST_PAY_ADDRESS`**: The deployed contract address on Arbitrum Sepolia.
+- **`VITE_CHAINGPT_API_KEY`**: Your API key from the [ChainGPT Developer Portal](https://dashboard.chaingpt.org/).
+
+> [!TIP]
+> **How to get Sepolia ETH?**
+> You can acquire free test ETH for Arbitrum Sepolia at [Alchemy Faucet](https://sepolia-faucet.pk910.de/) or [QuickNode Faucet](https://faucet.quicknode.com/drip).
 
 ---
 
