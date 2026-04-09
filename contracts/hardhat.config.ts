@@ -4,12 +4,15 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
+const privateKey = process.env.PRIVATE_KEY;
+const accounts = (privateKey && privateKey.startsWith("0x") && privateKey.length === 66) ? [privateKey] : [];
+
 const config: HardhatUserConfig = {
   solidity: "0.8.28",
   networks: {
     "arbitrum-sepolia": {
       url: process.env.ARBITRUM_SEPOLIA_RPC || "https://sepolia-rollup.arbitrum.io/rpc",
-      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+      accounts: accounts,
     },
   },
 };
