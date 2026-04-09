@@ -30,6 +30,7 @@ const LandingPage = ({ connect }: { connect: () => void }) => (
     </nav>
 
     <section className="landing-hero-grid">
+      <div className="hero-ambient-glow"></div>
       <div className="hero-text-side">
         <div className="badge-nox">Powered by iExec Nox • Arbitrum Sepolia</div>
         <h1 className="landing-title">Confidential Payroll, <span style={{ color: 'var(--primary)' }}>Redefined.</span></h1>
@@ -84,6 +85,7 @@ function App() {
   const { 
     account, 
     balance, 
+    history,
     connect, 
     isConnected, 
     isPending, 
@@ -248,24 +250,34 @@ function App() {
                 <div className="pro-card" style={{ gridColumn: 'span 3', padding: '2.5rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
                     <h3 style={{ margin: 0 }}>Live Protocol Ledger</h3>
-                    <div className="ai-status-pill" style={{ margin: 0 }}>Arb-Sepolia Synced</div>
+                    <div className="ai-status-pill" style={{ margin: 0 }}>Synced: {history.length} Events</div>
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                    {[1, 2, 3].map((i) => (
+                    {history.length > 0 ? history.slice(0, 5).map((tx, i) => (
                       <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '1.25rem', background: 'rgba(255,255,255,0.02)', borderRadius: '20px', border: '1px solid var(--glass-border)' }}>
                         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
                           <ShieldCheck size={28} color="var(--primary)" weight="fill" />
                           <div>
-                            <div style={{ fontWeight: 700 }}>Confidential Batch #{1024 + i}</div>
-                            <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)' }}>0x71C...49A • {i * 2} mins ago</div>
+                            <div style={{ fontWeight: 700 }}>
+                              {tx.type === 'payroll' ? `Confidential Batch #${tx.hash.slice(2, 6).toUpperCase()}` : 'Salary Claim'}
+                            </div>
+                            <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)' }}>
+                              {tx.address.slice(0, 6)}...{tx.address.slice(-4)} • {tx.timestamp}
+                            </div>
                           </div>
                         </div>
                         <div style={{ textAlign: 'right' }}>
-                          <div style={{ fontWeight: 700, color: 'var(--primary)' }}>+$2,500.00</div>
-                          <div style={{ fontSize: '0.75rem', color: 'var(--success)' }}>Confirmed</div>
+                          <div style={{ fontWeight: 700, color: 'var(--primary)' }}>
+                            {tx.type === 'payroll' ? `${tx.count} Recipients` : `+$${tx.amount}`}
+                          </div>
+                          <div style={{ fontSize: '0.75rem', color: 'var(--success)' }}>Verified</div>
                         </div>
                       </div>
-                    ))}
+                    )) : (
+                      <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-dim)' }}>
+                        No protocol events found in recent blocks.
+                      </div>
+                    )}
                   </div>
                 </div>
               </>
@@ -336,12 +348,43 @@ function App() {
                 )}
               </div>
           ) : activeTab === 'history' ? (
-            <div className="pro-card" style={{ gridColumn: 'span 3', padding: '4rem', textAlign: 'center' }}>
-                <div className="subtitle">Audit Ledger</div>
-                <h3>Transaction History</h3>
-                <p style={{ color: 'var(--text-dim)', marginTop: '1rem' }}>Sychronizing with Arbitrum Sepolia events... All data is end-to-end encrypted.</p>
-                <div style={{ marginTop: '3rem', opacity: 0.5 }}>
-                  <CircleNotch size={48} className="animate-spin" style={{ margin: '0 auto' }} />
+            <div className="pro-card" style={{ gridColumn: 'span 3', padding: '3rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+                  <h3>Live Transaction Audit</h3>
+                  <div className="ai-status-pill">Etherscan Verified</div>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {history.map((tx, i) => (
+                    <a 
+                      key={i} 
+                      href={`https://sepolia.arbiscan.io/tx/${tx.hash}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{ textDecoration: 'none', color: 'inherit' }}
+                    >
+                      <div className="pro-card" style={{ padding: '1.5rem', background: 'rgba(255,255,255,0.01)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                          <div style={{ color: tx.type === 'payroll' ? 'var(--primary)' : 'var(--success)' }}>
+                            <PaperPlaneTilt size={24} weight="bold" />
+                          </div>
+                          <div>
+                            <div style={{ fontWeight: 600 }}>{tx.type === 'payroll' ? 'Bulk Payroll Dispatch' : 'Salary Reclaim'}</div>
+                            <div style={{ fontSize: '0.8rem', color: 'var(--text-dim)' }}>{tx.hash.slice(0, 18)}...</div>
+                          </div>
+                        </div>
+                        <div style={{ textAlign: 'right' }}>
+                          <div style={{ fontWeight: 700 }}>{tx.type === 'payroll' ? `${tx.count} Addrs` : `${tx.amount} cUSDC`}</div>
+                          <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)' }}>{tx.timestamp}</div>
+                        </div>
+                      </div>
+                    </a>
+                  ))}
+                  {history.length === 0 && (
+                    <div style={{ textAlign: 'center', padding: '4rem', opacity: 0.5 }}>
+                      <CircleNotch size={48} className="animate-spin" style={{ margin: '0 auto mb-1rem' }} />
+                      <p>Scanning Blocks...</p>
+                    </div>
+                  )}
                 </div>
             </div>
           ) : activeTab === 'profile' ? (
@@ -405,7 +448,7 @@ function App() {
 
         <section className="chat-compact">
           <h2 className="panel-section-title">GhostPay Assistant</h2>
-          <ChatAssistant />
+          <ChatAssistant history={history} />
         </section>
       </aside>
 

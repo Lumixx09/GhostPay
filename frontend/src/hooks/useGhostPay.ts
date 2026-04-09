@@ -1,6 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ethers } from 'ethers';
 
+declare global {
+  interface Window {
+    ethereum?: any;
+  }
+}
+
 const GhostPayABI = [
   "event PayrollDistributed(address indexed employer, uint256 employeeCount)",
   "event SalaryClaimed(address indexed employee, uint256 amount)",
@@ -14,15 +20,63 @@ const GhostPayABI = [
   "function reclaimToUnderlying(uint256)"
 ];
 
+export interface Transaction {
+  type: 'payroll' | 'claim';
+  address: string;
+  amount?: string;
+  count?: number;
+  timestamp: string;
+  hash: string;
+}
+
 export function useGhostPay() {
   const [provider, setProvider] = useState<ethers.BrowserProvider | null>(null);
-  const [signer, setSigner] = useState<ethers.JsonRpcSigner | null>(null);
   const [account, setAccount] = useState<string | null>(null);
   const [contract, setContract] = useState<ethers.Contract | null>(null);
   const [balance, setBalance] = useState<string>("0");
   const [isPending, setIsPending] = useState(false);
+  const [history, setHistory] = useState<Transaction[]>([]);
 
   const GHOST_PAY_ADDRESS = import.meta.env.VITE_GHOST_PAY_ADDRESS;
+
+  const fetchHistory = useCallback(async () => {
+    if (!contract || !provider) return;
+    
+    try {
+      // Query events from the last 10,000 blocks for performance
+      const latestBlock = await provider.getBlockNumber();
+      const fromBlock = latestBlock - 10000 > 0 ? latestBlock - 10000 : 0;
+
+      const payrollFilter = contract.filters.PayrollDistributed();
+      const claimFilter = contract.filters.SalaryClaimed();
+
+      const [payrollEvents, claimEvents] = await Promise.all([
+        contract.queryFilter(payrollFilter, fromBlock),
+        contract.queryFilter(claimFilter, fromBlock)
+      ]);
+
+      const formattedHistory: Transaction[] = [
+        ...payrollEvents.map(ev => ({
+          type: 'payroll' as const,
+          address: (ev as any).args[0],
+          count: Number((ev as any).args[1]),
+          timestamp: 'Just now', // ethers v6 getBlock is async, keeping it simple for now
+          hash: ev.transactionHash
+        })),
+        ...claimEvents.map(ev => ({
+          type: 'claim' as const,
+          address: (ev as any).args[0],
+          amount: ethers.formatUnits((ev as any).args[1], 18),
+          timestamp: 'Just now',
+          hash: ev.transactionHash
+        }))
+      ];
+
+      setHistory(formattedHistory.reverse());
+    } catch (error) {
+      console.error("History fetch error:", error);
+    }
+  }, [contract, provider]);
 
   const connect = async () => {
     if (window.ethereum) {
@@ -32,7 +86,6 @@ export function useGhostPay() {
         const _account = await _signer.getAddress();
         
         setProvider(_provider);
-        setSigner(_signer);
         setAccount(_account);
 
         if (GHOST_PAY_ADDRESS) {
@@ -70,7 +123,7 @@ export function useGhostPay() {
         amounts.map(a => ethers.parseUnits(a, 18))
       );
       await tx.wait();
-      await fetchBalance();
+      await Promise.all([fetchBalance(), fetchHistory()]);
     } catch (error) {
       console.error("Distribution error:", error);
       throw error;
@@ -80,12 +133,16 @@ export function useGhostPay() {
   };
 
   useEffect(() => {
-    if (account) fetchBalance();
-  }, [account, fetchBalance]);
+    if (account) {
+      fetchBalance();
+      fetchHistory();
+    }
+  }, [account, fetchBalance, fetchHistory]);
 
   return { 
     account, 
     balance, 
+    history,
     connect, 
     isConnected: !!account,
     isPending,
@@ -93,4 +150,5 @@ export function useGhostPay() {
     refreshBalance: fetchBalance
   };
 }
+
 

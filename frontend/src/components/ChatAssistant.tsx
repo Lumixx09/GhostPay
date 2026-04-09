@@ -2,10 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import { fetchAIResponse } from '../services/chainGPT';
 import type { ChatMessage } from '../services/chainGPT';
 import { Robot, PaperPlaneTilt, DotsThreeVertical } from "@phosphor-icons/react";
+import type { Transaction } from '../hooks/useGhostPay';
 
-const ChatAssistant: React.FC = () => {
+interface ChatAssistantProps {
+  history: Transaction[];
+}
+
+const ChatAssistant: React.FC<ChatAssistantProps> = ({ history }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: 'assistant', content: 'Hello! I am your GhostPay Assistant. How can I help with your confidential HR today?' }
+    { role: 'assistant', content: 'GhostPay Analyst online. I see your live protocol events. Ask me anything about your payroll volume or history!' }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +33,11 @@ const ChatAssistant: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const systemContext = "You are the GhostPay Analyst. GhostPay uses iExec Nox for confidential payroll. ";
+      const historySummary = history.length > 0 
+        ? `Recent protocol events: ${history.length} total. Latest transactions involve ${history.slice(0, 3).map(tx => tx.type + ' (' + (tx.count || tx.amount) + ')').join(', ')}.`
+        : "No recent protocol events found.";
+        
+      const systemContext = `You are the GhostPay Analytics Engine. ${historySummary} GhostPay uses iExec Nox for confidential payroll. Answer with protocol intelligence. `;
       const prompt = systemContext + input;
       const aiAnswer = await fetchAIResponse(prompt, messages);
       setMessages(prev => [...prev, { role: 'assistant', content: aiAnswer }]);
