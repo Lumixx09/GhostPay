@@ -251,7 +251,8 @@ body {
 }
 
 .pro-card {
-  background: var(--bg-card);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+  backdrop-filter: blur(20px);
   border: 1px solid var(--glass-border);
   border-radius: 32px;
   padding: 2.25rem;
@@ -259,6 +260,7 @@ body {
   cursor: pointer;
   position: relative;
   overflow: hidden;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.02);
 }
 
 .pro-card:hover {
@@ -592,6 +594,41 @@ body {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Nox Shielding Scan */
+.bulk-input-wrapper {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.shield-scan-line {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(45, 212, 191, 0.08), transparent);
+  pointer-events: none;
+  animation: shield-sweep 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  z-index: 1;
+}
+
+@keyframes shield-sweep {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(100%); }
+  100% { transform: translateX(100%); }
+}
+
+.sparkline-path {
+  stroke-dasharray: 100;
+  animation: sparkline-glow 3s ease-in-out infinite;
+}
+
+@keyframes sparkline-glow {
+  0%, 100% { opacity: 0.4; stroke-dashoffset: 200; }
+  50% { opacity: 1; stroke-dashoffset: 0; }
 }
 
 /* Landing Page Styles */

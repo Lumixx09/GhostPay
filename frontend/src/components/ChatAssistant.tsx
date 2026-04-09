@@ -48,9 +48,24 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ history }) => {
     }
   };
 
+  const [insightIndex, setInsightIndex] = useState(0);
+  const insights = [
+    "iExec Nox: Confidential Enclave #402 Operating at Peak Privacy.",
+    "Network Sync: Arbitrum Sepolia Block confirmations holding steady.",
+    "Pro-Tip: Nox encryption reduces your public traceable footprint by 100%.",
+    "Analytics: Protocol volume is trending up—Nox streamlining enabled."
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setInsightIndex((prev) => (prev + 1) % insights.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="chat-window-pro animate-fade-in">
-      <div className="chat-header-pro">
+      <div className="chat-header-pro" style={{ borderBottom: 'none' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div className="gpt-icon-container" style={{ width: '36px', height: '36px', borderRadius: '10px' }}>
             <Robot size={20} weight="bold" />
@@ -61,6 +76,23 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ history }) => {
           </div>
         </div>
         <DotsThreeVertical size={20} weight="bold" color="var(--text-dim)" />
+      </div>
+
+      <div style={{ padding: '0 1.5rem 1rem 1.5rem', borderBottom: '1px solid var(--glass-border)' }}>
+        <div style={{ 
+          background: 'rgba(99, 102, 241, 0.05)', 
+          padding: '10px 14px', 
+          borderRadius: '12px', 
+          fontSize: '0.75rem', 
+          color: 'var(--primary)',
+          border: '1px solid rgba(99, 102, 241, 0.1)',
+          display: 'flex',
+          gap: '8px',
+          alignItems: 'center'
+        }}>
+          <div className="animate-pulse" style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--primary)' }}></div>
+          <span style={{ fontWeight: 600 }}>INSIGHT:</span> {insights[insightIndex]}
+        </div>
       </div>
 
       <div className="chat-messages-pro">

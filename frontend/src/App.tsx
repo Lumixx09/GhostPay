@@ -13,6 +13,22 @@ import {
   CircleNotch
 } from "@phosphor-icons/react";
 import ChatAssistant from './components/ChatAssistant';
+
+const MiniChart = ({ color = 'var(--primary)', delay = 0 }) => (
+  <div style={{ height: '35px', width: '100%', marginTop: '12px', opacity: 0.8 }}>
+    <svg viewBox="0 0 100 30" preserveAspectRatio="none" style={{ width: '100%', height: '100%' }}>
+      <path 
+        d="M0,25 C20,25 30,5 50,15 S80,0 100,20" 
+        fill="none" 
+        stroke={color} 
+        strokeWidth="3"
+        strokeLinecap="round"
+        className="sparkline-path"
+        style={{ animationDelay: `${delay}s` }}
+      />
+    </svg>
+  </div>
+);
 import { useGhostPay } from './hooks/useGhostPay';
 import './App.css';
 
@@ -211,21 +227,25 @@ function App() {
               <>
                 {/* Metrics Grid */}
                 <div style={{ gridColumn: 'span 3', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem', marginBottom: '0.5rem' }}>
-                  <div className="pro-card" style={{ padding: '1.5rem' }}>
+                  <div className="pro-card" style={{ padding: '1.5rem', overflow: 'visible' }}>
                     <div className="section-meta">Active Payrolls</div>
-                    <div style={{ fontSize: '1.5rem', fontWeight: 800, margin: '5px 0' }}>12</div>
+                    <div style={{ fontSize: '1.8rem', fontWeight: 800, margin: '5px 0' }}>12</div>
+                    <MiniChart color="var(--primary)" delay={0} />
                   </div>
-                  <div className="pro-card" style={{ padding: '1.5rem' }}>
+                  <div className="pro-card" style={{ padding: '1.5rem', overflow: 'visible' }}>
                     <div className="section-meta">Nox Streamers</div>
-                    <div style={{ fontSize: '1.5rem', fontWeight: 800, margin: '5px 0' }}>48</div>
+                    <div style={{ fontSize: '1.8rem', fontWeight: 800, margin: '5px 0' }}>48</div>
+                    <MiniChart color="#6366f1" delay={0.5} />
                   </div>
-                  <div className="pro-card" style={{ padding: '1.5rem' }}>
+                  <div className="pro-card" style={{ padding: '1.5rem', overflow: 'visible' }}>
                     <div className="section-meta">Daily Volume</div>
-                    <div style={{ fontSize: '1.5rem', fontWeight: 800, margin: '5px 0', color: 'var(--primary)' }}>$8.4k</div>
+                    <div style={{ fontSize: '1.8rem', fontWeight: 800, margin: '5px 0', color: 'var(--primary)' }}>$8.4k</div>
+                    <MiniChart color="var(--primary)" delay={1} />
                   </div>
-                  <div className="pro-card" style={{ padding: '1.5rem' }}>
+                  <div className="pro-card" style={{ padding: '1.5rem', overflow: 'visible' }}>
                     <div className="section-meta">Privacy Health</div>
-                    <div style={{ fontSize: '1.5rem', fontWeight: 800, margin: '5px 0' }}>100%</div>
+                    <div style={{ fontSize: '1.8rem', fontWeight: 800, margin: '5px 0', color: 'var(--success)' }}>100%</div>
+                    <MiniChart color="var(--success)" delay={1.5} />
                   </div>
                 </div>
 
@@ -313,13 +333,16 @@ function App() {
                 </div>
 
                 <div className="bulk-input-container">
-                  <textarea 
-                    className="bulk-textarea"
-                    placeholder="0x123..., 100&#10;0x456..., 250&#10;0x789..., 50"
-                    value={bulkInput}
-                    onChange={(e) => setBulkInput(e.target.value)}
-                    disabled={isPending || isProcessing}
-                  />
+                  <div className="bulk-input-wrapper">
+                    <div className="shield-scan-line"></div>
+                    <textarea 
+                      className="bulk-textarea"
+                      placeholder="0x123..., 100&#10;0x456..., 250&#10;0x789..., 50"
+                      value={bulkInput}
+                      onChange={(e) => setBulkInput(e.target.value)}
+                      disabled={isPending || isProcessing}
+                    />
+                  </div>
                   <div className="input-hint">Format: [Wallet Address], [Amount in USDC] per line</div>
                 </div>
 
