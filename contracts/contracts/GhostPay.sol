@@ -5,6 +5,7 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {ERC20ToERC7984Wrapper} from "@iexec-nox/nox-confidential-contracts/contracts/token/extensions/ERC20ToERC7984Wrapper.sol";
 import {ERC7984} from "@iexec-nox/nox-confidential-contracts/contracts/token/ERC7984.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import {euint256, externalEuint256} from "@iexec-nox/nox-protocol-contracts/contracts/sdk/Nox.sol";
 
 /**
  * @title GhostPay
@@ -32,25 +33,24 @@ contract GhostPay is ERC20ToERC7984Wrapper, Ownable {
      */
     function distributeConfidentialPayroll(
         address[] calldata employees,
-        uint256[] calldata amounts
-    ) external {
+        euint256[] calldata amounts
+    ) external onlyOwner {
         require(employees.length == amounts.length, "GhostPay: Length mismatch");
         
         for (uint256 i = 0; i < employees.length; i++) {
             // Internal _transfer moves encrypted tokens from msg.sender to employee
             // In Nox, transfer logic handles the encryption/decryption via protocol
-            transfer(employees[i], amounts[i]);
+            _transfer(msg.sender, employees[i], amounts[i]);
         }
-        
-        emit PayrollDistributed(msg.sender, employees.length);
     }
 
     /**
      * @dev Allows employees to unwrap their confidential tokens back to underlying ERC20.
      */
-    function reclaimToUnderlying(uint256 amount) external {
-        unwrap(msg.sender, amount);
-        emit SalaryClaimed(msg.sender, amount);
-    }
-}
 
+    function reclaimToUnderlying(externalEuint256 amount) external {
+        unwrap(amount);
+        emit SalaryClaimed(msg.sender, 0);
+    }
+
+}
