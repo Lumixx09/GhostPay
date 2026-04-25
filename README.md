@@ -1,95 +1,53 @@
-![GhostPay Header](/frontend/public/ghostpay_header.png)
+GHOSTPAY PROTOCOL
+Confidential Bulk Payroll Infrastructure on Arbitrum Sepolia
 
-# GhostPay Protocol 👻✨
-**The Leading Confidential Bulk Payroll Protocol on Arbitrum Sepolia**
+GhostPay is a privacy-centric, institutional-grade payroll application developed for the iExec Vibe Coding Challenge. The protocol utilizes iExec Nox Confidential Computing to facilitate mass salary distributions with complete privacy and cryptographic security on the Arbitrum Sepolia network.
 
-GhostPay is a privacy-first, institutional-grade payroll dApp built for the **iExec Vibe Coding Challenge**. It leverages the power of **iExec Nox Confidential Computing** to enable businesses to distribute mass salaries with total privacy and cryptographic security on **Arbitrum Sepolia**.
+PROBLEM STATEMENT
+In standard blockchain payroll implementations, recipient addresses and payment amounts are visible on public explorers. This lack of privacy exposes sensitive corporate financial data and personal income information, creating a significant barrier to institutional adoption of decentralized payroll systems.
 
----
+THE GHOSTPAY SOLUTION
+GhostPay addresses the privacy requirements of modern enterprises by implementing end to end encryption via the iExec Nox protocol. This ensures that only the employer and the specific employee are aware of the individual distribution amounts. The system maintains a live, event-driven ledger that remains synchronized with the blockchain while preserving user confidentiality.
 
-## 📽️ The Video Demo
-> [!IMPORTANT]
-> [Watch our 4-minute deep dive here](https://youtube.com/GHOSTPAY_DEMO_LINK) (Coming Soon for final submission)
+CORE FEATURES
 
-## 🌌 The Problem
-In traditional Web3 payroll, wallet addresses and amounts are visible on public explorers. This leaks sensitive corporate data and personal financial information.
+1. Professional Confidential Dashboard
+The application provides a high-density financial workspace with live protocol metrics and an integrated analytical assistant.
 
-## 💎 The GhostPay Solution
-GhostPay solves the privacy gap using **End-to-End Encryption** via iExec Nox.
-- **Confidential Bulk Distributions**: Employers execute mass payrolls in a single encrypted batch.
-- **Identity Protection**: Only the employer and the specific employee know the distribution amount.
-- **Zero-Mock Intelligence**: A live, event-driven ledger synchronized with Arbitrum Sepolia.
+2. Blockchain Event Indexing
+GhostPay incorporates a serverless indexing engine that retrieves on-chain history in real time. This provides verifiable proof of payroll execution without reliance on a centralized database.
 
----
+3. Artificial Intelligence Analyst
+An integrated analysis engine powered by ChainGPT has read access to protocol history, providing data analysis and payroll optimization insights to the employer.
 
-## 🚀 Key Features
-### 1. Pro-Grade Confidential Dashboard
-A high-density financial workspace featuring a 3-column "Deep Space" grid, live protocol metrics, and an integrated AI assistant.
+4. Secure Vault Infrastructure
+The protocol is powered by iExec Nox, ensuring that salary data is processed through secure enclaves, making it invisible to third parties and the underlying network.
 
-### 2. Live Blockchain Event Indexing
-GhostPay uses a serverless indexing engine to pull real-time on-chain history, providing verifiable proof of payroll without a centralized database.
+TECHNICAL ARCHITECTURE
 
-### 3. GhostPay AI Analyst
-An integrated AI engine (powered by ChainGPT) that has read-access to your protocol history, providing real-time data analysis and payroll optimization insights.
+The technical foundation of GhostPay is built upon a multi-layered stack designed for maximum privacy and performance. The system operates on the Arbitrum Sepolia Layer 2 network to ensure high throughput and minimal transaction costs.
 
-### 4. NX-Vault Security
-Powered by **iExec Nox**, ensuring that salary data moves through secure enclaves, keeping it invisible to third parties and the network itself.
+iExec Nox Protocol Integration
+The core privacy logic is implemented through the iExec Nox confidential computing layer. GhostPay utilizes the ERC-7984 standard, which extends traditional ERC-20 tokens with confidentiality features. The smart contract inherits from the ERC20ToERC7984Wrapper, allowing users to deposit standard assets and receive their confidential equivalents.
 
----
+Payroll distributions are executed via the distributeConfidentialPayroll function. This function processes transfers using the euint256 data type, a specialized encrypted handle supported by the Nox protocol. This ensures that the specific amounts being transferred to employees are never decrypted on the public ledger. Instead, they are processed within Trusted Execution Environments (TEE), where the actual values are only visible to the authorized participants.
 
-## 🛠️ Technical Architecture
-- **Layer 2**: Arbitrum Sepolia (Ultra-low gas, high speed).
-- **Privacy Layer**: iExec Nox (Confidential ERC-7984 standard).
-- **Frontend**: React 18 + Vite (High-performance UI).
-- **Intelligence**: ChainGPT API integrated with live on-chain context.
-- **Styling**: Vanilla CSS Design System (Custom Glassmorphism).
+ChainGPT Artificial Intelligence Integration
+The analytical layer of GhostPay is powered by ChainGPT, providing the employer with real-time insights into protocol volume and historical trends. The frontend application actively indexes the Arbitrum Sepolia network for specific protocol events, including PayrollDistributed and SalaryClaimed.
 
----
+These events are processed and sanitized into a structured history. When a user interacts with the GhostAssistant, this live protocol data is fed into the ChainGPT large language model as context. This allows the AI to answer complex questions regarding total distribution volume, recipient counts, and historical payroll patterns without the need for a centralized database, maintaining the decentralized and private nature of the protocol.
 
-## 📦 Getting Started
+Infrastructure and Styling
+The frontend is developed using React 18 and Vite for optimal performance. The user interface utilizes a custom design system built with vanilla CSS to achieve a premium, institutional aesthetic without the overhead of external utility frameworks.
 
-### Prerequisites
-- Node.js v18+
-- MetaMask (Connected to Arbitrum Sepolia)
+INSTALLATION AND CONFIGURATION
 
-### Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Lumixx09/GhostPay.git
-   ```
-2. Setup Frontend:
-   ```bash
-   cd frontend
-   npm install
-   npm run dev
-   ```
-3. Setup Contracts:
-   ```bash
-   cd contracts
-   npm install
-   npx hardhat compile
-   ```
+1. Clone the repository from the provided source.
+2. Navigate to the frontend directory, install dependencies via npm, and launch the development server.
+3. Navigate to the contracts directory, install dependencies, and compile the smart contracts using Hardhat.
+4. Configure the environment variables in both directories, including the private keys, RPC endpoints, and the ChainGPT API key.
 
-### Configuration & Keys
-To get the protocol running, you need to configure your environment variables.
+VISION
+The GhostPay team believes that privacy is a fundamental requirement for the decentralized economy. Our objective is to establish GhostPay as the industry standard for confidential distributions in the workspace.
 
-#### 1. Contract Environment (`/contracts/.env`)
-Create a `.env` file in the `contracts` directory:
-- **`PRIVATE_KEY`**: Your wallet's private key (e.g., from MetaMask). Needed for deployment.
-- **`ARBITRUM_SEPOLIA_RPC`**: Defaults to `https://sepolia-rollup.arbitrum.io/rpc`.
-
-#### 2. Frontend Environment (`/frontend/.env`)
-Create a `.env` file in the `frontend` directory:
-- **`VITE_GHOST_PAY_ADDRESS`**: The deployed contract address on Arbitrum Sepolia.
-- **`VITE_CHAINGPT_API_KEY`**: Your API key from the [ChainGPT Developer Portal](https://dashboard.chaingpt.org/).
-
-> [!TIP]
-> **How to get Sepolia ETH?**
-> You can acquire free test ETH for Arbitrum Sepolia at [Alchemy Faucet](https://sepolia-faucet.pk910.de/) or [QuickNode Faucet](https://faucet.quicknode.com/drip).
-
----
-
-## 👻 Our Vision
-We believe privacy is a human right, especially in the workspace. GhostPay aims to become the standard for confidential distributions in the growing decentralized economy.
-
-Built with 💜 for the iExec Vibe Hackathon.
+[User to add links here]

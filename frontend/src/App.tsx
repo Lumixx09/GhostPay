@@ -5,11 +5,9 @@ import {
   Clock, 
   Gear, 
   Wallet,
-  CheckCircle,
   ShieldCheck,
   TrendUp,
   PaperPlaneTilt,
-  WarningCircle,
   CircleNotch,
   Users,
   EyeSlash
@@ -91,7 +89,7 @@ const LandingPage = ({ connect }: { connect: () => void }) => (
 
 function App() {
   const [view, setView] = useState<'employer' | 'employee'>('employer');
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'payrolls' | 'history' | 'contacts' | 'profile'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'payrolls' | 'history' | 'contacts' | 'profile' | 'settings'>('dashboard');
   const [notification, setNotification] = useState<string | null>(null);
   
   const [bulkInput, setBulkInput] = useState('');
@@ -110,6 +108,7 @@ function App() {
     isConnected, 
     isPending, 
     distributePayroll,
+    reclaimFunds,
     refreshBalance 
   } = useGhostPay();
 
@@ -219,17 +218,23 @@ function App() {
                 <div style={{ gridColumn: 'span 3', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem', marginBottom: '0.5rem' }}>
                   <div className="pro-card" style={{ padding: '1.5rem', overflow: 'visible' }}>
                     <div className="section-meta">Active Payrolls</div>
-                    <div style={{ fontSize: '1.8rem', fontWeight: 800, margin: '5px 0' }}>12</div>
+                    <div style={{ fontSize: '1.8rem', fontWeight: 800, margin: '5px 0' }}>
+                      {history.filter(tx => tx.type === 'payroll').length}
+                    </div>
                     <MiniChart color="var(--primary)" delay={0} />
                   </div>
                   <div className="pro-card" style={{ padding: '1.5rem', overflow: 'visible' }}>
-                    <div className="section-meta">Nox Streamers</div>
-                    <div style={{ fontSize: '1.8rem', fontWeight: 800, margin: '5px 0' }}>48</div>
+                    <div className="section-meta">Protocol events</div>
+                    <div style={{ fontSize: '1.8rem', fontWeight: 800, margin: '5px 0' }}>
+                      {history.length}
+                    </div>
                     <MiniChart color="#6366f1" delay={0.5} />
                   </div>
                   <div className="pro-card" style={{ padding: '1.5rem', overflow: 'visible' }}>
-                    <div className="section-meta">Daily Volume</div>
-                    <div style={{ fontSize: '1.8rem', fontWeight: 800, margin: '5px 0', color: 'var(--primary)' }}>$8.4k</div>
+                    <div className="section-meta">Historical Volume</div>
+                    <div style={{ fontSize: '1.8rem', fontWeight: 800, margin: '5px 0', color: 'var(--primary)' }}>
+                      ${history.reduce((acc, tx) => acc + (tx.type === 'claim' ? parseFloat(tx.amount || '0') : 0), 0).toLocaleString()}
+                    </div>
                     <MiniChart color="var(--primary)" delay={1} />
                   </div>
                   <div className="pro-card" style={{ padding: '1.5rem', overflow: 'visible' }}>
@@ -241,8 +246,10 @@ function App() {
 
                 <div className="pro-card" style={{ gridColumn: 'span 2', padding: '2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                   <div className="section-meta">Total Protocol Volume</div>
-                  <div style={{ fontSize: '4rem', fontWeight: 900, margin: '0.5rem 0', color: 'var(--primary)', lineHeight: 1 }}>$142,500.00</div>
-                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center', color: 'var(--success)', fontWeight: 700 }}>+12.5% this month</div>
+                  <div style={{ fontSize: '4rem', fontWeight: 900, margin: '0.5rem 0', color: 'var(--primary)', lineHeight: 1 }}>
+                    ${history.reduce((acc, tx) => acc + (tx.type === 'claim' ? parseFloat(tx.amount || '0') : 0), 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                  </div>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center', color: 'var(--success)', fontWeight: 700 }}>+Real-time synced</div>
                 </div>
                 
                 <div className="pro-card" style={{ padding: '2rem', background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(45, 212, 191, 0.1) 100%)' }}>
@@ -289,8 +296,15 @@ function App() {
                 <div className="section-meta" style={{ marginTop: '1.5rem' }}>Your Confidential Balance</div>
                 <div className="balance-pro-value">{balance} <span className="currency">cUSDC</span></div>
                 <div style={{ display: 'flex', gap: '1rem' }}>
-                  <button className="btn-connect-pro" style={{ padding: '16px 40px', background: 'var(--primary)', color: 'var(--bg-deep)' }} onClick={() => showNotification("Withdrawal initiated via Nox...")} disabled={!isConnected || parseFloat(balance) <= 0}>Withdraw Funds</button>
-                  <button className="btn-connect-pro" onClick={refreshBalance}>Refresh Balance</button>
+                  <button 
+                    className="btn-connect-pro" 
+                    style={{ padding: '16px 40px', background: 'var(--primary)', color: 'var(--bg-deep)' }} 
+                    onClick={() => reclaimFunds(balance)} 
+                    disabled={!isConnected || isPending || parseFloat(balance) <= 0}
+                  >
+                    {isPending ? <CircleNotch size={24} className="animate-spin" /> : "Withdraw Funds"}
+                  </button>
+                  <button className="btn-connect-pro" onClick={refreshBalance} disabled={isPending}>Refresh Balance</button>
                 </div>
               </div>
             )
@@ -354,7 +368,7 @@ function App() {
 
       <aside className="right-panel">
         <section><h2 className="panel-section-title"><TrendUp size={22} weight="bold" /> Stats</h2><div className="ai-brief-card"><span className="ai-status-pill">Health: 100%</span><p>Connected to Arbitrum Sepolia via Nox Vault.</p></div></section>
-        <section className="chat-compact"><h2 className="panel-section-title">GhostAssistant</h2><ChatAssistant history={history} /></section>
+        <section className="chat-compact"><h2 className="panel-section-title">GhostAssistant</h2><ChatAssistant history={history} view={view} /></section>
       </aside>
     </div>
   );

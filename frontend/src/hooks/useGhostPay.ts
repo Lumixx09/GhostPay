@@ -55,24 +55,32 @@ export function useGhostPay() {
         contract.queryFilter(claimFilter, fromBlock)
       ]);
 
-      const formattedHistory: Transaction[] = [
-        ...payrollEvents.map(ev => ({
-          type: 'payroll' as const,
-          address: (ev as any).args[0],
-          count: Number((ev as any).args[1]),
-          timestamp: 'Just now', // ethers v6 getBlock is async, keeping it simple for now
-          hash: ev.transactionHash
-        })),
-        ...claimEvents.map(ev => ({
-          type: 'claim' as const,
-          address: (ev as any).args[0],
-          amount: ethers.formatUnits((ev as any).args[1], 18),
-          timestamp: 'Just now',
-          hash: ev.transactionHash
-        }))
-      ];
+      const formattedHistory: Transaction[] = await Promise.all([
+        ...payrollEvents.map(async (ev) => {
+          const block = await provider.getBlock(ev.blockNumber);
+          return {
+            type: 'payroll' as const,
+            address: (ev as any).args[0],
+            count: Number((ev as any).args[1]),
+            timestamp: block ? new Date(block.timestamp * 1000).toLocaleString() : 'Recent',
+            hash: ev.transactionHash,
+            blockNumber: ev.blockNumber
+          };
+        }),
+        ...claimEvents.map(async (ev) => {
+          const block = await provider.getBlock(ev.blockNumber);
+          return {
+            type: 'claim' as const,
+            address: (ev as any).args[0],
+            amount: ethers.formatUnits((ev as any).args[1], 18),
+            timestamp: block ? new Date(block.timestamp * 1000).toLocaleString() : 'Recent',
+            hash: ev.transactionHash,
+            blockNumber: ev.blockNumber
+          };
+        })
+      ]);
 
-      setHistory(formattedHistory.reverse());
+      setHistory(formattedHistory.sort((a, b) => (b as any).blockNumber - (a as any).blockNumber));
     } catch (error) {
       console.error("History fetch error:", error);
     }
@@ -132,6 +140,22 @@ export function useGhostPay() {
     }
   };
 
+  const reclaimFunds = async (amount: string) => {
+    if (!contract) return;
+    setIsPending(true);
+    try {
+      // In Nox, reclaiming usually involves unwrapping the confidential token
+      const tx = await contract.reclaimToUnderlying(ethers.parseUnits(amount, 18));
+      await tx.wait();
+      await Promise.all([fetchBalance(), fetchHistory()]);
+    } catch (error) {
+      console.error("Reclaim error:", error);
+      throw error;
+    } finally {
+      setIsPending(false);
+    }
+  };
+
   useEffect(() => {
     if (account) {
       fetchBalance();
@@ -147,6 +171,7 @@ export function useGhostPay() {
     isConnected: !!account,
     isPending,
     distributePayroll,
+    reclaimFunds,
     refreshBalance: fetchBalance
   };
 }

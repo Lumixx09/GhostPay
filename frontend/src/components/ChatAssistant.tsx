@@ -6,9 +6,10 @@ import type { Transaction } from '../hooks/useGhostPay';
 
 interface ChatAssistantProps {
   history: Transaction[];
+  view: 'employer' | 'employee';
 }
 
-const ChatAssistant: React.FC<ChatAssistantProps> = ({ history }) => {
+const ChatAssistant: React.FC<ChatAssistantProps> = ({ history, view }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([
     { role: 'assistant', content: 'GhostPay Analyst online. I see your live protocol events. Ask me anything about your payroll volume or history!' }
   ]);
@@ -33,11 +34,15 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ history }) => {
     setIsLoading(true);
 
     try {
+      const payrolls = history.filter(tx => tx.type === 'payroll');
+      const claims = history.filter(tx => tx.type === 'claim');
+      const totalVolume = claims.reduce((acc, tx) => acc + parseFloat(tx.amount || '0'), 0);
+      
       const historySummary = history.length > 0 
-        ? `Recent protocol events: ${history.length} total. Latest transactions involve ${history.slice(0, 3).map(tx => tx.type + ' (' + (tx.count || tx.amount) + ')').join(', ')}.`
-        : "No recent protocol events found.";
+        ? `Protocol Status: ${payrolls.length} distributions and ${claims.length} claims. Total volume: $${totalVolume.toLocaleString()}. Latest: ${history[0].type} at ${history[0].timestamp}.`
+        : "The protocol has no events yet.";
         
-      const systemContext = `You are the GhostPay Analytics Engine. ${historySummary} GhostPay uses iExec Nox for confidential payroll. Answer with protocol intelligence. `;
+      const systemContext = `You are the GhostPay Analytics Engine. ${historySummary} GhostPay uses iExec Nox for confidential payroll on Arbitrum Sepolia. The user is currently in ${view} view. Answer with protocol intelligence. `;
       const prompt = systemContext + input;
       const aiAnswer = await fetchAIResponse(prompt, messages);
       setMessages(prev => [...prev, { role: 'assistant', content: aiAnswer }]);
