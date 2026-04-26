@@ -1,14 +1,25 @@
 {
   "name": "contracts",
   "version": "1.0.0",
-  "description": "",
+  "description": "GhostPay confidential payroll smart contracts (iExec Nox)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:arbitrum-sepolia": "hardhat run scripts/deploy.ts --network arbitrum-sepolia",
+    "verify:arbitrum-sepolia": "hardhat verify --network arbitrum-sepolia",
+    "clean": "hardhat clean"
   },
-  "keywords": [],
+  "keywords": [
+    "iexec",
+    "nox",
+    "confidential",
+    "payroll",
+    "arbitrum",
+    "erc7984"
+  ],
   "author": "",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^6.1.2",
     "hardhat": "^2.28.6"
