@@ -26,10 +26,13 @@ import type {
 export interface MockERC20Interface extends Interface {
   getFunction(
     nameOrSignature:
+      | "FAUCET_AMOUNT"
       | "allowance"
       | "approve"
       | "balanceOf"
       | "decimals"
+      | "faucet"
+      | "mint"
       | "name"
       | "symbol"
       | "totalSupply"
@@ -39,6 +42,10 @@ export interface MockERC20Interface extends Interface {
 
   getEvent(nameOrSignatureOrTopic: "Approval" | "Transfer"): EventFragment;
 
+  encodeFunctionData(
+    functionFragment: "FAUCET_AMOUNT",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "allowance",
     values: [AddressLike, AddressLike]
@@ -52,6 +59,11 @@ export interface MockERC20Interface extends Interface {
     values: [AddressLike]
   ): string;
   encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
+  encodeFunctionData(functionFragment: "faucet", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "mint",
+    values: [AddressLike, BigNumberish]
+  ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
   encodeFunctionData(
@@ -67,10 +79,16 @@ export interface MockERC20Interface extends Interface {
     values: [AddressLike, AddressLike, BigNumberish]
   ): string;
 
+  decodeFunctionResult(
+    functionFragment: "FAUCET_AMOUNT",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "faucet", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
   decodeFunctionResult(
@@ -163,6 +181,8 @@ export interface MockERC20 extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
+  FAUCET_AMOUNT: TypedContractMethod<[], [bigint], "view">;
+
   allowance: TypedContractMethod<
     [owner: AddressLike, spender: AddressLike],
     [bigint],
@@ -178,6 +198,14 @@ export interface MockERC20 extends BaseContract {
   balanceOf: TypedContractMethod<[account: AddressLike], [bigint], "view">;
 
   decimals: TypedContractMethod<[], [bigint], "view">;
+
+  faucet: TypedContractMethod<[], [void], "nonpayable">;
+
+  mint: TypedContractMethod<
+    [to: AddressLike, amount: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
 
   name: TypedContractMethod<[], [string], "view">;
 
@@ -202,6 +230,9 @@ export interface MockERC20 extends BaseContract {
   ): T;
 
   getFunction(
+    nameOrSignature: "FAUCET_AMOUNT"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
     nameOrSignature: "allowance"
   ): TypedContractMethod<
     [owner: AddressLike, spender: AddressLike],
@@ -221,6 +252,16 @@ export interface MockERC20 extends BaseContract {
   getFunction(
     nameOrSignature: "decimals"
   ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "faucet"
+  ): TypedContractMethod<[], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "mint"
+  ): TypedContractMethod<
+    [to: AddressLike, amount: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
   getFunction(
     nameOrSignature: "name"
   ): TypedContractMethod<[], [string], "view">;

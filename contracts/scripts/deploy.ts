@@ -5,7 +5,14 @@ import { join } from 'path';
 const { ethers, network } = pkg;
 
 async function main() {
-  const [deployer] = await ethers.getSigners();
+  // const [deployer] = await ethers.getSigners();
+  const signers = await ethers.getSigners();
+  if (signers.length === 0) {
+    throw new Error(
+      'No signers available. Check PRIVATE_KEY in your .env file.',
+    );
+  }
+  const [deployer] = signers;
   const balance = await ethers.provider.getBalance(deployer.address);
 
   console.log('--------------------------------------------------');

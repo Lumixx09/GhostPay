@@ -1,0 +1,6 @@
+const [s] = await ethers.getSigners(); s.address
+await ethers.provider.getBlockNumber()
+(await ethers.getSigners()).length
+await ethers.provider.getBlockNumber()
+network.name
+(await ethers.getSigners()).length

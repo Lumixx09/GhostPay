@@ -1,16 +1,16 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "C:\\projects\\brokebot\\Challenge\\contracts\\contracts\\GhostPay.sol": {
-      "lastModificationDate": 1775712281841,
-      "contentHash": "4704cf609adc135649e17114c9cfde24",
+    "C:\\Work\\GhostPay\\contracts\\contracts\\GhostPay.sol": {
+      "lastModificationDate": 1777585711756,
+      "contentHash": "9a9caaaca2e148763cba8bf53823ec97",
       "sourceName": "contracts/GhostPay.sol",
       "solcConfig": {
         "version": "0.8.28",
         "settings": {
           "evmVersion": "paris",
           "optimizer": {
-            "enabled": false,
+            "enabled": true,
             "runs": 200
           },
           "outputSelection": {
@@ -33,8 +33,8 @@
         "@openzeppelin/contracts/token/ERC20/IERC20.sol",
         "@iexec-nox/nox-confidential-contracts/contracts/token/extensions/ERC20ToERC7984Wrapper.sol",
         "@iexec-nox/nox-confidential-contracts/contracts/token/ERC7984.sol",
-        "@iexec-nox/nox-protocol-contracts/contracts/sdk/Nox.sol",
-        "@openzeppelin/contracts/access/Ownable.sol"
+        "@openzeppelin/contracts/access/Ownable.sol",
+        "@iexec-nox/nox-protocol-contracts/contracts/sdk/Nox.sol"
       ],
       "versionPragmas": [
         "^0.8.28"
@@ -43,44 +43,8 @@
         "GhostPay"
       ]
     },
-    "C:\\projects\\brokebot\\Challenge\\contracts\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\IERC20.sol": {
-      "lastModificationDate": 1775712238299,
-      "contentHash": "9261adf6457863de3e9892f51317ec89",
-      "sourceName": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "evmVersion": "paris",
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        ">=0.4.16"
-      ],
-      "artifacts": [
-        "IERC20"
-      ]
-    },
-    "C:\\projects\\brokebot\\Challenge\\contracts\\node_modules\\@openzeppelin\\contracts\\access\\Ownable.sol": {
-      "lastModificationDate": 1775712238457,
+    "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\access\\Ownable.sol": {
+      "lastModificationDate": 1775720339705,
       "contentHash": "d3c790edc9ccf808a17c5a6cd13614fd",
       "sourceName": "@openzeppelin/contracts/access/Ownable.sol",
       "solcConfig": {
@@ -88,7 +52,7 @@
         "settings": {
           "evmVersion": "paris",
           "optimizer": {
-            "enabled": false,
+            "enabled": true,
             "runs": 200
           },
           "outputSelection": {
@@ -117,8 +81,44 @@
         "Ownable"
       ]
     },
-    "C:\\projects\\brokebot\\Challenge\\contracts\\node_modules\\@iexec-nox\\nox-confidential-contracts\\contracts\\token\\ERC7984.sol": {
-      "lastModificationDate": 1775712237802,
+    "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\IERC20.sol": {
+      "lastModificationDate": 1775720340090,
+      "contentHash": "9261adf6457863de3e9892f51317ec89",
+      "sourceName": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.4.16"
+      ],
+      "artifacts": [
+        "IERC20"
+      ]
+    },
+    "C:\\Work\\GhostPay\\contracts\\node_modules\\@iexec-nox\\nox-confidential-contracts\\contracts\\token\\ERC7984.sol": {
+      "lastModificationDate": 1775720335343,
       "contentHash": "88071b19f1e1959f1ef5431a048d8dcf",
       "sourceName": "@iexec-nox/nox-confidential-contracts/contracts/token/ERC7984.sol",
       "solcConfig": {
@@ -126,7 +126,7 @@
         "settings": {
           "evmVersion": "paris",
           "optimizer": {
-            "enabled": false,
+            "enabled": true,
             "runs": 200
           },
           "outputSelection": {
@@ -159,8 +159,8 @@
         "ERC7984"
       ]
     },
-    "C:\\projects\\brokebot\\Challenge\\contracts\\node_modules\\@iexec-nox\\nox-protocol-contracts\\contracts\\sdk\\Nox.sol": {
-      "lastModificationDate": 1775712237970,
+    "C:\\Work\\GhostPay\\contracts\\node_modules\\@iexec-nox\\nox-protocol-contracts\\contracts\\sdk\\Nox.sol": {
+      "lastModificationDate": 1775720335364,
       "contentHash": "2fb584d110c218284be7dddb3654b59b",
       "sourceName": "@iexec-nox/nox-protocol-contracts/contracts/sdk/Nox.sol",
       "solcConfig": {
@@ -168,7 +168,7 @@
         "settings": {
           "evmVersion": "paris",
           "optimizer": {
-            "enabled": false,
+            "enabled": true,
             "runs": 200
           },
           "outputSelection": {
@@ -199,8 +199,8 @@
         "Nox"
       ]
     },
-    "C:\\projects\\brokebot\\Challenge\\contracts\\node_modules\\@iexec-nox\\nox-confidential-contracts\\contracts\\token\\extensions\\ERC20ToERC7984Wrapper.sol": {
-      "lastModificationDate": 1775712237784,
+    "C:\\Work\\GhostPay\\contracts\\node_modules\\@iexec-nox\\nox-confidential-contracts\\contracts\\token\\extensions\\ERC20ToERC7984Wrapper.sol": {
+      "lastModificationDate": 1775720335344,
       "contentHash": "ce9b51e860d2034d925111da516290ad",
       "sourceName": "@iexec-nox/nox-confidential-contracts/contracts/token/extensions/ERC20ToERC7984Wrapper.sol",
       "solcConfig": {
@@ -208,7 +208,7 @@
         "settings": {
           "evmVersion": "paris",
           "optimizer": {
-            "enabled": false,
+            "enabled": true,
             "runs": 200
           },
           "outputSelection": {
@@ -245,8 +245,8 @@
         "ERC20ToERC7984Wrapper"
       ]
     },
-    "C:\\projects\\brokebot\\Challenge\\contracts\\node_modules\\@openzeppelin\\contracts\\utils\\Context.sol": {
-      "lastModificationDate": 1775712237803,
+    "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\utils\\Context.sol": {
+      "lastModificationDate": 1775720340136,
       "contentHash": "67bfbc07588eb8683b3fd8f6f909563e",
       "sourceName": "@openzeppelin/contracts/utils/Context.sol",
       "solcConfig": {
@@ -254,7 +254,7 @@
         "settings": {
           "evmVersion": "paris",
           "optimizer": {
-            "enabled": false,
+            "enabled": true,
             "runs": 200
           },
           "outputSelection": {
@@ -281,8 +281,8 @@
         "Context"
       ]
     },
-    "C:\\projects\\brokebot\\Challenge\\contracts\\node_modules\\@iexec-nox\\nox-confidential-contracts\\contracts\\interfaces\\IERC7984.sol": {
-      "lastModificationDate": 1775712237821,
+    "C:\\Work\\GhostPay\\contracts\\node_modules\\@iexec-nox\\nox-confidential-contracts\\contracts\\interfaces\\IERC7984.sol": {
+      "lastModificationDate": 1775720335340,
       "contentHash": "92b2812b36336ddffbc4b4f8caaa7ee2",
       "sourceName": "@iexec-nox/nox-confidential-contracts/contracts/interfaces/IERC7984.sol",
       "solcConfig": {
@@ -290,7 +290,7 @@
         "settings": {
           "evmVersion": "paris",
           "optimizer": {
-            "enabled": false,
+            "enabled": true,
             "runs": 200
           },
           "outputSelection": {
@@ -320,8 +320,8 @@
         "IERC7984"
       ]
     },
-    "C:\\projects\\brokebot\\Challenge\\contracts\\node_modules\\@openzeppelin\\contracts\\utils\\introspection\\ERC165.sol": {
-      "lastModificationDate": 1775712237978,
+    "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\utils\\introspection\\ERC165.sol": {
+      "lastModificationDate": 1775720340177,
       "contentHash": "0906d06dca25210d4696dcef6dad2909",
       "sourceName": "@openzeppelin/contracts/utils/introspection/ERC165.sol",
       "solcConfig": {
@@ -329,7 +329,7 @@
         "settings": {
           "evmVersion": "paris",
           "optimizer": {
-            "enabled": false,
+            "enabled": true,
             "runs": 200
           },
           "outputSelection": {
@@ -358,8 +358,8 @@
         "ERC165"
       ]
     },
-    "C:\\projects\\brokebot\\Challenge\\contracts\\node_modules\\@openzeppelin\\contracts\\utils\\introspection\\IERC165.sol": {
-      "lastModificationDate": 1775712238285,
+    "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\utils\\introspection\\IERC165.sol": {
+      "lastModificationDate": 1775720340179,
       "contentHash": "7074c93b1ea0a122063f26ddd1db1032",
       "sourceName": "@openzeppelin/contracts/utils/introspection/IERC165.sol",
       "solcConfig": {
@@ -367,7 +367,7 @@
         "settings": {
           "evmVersion": "paris",
           "optimizer": {
-            "enabled": false,
+            "enabled": true,
             "runs": 200
           },
           "outputSelection": {
@@ -394,8 +394,8 @@
         "IERC165"
       ]
     },
-    "C:\\projects\\brokebot\\Challenge\\contracts\\node_modules\\@iexec-nox\\nox-confidential-contracts\\contracts\\token\\utils\\ERC7984Utils.sol": {
-      "lastModificationDate": 1775712237813,
+    "C:\\Work\\GhostPay\\contracts\\node_modules\\@iexec-nox\\nox-confidential-contracts\\contracts\\token\\utils\\ERC7984Utils.sol": {
+      "lastModificationDate": 1775720335346,
       "contentHash": "fda397cc77c661991618c62dabb338a1",
       "sourceName": "@iexec-nox/nox-confidential-contracts/contracts/token/utils/ERC7984Utils.sol",
       "solcConfig": {
@@ -403,7 +403,7 @@
         "settings": {
           "evmVersion": "paris",
           "optimizer": {
-            "enabled": false,
+            "enabled": true,
             "runs": 200
           },
           "outputSelection": {
@@ -434,8 +434,8 @@
         "ERC7984Utils"
       ]
     },
-    "C:\\projects\\brokebot\\Challenge\\contracts\\node_modules\\@iexec-nox\\nox-protocol-contracts\\contracts\\shared\\TypeUtils.sol": {
-      "lastModificationDate": 1775712237975,
+    "C:\\Work\\GhostPay\\contracts\\node_modules\\@iexec-nox\\nox-protocol-contracts\\contracts\\shared\\TypeUtils.sol": {
+      "lastModificationDate": 1775720335367,
       "contentHash": "dcee46cda1a082c0f8aa56ca0cb29fe8",
       "sourceName": "@iexec-nox/nox-protocol-contracts/contracts/shared/TypeUtils.sol",
       "solcConfig": {
@@ -443,7 +443,7 @@
         "settings": {
           "evmVersion": "paris",
           "optimizer": {
-            "enabled": false,
+            "enabled": true,
             "runs": 200
           },
           "outputSelection": {
@@ -470,42 +470,8 @@
         "TypeUtils"
       ]
     },
-    "C:\\projects\\brokebot\\Challenge\\contracts\\node_modules\\encrypted-types\\EncryptedTypes.sol": {
-      "lastModificationDate": 1775712237778,
-      "contentHash": "521a624fad71cd29fc4b7c443b41bb86",
-      "sourceName": "encrypted-types/EncryptedTypes.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "evmVersion": "paris",
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.24"
-      ],
-      "artifacts": []
-    },
-    "C:\\projects\\brokebot\\Challenge\\contracts\\node_modules\\@iexec-nox\\nox-protocol-contracts\\contracts\\interfaces\\INoxCompute.sol": {
-      "lastModificationDate": 1775712237964,
+    "C:\\Work\\GhostPay\\contracts\\node_modules\\@iexec-nox\\nox-protocol-contracts\\contracts\\interfaces\\INoxCompute.sol": {
+      "lastModificationDate": 1775720335361,
       "contentHash": "fd33c93bfc5356e926426aef28c7c072",
       "sourceName": "@iexec-nox/nox-protocol-contracts/contracts/interfaces/INoxCompute.sol",
       "solcConfig": {
@@ -513,7 +479,7 @@
         "settings": {
           "evmVersion": "paris",
           "optimizer": {
-            "enabled": false,
+            "enabled": true,
             "runs": 200
           },
           "outputSelection": {
@@ -542,8 +508,42 @@
         "INoxCompute"
       ]
     },
-    "C:\\projects\\brokebot\\Challenge\\contracts\\node_modules\\@openzeppelin\\contracts\\interfaces\\IERC165.sol": {
-      "lastModificationDate": 1775712238281,
+    "C:\\Work\\GhostPay\\contracts\\node_modules\\encrypted-types\\EncryptedTypes.sol": {
+      "lastModificationDate": 1775720345200,
+      "contentHash": "521a624fad71cd29fc4b7c443b41bb86",
+      "sourceName": "encrypted-types/EncryptedTypes.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.24"
+      ],
+      "artifacts": []
+    },
+    "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\interfaces\\IERC165.sol": {
+      "lastModificationDate": 1775720339989,
       "contentHash": "947853028399b7de34bcc3704ee06e99",
       "sourceName": "@openzeppelin/contracts/interfaces/IERC165.sol",
       "solcConfig": {
@@ -551,7 +551,7 @@
         "settings": {
           "evmVersion": "paris",
           "optimizer": {
-            "enabled": false,
+            "enabled": true,
             "runs": 200
           },
           "outputSelection": {
@@ -578,8 +578,8 @@
       ],
       "artifacts": []
     },
-    "C:\\projects\\brokebot\\Challenge\\contracts\\node_modules\\@iexec-nox\\nox-confidential-contracts\\contracts\\interfaces\\IERC7984Receiver.sol": {
-      "lastModificationDate": 1775712237828,
+    "C:\\Work\\GhostPay\\contracts\\node_modules\\@iexec-nox\\nox-confidential-contracts\\contracts\\interfaces\\IERC7984Receiver.sol": {
+      "lastModificationDate": 1775720335341,
       "contentHash": "1050d7144496defa6f849a3a014d16b6",
       "sourceName": "@iexec-nox/nox-confidential-contracts/contracts/interfaces/IERC7984Receiver.sol",
       "solcConfig": {
@@ -587,7 +587,7 @@
         "settings": {
           "evmVersion": "paris",
           "optimizer": {
-            "enabled": false,
+            "enabled": true,
             "runs": 200
           },
           "outputSelection": {
@@ -616,8 +616,8 @@
         "IERC7984Receiver"
       ]
     },
-    "C:\\projects\\brokebot\\Challenge\\contracts\\node_modules\\@iexec-nox\\nox-confidential-contracts\\contracts\\interfaces\\IERC20ToERC7984Wrapper.sol": {
-      "lastModificationDate": 1775712237817,
+    "C:\\Work\\GhostPay\\contracts\\node_modules\\@iexec-nox\\nox-confidential-contracts\\contracts\\interfaces\\IERC20ToERC7984Wrapper.sol": {
+      "lastModificationDate": 1775720335339,
       "contentHash": "84156fbdab430f03a2d1eacd0ff274d6",
       "sourceName": "@iexec-nox/nox-confidential-contracts/contracts/interfaces/IERC20ToERC7984Wrapper.sol",
       "solcConfig": {
@@ -625,7 +625,7 @@
         "settings": {
           "evmVersion": "paris",
           "optimizer": {
-            "enabled": false,
+            "enabled": true,
             "runs": 200
           },
           "outputSelection": {
@@ -655,44 +655,8 @@
         "IERC20ToERC7984Wrapper"
       ]
     },
-    "C:\\projects\\brokebot\\Challenge\\contracts\\node_modules\\@openzeppelin\\contracts\\interfaces\\IERC20.sol": {
-      "lastModificationDate": 1775712238296,
-      "contentHash": "68620db2da7583d9a4919096ac77f577",
-      "sourceName": "@openzeppelin/contracts/interfaces/IERC20.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "evmVersion": "paris",
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "../token/ERC20/IERC20.sol"
-      ],
-      "versionPragmas": [
-        ">=0.4.16"
-      ],
-      "artifacts": []
-    },
-    "C:\\projects\\brokebot\\Challenge\\contracts\\node_modules\\@openzeppelin\\contracts\\interfaces\\IERC1363Receiver.sol": {
-      "lastModificationDate": 1775712238275,
+    "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\interfaces\\IERC1363Receiver.sol": {
+      "lastModificationDate": 1775720339987,
       "contentHash": "052bd461637a1a8060a31e32fa0b89da",
       "sourceName": "@openzeppelin/contracts/interfaces/IERC1363Receiver.sol",
       "solcConfig": {
@@ -700,7 +664,7 @@
         "settings": {
           "evmVersion": "paris",
           "optimizer": {
-            "enabled": false,
+            "enabled": true,
             "runs": 200
           },
           "outputSelection": {
@@ -727,8 +691,8 @@
         "IERC1363Receiver"
       ]
     },
-    "C:\\projects\\brokebot\\Challenge\\contracts\\node_modules\\@openzeppelin\\contracts\\interfaces\\IERC20Metadata.sol": {
-      "lastModificationDate": 1775712238302,
+    "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\interfaces\\IERC20Metadata.sol": {
+      "lastModificationDate": 1775720339992,
       "contentHash": "5ecc0bc7b9e6218a10175760e01249ef",
       "sourceName": "@openzeppelin/contracts/interfaces/IERC20Metadata.sol",
       "solcConfig": {
@@ -736,7 +700,7 @@
         "settings": {
           "evmVersion": "paris",
           "optimizer": {
-            "enabled": false,
+            "enabled": true,
             "runs": 200
           },
           "outputSelection": {
@@ -763,8 +727,44 @@
       ],
       "artifacts": []
     },
-    "C:\\projects\\brokebot\\Challenge\\contracts\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\utils\\SafeERC20.sol": {
-      "lastModificationDate": 1775712238510,
+    "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\interfaces\\IERC20.sol": {
+      "lastModificationDate": 1775720339992,
+      "contentHash": "68620db2da7583d9a4919096ac77f577",
+      "sourceName": "@openzeppelin/contracts/interfaces/IERC20.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../token/ERC20/IERC20.sol"
+      ],
+      "versionPragmas": [
+        ">=0.4.16"
+      ],
+      "artifacts": []
+    },
+    "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\utils\\SafeERC20.sol": {
+      "lastModificationDate": 1775720340106,
       "contentHash": "bf8e9c3398d381dc66c5302267927386",
       "sourceName": "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol",
       "solcConfig": {
@@ -772,7 +772,7 @@
         "settings": {
           "evmVersion": "paris",
           "optimizer": {
-            "enabled": false,
+            "enabled": true,
             "runs": 200
           },
           "outputSelection": {
@@ -802,8 +802,8 @@
         "SafeERC20"
       ]
     },
-    "C:\\projects\\brokebot\\Challenge\\contracts\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\extensions\\IERC20Metadata.sol": {
-      "lastModificationDate": 1775712238306,
+    "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\extensions\\IERC20Metadata.sol": {
+      "lastModificationDate": 1775720340101,
       "contentHash": "513778b30d2750f5d2b9b19bbcf748a5",
       "sourceName": "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol",
       "solcConfig": {
@@ -811,7 +811,7 @@
         "settings": {
           "evmVersion": "paris",
           "optimizer": {
-            "enabled": false,
+            "enabled": true,
             "runs": 200
           },
           "outputSelection": {
@@ -840,8 +840,8 @@
         "IERC20Metadata"
       ]
     },
-    "C:\\projects\\brokebot\\Challenge\\contracts\\node_modules\\@openzeppelin\\contracts\\interfaces\\IERC1363.sol": {
-      "lastModificationDate": 1775712238272,
+    "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\interfaces\\IERC1363.sol": {
+      "lastModificationDate": 1775720339986,
       "contentHash": "a7fd0f05e36b0d0a21c75340c9c639ec",
       "sourceName": "@openzeppelin/contracts/interfaces/IERC1363.sol",
       "solcConfig": {
@@ -849,7 +849,7 @@
         "settings": {
           "evmVersion": "paris",
           "optimizer": {
-            "enabled": false,
+            "enabled": true,
             "runs": 200
           },
           "outputSelection": {
@@ -879,8 +879,8 @@
         "IERC1363"
       ]
     },
-    "C:\\projects\\brokebot\\Challenge\\contracts\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\ERC20.sol": {
-      "lastModificationDate": 1775712237994,
+    "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\ERC20.sol": {
+      "lastModificationDate": 1775720340089,
       "contentHash": "d15c4d05583536e080f1960ab282772d",
       "sourceName": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
       "solcConfig": {
@@ -888,7 +888,7 @@
         "settings": {
           "evmVersion": "paris",
           "optimizer": {
-            "enabled": false,
+            "enabled": true,
             "runs": 200
           },
           "outputSelection": {
@@ -920,8 +920,8 @@
         "ERC20"
       ]
     },
-    "C:\\projects\\brokebot\\Challenge\\contracts\\node_modules\\@openzeppelin\\contracts\\interfaces\\draft-IERC6093.sol": {
-      "lastModificationDate": 1775712237873,
+    "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\interfaces\\draft-IERC6093.sol": {
+      "lastModificationDate": 1775720340056,
       "contentHash": "bcc76f4747d56c28c40ae272ef3470a6",
       "sourceName": "@openzeppelin/contracts/interfaces/draft-IERC6093.sol",
       "solcConfig": {
@@ -929,7 +929,7 @@
         "settings": {
           "evmVersion": "paris",
           "optimizer": {
-            "enabled": false,
+            "enabled": true,
             "runs": 200
           },
           "outputSelection": {
@@ -958,16 +958,16 @@
         "IERC721Errors"
       ]
     },
-    "C:\\projects\\brokebot\\Challenge\\contracts\\contracts\\MockERC20.sol": {
-      "lastModificationDate": 1775712526430,
-      "contentHash": "f4bd43cc1c8dd7db1cc3d7208486ff67",
+    "C:\\Work\\GhostPay\\contracts\\contracts\\MockERC20.sol": {
+      "lastModificationDate": 1777232282326,
+      "contentHash": "a3cba7a3d756074657cca99564442cd6",
       "sourceName": "contracts/MockERC20.sol",
       "solcConfig": {
         "version": "0.8.28",
         "settings": {
           "evmVersion": "paris",
           "optimizer": {
-            "enabled": false,
+            "enabled": true,
             "runs": 200
           },
           "outputSelection": {

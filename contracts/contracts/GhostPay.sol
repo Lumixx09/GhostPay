@@ -18,7 +18,7 @@ import {Nox, euint256, externalEuint256} from "@iexec-nox/nox-protocol-contracts
  *
  * @dev    Encryption / decryption flow:
  *           - Off-chain (frontend): the dApp uses the Nox JS SDK
- *             (`@iexec-nox/handle`) to encrypt each plaintext salary, producing
+ *             (`iexec-nox/handle`) to encrypt each plaintext salary, producing
  *             one `externalEuint256` handle per employee plus a single
  *             `inputProof` (an EIP-712 signature attesting to all handles).
  *           - On-chain (this contract): we resolve every external handle to

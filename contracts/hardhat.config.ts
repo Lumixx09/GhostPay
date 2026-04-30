@@ -4,11 +4,24 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
+// const privateKey = process.env.PRIVATE_KEY;
+// const accounts =
+//   privateKey && privateKey.startsWith('0x') && privateKey.length === 66
+//     ? [privateKey]
+//     : [];
 const privateKey = process.env.PRIVATE_KEY;
-const accounts =
-  privateKey && privateKey.startsWith('0x') && privateKey.length === 66
-    ? [privateKey]
-    : [];
+
+if (!privateKey || !privateKey.startsWith('0x') || privateKey.length !== 66) {
+  throw new Error(
+    `Invalid or missing PRIVATE_KEY in .env.\n` +
+      `Expected format: 0x followed by 64 hex characters (66 chars total).\n` +
+      `Got: "${privateKey?.slice(0, 6) ?? 'undefined'}..." (length: ${
+        privateKey?.length ?? 0
+      })`,
+  );
+}
+
+const accounts = [privateKey];
 
 const arbiscanApiKey = process.env.ARBISCAN_API_KEY ?? '';
 
