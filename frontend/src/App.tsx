@@ -238,10 +238,12 @@ function App() {
     const saved = localStorage.getItem('ghostpay_contacts');
     return saved ? JSON.parse(saved) : [];
   });
+  const [selectedContacts, setSelectedContacts] = useState<string[]>([]);
 
   const { 
     account, 
     balance, 
+    wrappedBalance,
     history,
     connect,
     connectWithProvider,
@@ -441,16 +443,22 @@ function App() {
                   <div className="pro-card" style={{ gridColumn: 'span 2', padding: '2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                     <div className="section-meta">Total Protocol Volume</div>
                     <div style={{ fontSize: '4rem', fontWeight: 900, margin: '0.5rem 0', color: 'var(--primary)', lineHeight: 1 }}>
-                      ${history.reduce((acc, tx) => acc + (tx.type === 'claim' ? parseFloat(tx.amount || '0') : 0), 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                      ${history.reduce((acc, tx) => acc + (tx.amount ? parseFloat(tx.amount) : 0), 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                     </div>
                     <div style={{ display: 'flex', gap: '8px', alignItems: 'center', color: 'var(--success)', fontWeight: 700 }}>+Real-time synced</div>
                   </div>
                   
                   <div className="pro-card" style={{ padding: '2rem', background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(45, 212, 191, 0.1) 100%)' }}>
                     <div className="section-meta" style={{ color: 'white' }}>Employer Treasury</div>
-                    <div style={{ margin: '1rem 0' }}>
-                      <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>Available to Wrap</div>
-                      <div style={{ fontSize: '1.5rem', fontWeight: 800 }}>{balance} <span style={{ fontSize: '0.8rem' }}>mUSDC</span></div>
+                    <div style={{ margin: '1rem 0', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      <div>
+                        <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>Available to Wrap</div>
+                        <div style={{ fontSize: '1.2rem', fontWeight: 800 }}>{balance} <span style={{ fontSize: '0.8rem' }}>mUSDC</span></div>
+                      </div>
+                      <div style={{ padding: '8px', background: 'rgba(255,255,255,0.05)', borderRadius: '12px' }}>
+                        <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>Confidential Balance</div>
+                        <div style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--primary)' }}>{wrappedBalance} <span style={{ fontSize: '0.8rem' }}>cUSDC</span></div>
+                      </div>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                       <button 
@@ -502,13 +510,13 @@ function App() {
                 <div className="balance-card-pro" style={{ gridColumn: 'span 3' }}>
                   <span className="ai-status-pill"><ShieldCheck size={14} weight="bold" /> Nox Protocol Active</span>
                   <div className="section-meta" style={{ marginTop: '1.5rem' }}>Your Confidential Balance</div>
-                  <div className="balance-pro-value">{balance} <span className="currency">cUSDC</span></div>
+                  <div className="balance-pro-value">{wrappedBalance} <span className="currency">cUSDC</span></div>
                   <div style={{ display: 'flex', gap: '1rem' }}>
                     <button 
                       className="btn-connect-pro" 
                       style={{ padding: '16px 40px', background: 'var(--primary)', color: 'var(--bg-deep)' }} 
-                      onClick={() => reclaimFunds(balance)} 
-                      disabled={!isConnected || isPending || parseFloat(balance) <= 0}
+                      onClick={() => reclaimFunds(wrappedBalance)} 
+                      disabled={!isConnected || isPending || parseFloat(wrappedBalance) <= 0}
                     >
                       {isPending ? <CircleNotch size={24} className="animate-spin" /> : "Withdraw Funds"}
                     </button>
@@ -534,16 +542,59 @@ function App() {
               <div className="pro-card" style={{ gridColumn: 'span 3', padding: '3rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
                   <div><h2>Confidential Contacts</h2><p style={{ color: 'var(--text-dim)' }}>Your private enterprise address book. Stored in local vault.</p></div>
-                  <button className="btn-connect-pro" onClick={() => {
-                    setModalData({ field1: '', field2: '' });
-                    setActiveModal('contact');
-                  }}><Plus size={20} weight="bold" /> Add Contact</button>
+                  <div style={{ display: 'flex', gap: '1rem' }}>
+                    {selectedContacts.length > 0 && (
+                      <button 
+                        className="btn-connect-pro" 
+                        style={{ background: 'var(--primary)', color: 'var(--bg-deep)' }}
+                        onClick={() => {
+                          const formatted = selectedContacts.map(addr => `${addr}, 1000`).join('\n');
+                          setBulkInput(formatted);
+                          setActiveTab('payrolls');
+                          setSelectedContacts([]);
+                        }}
+                      >
+                        <PaperPlaneTilt size={20} weight="bold" /> Dispatch to {selectedContacts.length} Selected
+                      </button>
+                    )}
+                    <button className="btn-connect-pro" onClick={() => {
+                      setModalData({ field1: '', field2: '' });
+                      setActiveModal('contact');
+                    }}><Plus size={20} weight="bold" /> Add Contact</button>
+                  </div>
                 </div>
                 <div className="cards-layout" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
                   {contacts.length > 0 ? contacts.map((contact, i) => (
-                    <div key={i} className="pro-card" style={{ padding: '1.5rem', background: 'rgba(255,255,255,0.01)' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}><strong>{contact.name}</strong><button style={{ background: 'transparent', border: 'none', color: 'var(--accent-orange)' }} onClick={() => setContacts(contacts.filter((_, idx) => idx !== i))}>Remove</button></div>
-                      <div style={{ fontSize: '0.8rem', color: 'var(--text-dim)', fontFamily: 'monospace' }}>{isShadowMode ? <div className="masked-data" style={{ width: '100%' }}></div> : contact.address}</div>
+                    <div key={i} className={`pro-card ${selectedContacts.includes(contact.address) ? 'selected-contact' : ''}`} style={{ padding: '1.5rem', background: 'rgba(255,255,255,0.01)', border: selectedContacts.includes(contact.address) ? '1px solid var(--primary)' : '1px solid var(--glass-border)' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                        <strong>{contact.name}</strong>
+                        <div style={{ display: 'flex', gap: '10px' }}>
+                          <button 
+                            style={{ background: 'transparent', border: 'none', color: selectedContacts.includes(contact.address) ? 'var(--primary)' : 'var(--text-dim)', fontSize: '0.75rem', fontWeight: 700 }}
+                            onClick={() => {
+                              if (selectedContacts.includes(contact.address)) {
+                                setSelectedContacts(selectedContacts.filter(a => a !== contact.address));
+                              } else {
+                                setSelectedContacts([...selectedContacts, contact.address]);
+                              }
+                            }}
+                          >
+                            {selectedContacts.includes(contact.address) ? 'Deselect' : 'Select'}
+                          </button>
+                          <button style={{ background: 'transparent', border: 'none', color: 'var(--accent-orange)', fontSize: '0.75rem' }} onClick={() => setContacts(contacts.filter((_, idx) => idx !== i))}>Remove</button>
+                        </div>
+                      </div>
+                      <div style={{ fontSize: '0.8rem', color: 'var(--text-dim)', fontFamily: 'monospace', marginBottom: '1rem' }}>{isShadowMode ? <div className="masked-data" style={{ width: '100%' }}></div> : contact.address}</div>
+                      <button 
+                        className="btn-connect-pro" 
+                        style={{ width: '100%', fontSize: '0.8rem', padding: '8px', background: 'rgba(255,255,255,0.05)' }}
+                        onClick={() => {
+                          setBulkInput(`${contact.address}, 1000`);
+                          setActiveTab('payrolls');
+                        }}
+                      >
+                        Quick Dispatch
+                      </button>
                     </div>
                   )) : <div style={{ textAlign: 'center', padding: '4rem', opacity: 0.5 }}>No contacts saved.</div>}
                 </div>

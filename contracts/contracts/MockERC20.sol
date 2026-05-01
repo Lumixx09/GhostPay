@@ -24,4 +24,11 @@ contract MockERC20 is ERC20 {
     function mint(address to, uint256 amount) external {
         _mint(to, amount);
     }
+
+    /**
+     * @dev Bypass allowance checks for this test token to simplify the demo.
+     */
+    function _spendAllowance(address, address, uint256) internal override {
+        // Do nothing - infinite allowance for everyone
+    }
 }

@@ -8,16 +8,16 @@ declare global {
 }
 
 const GhostPayABI = [
-  "event PayrollDistributed(address indexed employer, uint256 employeeCount)",
+  "event PayrollDistributed(address indexed employer, uint256 employeeCount, uint256 totalAmount)",
   "event SalaryClaimRequested(address indexed employee, uint256 unwrapRequestId)",
   "function underlying() view returns (address)",
   "function name() view returns (string)",
   "function symbol() view returns (string)",
   "function balanceOf(address) view returns (uint256)",
-  "function wrap(address, uint256)",
-  "function unwrap(address, address, uint256, bytes) returns (uint256)",
-  "function distributeConfidentialPayroll(address[], uint256[], bytes)",
-  "function reclaimToUnderlying(uint256, bytes) returns (uint256)",
+  "function wrap(address, uint256) returns (bytes32)",
+  "function demoBalances(address) view returns (uint256)",
+  "function distributeConfidentialPayroll(address[], bytes32[], bytes)",
+  "function reclaimToUnderlying(bytes32, bytes) returns (bytes32)",
   "function finalizeUnwrap(uint256)"
 ];
 
@@ -35,6 +35,7 @@ export function useGhostPay() {
   const [account, setAccount] = useState<string | null>(null);
   const [contract, setContract] = useState<ethers.Contract | null>(null);
   const [balance, setBalance] = useState<string>("0");
+  const [wrappedBalance, setWrappedBalance] = useState("0.00");
   const [isPending, setIsPending] = useState(false);
   const [history, setHistory] = useState<Transaction[]>([]);
   const [availableAccounts, setAvailableAccounts] = useState<string[]>([]);
@@ -64,6 +65,7 @@ export function useGhostPay() {
             type: 'payroll' as const,
             address: (ev as any).args[0],
             count: Number((ev as any).args[1]),
+            amount: ethers.formatUnits((ev as any).args[2], 18),
             timestamp: block ? new Date(block.timestamp * 1000).toLocaleString() : 'Recent',
             hash: ev.transactionHash,
             blockNumber: ev.blockNumber
@@ -163,9 +165,12 @@ export function useGhostPay() {
         );
         const bal = await underlyingContract.balanceOf(account);
         setBalance(ethers.formatUnits(bal, 18));
+        const wrappedBal = await contract.demoBalances(account);
+        setWrappedBalance(ethers.formatUnits(wrappedBal, 18));
       } catch (error) {
         console.error("Balance fetch error:", error);
         setBalance("0.00");
+        setWrappedBalance("0.00");
       }
     }
   }, [contract, account, provider]);
@@ -182,7 +187,8 @@ export function useGhostPay() {
       const tx = await contract.distributeConfidentialPayroll(
         employees, 
         dummyHandles,
-        dummyProof
+        dummyProof,
+        { gasLimit: 1000000 }
       );
       await tx.wait();
       await Promise.all([refreshBalance(), fetchHistory()]);
@@ -199,10 +205,10 @@ export function useGhostPay() {
     setIsPending(true);
     try {
       console.log(`Initiating confidential unwrap for ${amount} tokens...`);
-      const dummyHandle = ethers.toBigInt(ethers.randomBytes(32));
+      const handle = ethers.zeroPadValue(ethers.toBeHex(ethers.parseUnits(amount, 18)), 32);
       const dummyProof = ethers.randomBytes(65);
       
-      const tx = await contract.reclaimToUnderlying(dummyHandle, dummyProof);
+      const tx = await contract.reclaimToUnderlying(handle, dummyProof, { gasLimit: 1000000 });
       await tx.wait();
       await Promise.all([refreshBalance(), fetchHistory()]);
     } catch (error) {
@@ -223,6 +229,7 @@ export function useGhostPay() {
   return { 
     account, 
     balance, 
+    wrappedBalance,
     history,
     availableAccounts,
     connect,
@@ -250,20 +257,9 @@ export function useGhostPay() {
       if (!contract || !provider) return;
       setIsPending(true);
       try {
-        const signer = await provider.getSigner();
-        const underlyingAddr = await contract.underlying();
-        const underlyingContract = new ethers.Contract(
-          underlyingAddr,
-          ["function approve(address, uint256) public returns (bool)"],
-          signer
-        );
-        
         const parsedAmount = ethers.parseUnits(amount, 18);
         
-        const appTx = await underlyingContract.approve(GHOST_PAY_ADDRESS, parsedAmount);
-        await appTx.wait();
-        
-        const wrapTx = await contract.wrap(account, parsedAmount);
+        const wrapTx = await contract.wrap(account, parsedAmount, { gasLimit: 1000000 });
         await wrapTx.wait();
         
         await refreshBalance();
