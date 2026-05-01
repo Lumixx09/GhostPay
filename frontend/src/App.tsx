@@ -10,7 +10,16 @@ import {
   PaperPlaneTilt,
   CircleNotch,
   Users,
-  EyeSlash
+  EyeSlash,
+  Eye,
+  Fingerprint,
+  Info,
+  Cpu,
+  Plus,
+  ArrowRight,
+  LockKey,
+  HandCoins,
+  CheckCircle
 } from "@phosphor-icons/react";
 import ChatAssistant from './components/ChatAssistant';
 import { useGhostPay } from './hooks/useGhostPay';
@@ -32,7 +41,7 @@ const MiniChart = ({ color = 'var(--primary)', delay = 0 }) => (
   </div>
 );
 
-const LandingPage = ({ connect }: { connect: () => void }) => (
+const LandingPage = ({ connect, setView }: { connect: () => void, setView: (v: 'employer' | 'employee') => void }) => (
   <div className="landing-container animate-fade-in">
     <nav className="landing-nav">
       <img src="/Logo.png" alt="GhostPay Logo" style={{ height: '50px' }} />
@@ -81,8 +90,131 @@ const LandingPage = ({ connect }: { connect: () => void }) => (
       </div>
     </section>
 
-    <footer style={{ padding: '4rem', color: 'var(--text-dim)', fontSize: '0.9rem', borderTop: '1px solid var(--glass-border)', width: '100%', textAlign: 'center' }}>
-      &copy; 2026 GhostPay Protocol • Built for iExec Vibe Coding Challenge
+    <section className="landing-info-section">
+      <div className="info-header">
+        <div className="badge-nox">Protocol Workflow</div>
+        <h2>How GhostPay Works</h2>
+        <p>A three-step confidential bridge between corporate treasury and employee wallets.</p>
+      </div>
+      <div className="workflow-grid">
+        <div className="workflow-step">
+          <div className="step-number">01</div>
+          <div className="step-icon"><LockKey size={32} color="var(--primary)" /></div>
+          <h4>Deposit & Wrap</h4>
+          <p>Employers deposit standard USDC into the GhostPay vault. iExec Nox wraps it into confidential cUSDC, hiding the balance from public view.</p>
+        </div>
+        <ArrowRight size={24} className="step-arrow" />
+        <div className="workflow-step">
+          <div className="step-number">02</div>
+          <div className="step-icon"><PaperPlaneTilt size={32} color="var(--primary)" /></div>
+          <h4>Batch Dispatch</h4>
+          <p>Execute bulk payroll to thousands of addresses. On-chain observers only see a single batch transaction with encrypted individual amounts.</p>
+        </div>
+        <ArrowRight size={24} className="step-arrow" />
+        <div className="workflow-step">
+          <div className="step-number">03</div>
+          <div className="step-icon"><HandCoins size={32} color="var(--primary)" /></div>
+          <h4>Private Claim</h4>
+          <p>Employees connect their wallets and claim their specific salary. The transaction history is obscured via Nox, preserving income privacy.</p>
+        </div>
+      </div>
+    </section>
+
+    <section className="landing-dual-grid">
+      <div className="ecosystem-card employer">
+        <div className="badge-nox" style={{ background: 'rgba(99, 102, 241, 0.2)', color: '#818cf8' }}>Employer Ecosystem</div>
+        <h3>Institutional Management</h3>
+        <ul className="feature-list">
+          <li>
+            <CheckCircle size={20} weight="fill" color="var(--primary)" />
+            <span><strong>Bulk CSV Engine:</strong> Paste or upload thousands of employee records instantly.</span>
+          </li>
+          <li>
+            <CheckCircle size={20} weight="fill" color="var(--primary)" />
+            <span><strong>AI Analytics:</strong> ChainGPT powered insights into payroll volume and burn rates.</span>
+          </li>
+          <li>
+            <CheckCircle size={20} weight="fill" color="var(--primary)" />
+            <span><strong>Shadow Mode:</strong> Toggle UI privacy for secure screen sharing and reporting.</span>
+          </li>
+          <li>
+            <CheckCircle size={20} weight="fill" color="var(--primary)" />
+            <span><strong>Multi-Asset Vaults:</strong> Support for any ERC-20 confidential wrapping.</span>
+          </li>
+        </ul>
+      </div>
+      <div className="ecosystem-card employee">
+        <div className="badge-nox" style={{ background: 'rgba(45, 212, 191, 0.2)', color: '#5eead4' }}>Employee Portal</div>
+        <h3>Privacy-First Access</h3>
+        <ul className="feature-list">
+          <li>
+            <CheckCircle size={20} weight="fill" color="var(--success)" />
+            <span><strong>Confidential Balance:</strong> Your income is your business. Balances are hidden from Etherscan.</span>
+          </li>
+          <li>
+            <CheckCircle size={20} weight="fill" color="var(--success)" />
+            <span><strong>GhostAssistant AI:</strong> Query your specific payout history via a secure AI interface.</span>
+          </li>
+          <li>
+            <CheckCircle size={20} weight="fill" color="var(--success)" />
+            <span><strong>One-Click Claims:</strong> Withdraw your earnings to your wallet in seconds.</span>
+          </li>
+          <li>
+            <CheckCircle size={20} weight="fill" color="var(--success)" />
+            <span><strong>Identity Verification:</strong> ZK-proof based session management for profile access.</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section className="landing-cta-final">
+      <h2>Ready to take your payroll private?</h2>
+      <p>Join the future of confidential institutional finance on Arbitrum Sepolia.</p>
+      <button className="launch-btn-giant" onClick={connect} style={{ margin: '2rem auto' }}>Launch Protocol</button>
+    </section>
+
+    <footer className="landing-footer">
+      <div className="footer-content">
+        <div className="footer-brand">
+          <img src="/Logo.png" alt="GhostPay Logo" style={{ height: '40px', marginBottom: '1.5rem' }} />
+          <p>Institutional-grade confidential payroll infrastructure on Arbitrum Sepolia.</p>
+          <div className="footer-badges">
+            <div className="badge-nox" style={{ marginBottom: 0, fontSize: '10px' }}>iExec Nox</div>
+            <div className="badge-nox" style={{ marginBottom: 0, fontSize: '10px', background: 'rgba(99, 102, 241, 0.1)', color: '#818cf8' }}>ChainGPT AI</div>
+          </div>
+        </div>
+        
+        <div className="footer-links-grid">
+          <div className="footer-col">
+            <h4>Protocol</h4>
+            <a href="#features">Features</a>
+            <button className="footer-link-btn" onClick={() => { setView('employer'); connect(); }}>Employer Portal</button>
+            <button className="footer-link-btn" onClick={() => { setView('employee'); connect(); }}>Employee Hub</button>
+            <a href="https://docs.iex.ec/nox-protocol/welcome" target="_blank" rel="noreferrer">Security</a>
+          </div>
+          <div className="footer-col">
+            <h4>Resources</h4>
+            <a href="https://docs.iex.ec" target="_blank" rel="noreferrer">Documentation</a>
+            <a href="https://discord.gg/RXYHBJceMe" target="_blank" rel="noreferrer">Vibe Challenge</a>
+            <a href="https://sepolia.arbiscan.io" target="_blank" rel="noreferrer">Arbitrum Sepolia</a>
+            <a href="https://github.com/Lumixx09/GhostPay" target="_blank" rel="noreferrer">Github</a>
+          </div>
+          <div className="footer-col">
+            <h4>Social</h4>
+            <a href="https://x.com/iex_ec" target="_blank" rel="noreferrer">Twitter / X</a>
+            <a href="https://discord.gg/RXYHBJceMe" target="_blank" rel="noreferrer">Discord</a>
+            <a href="https://t.me/iexec_rlc_official" target="_blank" rel="noreferrer">Telegram</a>
+          </div>
+        </div>
+      </div>
+      
+      <div className="footer-bottom">
+        <p>&copy; 2026 GhostPay Protocol. Built for the iExec Vibe Coding Challenge.</p>
+        <div style={{ display: 'flex', gap: '2rem' }}>
+          <a href="https://iex.ec/privacy-policy/" target="_blank" rel="noreferrer">Privacy Policy</a>
+          <a href="https://iex.ec/terms-and-conditions/" target="_blank" rel="noreferrer">Terms of Service</a>
+        </div>
+      </div>
     </footer>
   </div>
 );
@@ -95,6 +227,10 @@ function App() {
   const [bulkInput, setBulkInput] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [isShadowMode, setIsShadowMode] = useState(false);
+  const [isSettingsUnlocked, setIsSettingsUnlocked] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [activeModal, setActiveModal] = useState<null | 'contact' | 'wrap'>(null);
+  const [modalData, setModalData] = useState({ field1: '', field2: '' });
   const [contacts, setContacts] = useState<{name: string, address: string}[]>(() => {
     const saved = localStorage.getItem('ghostpay_contacts');
     return saved ? JSON.parse(saved) : [];
@@ -109,7 +245,9 @@ function App() {
     isPending, 
     distributePayroll,
     reclaimFunds,
-    refreshBalance 
+    refreshBalance,
+    verifyIdentity,
+    wrapFunds 
   } = useGhostPay();
 
   useEffect(() => {
@@ -121,6 +259,18 @@ function App() {
     setTimeout(() => setNotification(null), 4000);
   };
 
+  const handleVerifyIdentity = async () => {
+    setIsVerifying(true);
+    const success = await verifyIdentity("Verify cryptographic identity to access GhostPay Confidential Settings.");
+    if (success) {
+      setIsSettingsUnlocked(true);
+      showNotification("Identity Verified. Protocol Access Granted.");
+    } else {
+      showNotification("Verification Failed.");
+    }
+    setIsVerifying(false);
+  };
+
   const handleBulkDistribute = async () => {
     if (!bulkInput.trim()) return;
     setIsProcessing(true);
@@ -128,14 +278,20 @@ function App() {
       const lines = bulkInput.split('\n').filter(line => line.trim());
       const addresses: string[] = [];
       const amounts: string[] = [];
+      
       lines.forEach(line => {
-        const [addr, amt] = line.split(',').map(s => s.trim());
-        if (addr && amt) {
+        // Robust parser: handles commas, tabs, or multiple spaces
+        const parts = line.split(/[, \t]+/).map(s => s.trim());
+        const addr = parts[0];
+        const amt = parts[1];
+        
+        if (addr && addr.startsWith('0x') && amt && !isNaN(parseFloat(amt))) {
           addresses.push(addr);
           amounts.push(amt);
         }
       });
-      if (addresses.length === 0) throw new Error("Invalid format. Use: address, amount");
+
+      if (addresses.length === 0) throw new Error("No valid recipients found. Use: address amount");
       await distributePayroll(addresses, amounts);
       showNotification(`Successfully distributed payroll to ${addresses.length} employees!`);
       setBulkInput('');
@@ -147,7 +303,7 @@ function App() {
     }
   };
 
-  if (!isConnected) return <LandingPage connect={connect} />;
+  if (!isConnected) return <LandingPage connect={connect} setView={setView} />;
 
   return (
     <div className="dashboard-container">
@@ -191,7 +347,7 @@ function App() {
               <button className={`segment-btn ${view === 'employee' ? 'active' : ''}`} onClick={() => setView('employee')}>Employee</button>
             </div>
             <button className={`stealth-toggle ${isShadowMode ? 'active' : ''}`} onClick={() => setIsShadowMode(!isShadowMode)}>
-              <EyeSlash size={20} weight={isShadowMode ? "fill" : "bold"} />
+              {isShadowMode ? <Eye size={20} weight="fill" /> : <EyeSlash size={20} weight="bold" />}
               <span>SHADOW MODE</span>
             </button>
           </div>
@@ -231,15 +387,15 @@ function App() {
                     <MiniChart color="#6366f1" delay={0.5} />
                   </div>
                   <div className="pro-card" style={{ padding: '1.5rem', overflow: 'visible' }}>
-                    <div className="section-meta">Historical Volume</div>
+                    <div className="section-meta">Total Recipients</div>
                     <div style={{ fontSize: '1.8rem', fontWeight: 800, margin: '5px 0', color: 'var(--primary)' }}>
-                      ${history.reduce((acc, tx) => acc + (tx.type === 'claim' ? parseFloat(tx.amount || '0') : 0), 0).toLocaleString()}
+                      {history.reduce((acc, tx) => acc + (tx.type === 'payroll' ? (tx.count || 0) : 0), 0).toLocaleString()}
                     </div>
                     <MiniChart color="var(--primary)" delay={1} />
                   </div>
                   <div className="pro-card" style={{ padding: '1.5rem', overflow: 'visible' }}>
-                    <div className="section-meta">Privacy Health</div>
-                    <div style={{ fontSize: '1.8rem', fontWeight: 800, margin: '5px 0', color: 'var(--success)' }}>100%</div>
+                    <div className="section-meta">Privacy Status</div>
+                    <div style={{ fontSize: '1.8rem', fontWeight: 800, margin: '5px 0', color: 'var(--success)' }}>ENCRYPTED</div>
                     <MiniChart color="var(--success)" delay={1.5} />
                   </div>
                 </div>
@@ -253,16 +409,30 @@ function App() {
                 </div>
                 
                 <div className="pro-card" style={{ padding: '2rem', background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(45, 212, 191, 0.1) 100%)' }}>
-                  <div className="section-meta" style={{ color: 'white' }}>Quick Commands</div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '1rem' }}>
-                    <button className="btn-connect-pro" style={{ width: '100%', justifyContent: 'center' }} onClick={() => setActiveTab('payrolls')}>Dispatch New Batch</button>
-                    <button className="btn-connect-pro" style={{ width: '100%', justifyContent: 'center', background: 'transparent', border: '1px solid var(--glass-border)' }} onClick={() => setActiveTab('history')}>Audit History</button>
+                  <div className="section-meta" style={{ color: 'white' }}>Employer Treasury</div>
+                  <div style={{ margin: '1rem 0' }}>
+                    <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>Confidential Balance</div>
+                    <div style={{ fontSize: '1.5rem', fontWeight: 800 }}>{balance} <span style={{ fontSize: '0.8rem' }}>cUSDC</span></div>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    <button 
+                      className="btn-connect-pro" 
+                      style={{ width: '100%', justifyContent: 'center' }} 
+                      onClick={() => {
+                        setModalData({ field1: '', field2: '' });
+                        setActiveModal('wrap');
+                      }}
+                      disabled={isPending}
+                    >
+                      {isPending ? <CircleNotch size={20} className="animate-spin" /> : "Deposit & Wrap"}
+                    </button>
+                    <button className="btn-connect-pro" style={{ width: '100%', justifyContent: 'center', background: 'transparent', border: '1px solid var(--glass-border)' }} onClick={() => setActiveTab('payrolls')}>Dispatch Batch</button>
                   </div>
                 </div>
 
                 <div className="pro-card" style={{ gridColumn: 'span 3', padding: '2.5rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-                    <h3 style={{ margin: 0 }}>Live Protocol Ledger</h3>
+                    <h3 style={{ margin: 0 }}>Live Transaction Audit</h3>
                     <div className="ai-status-pill" style={{ margin: 0 }}>Synced: {history.length} Events</div>
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -281,9 +451,9 @@ function App() {
                         </div>
                         <div style={{ textAlign: 'right' }}>
                           <div style={{ fontWeight: 700, color: 'var(--primary)' }}>
-                            {isShadowMode ? <div className="masked-data" style={{ width: '60px' }}></div> : (tx.type === 'payroll' ? `${tx.count} Recipients` : `+$${tx.amount}`)}
+                            {isShadowMode ? <div className="masked-data" style={{ width: '60px' }}></div> : (tx.type === 'payroll' ? `${tx.count} Recipients` : 'Confidential')}
                           </div>
-                          <div style={{ fontSize: '0.75rem', color: 'var(--success)' }}>Verified</div>
+                          <div style={{ fontSize: '0.75rem', color: 'var(--success)' }}>Arbiscan Verified</div>
                         </div>
                       </div>
                     )) : <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-dim)' }}>No protocol events found.</div>}
@@ -326,7 +496,10 @@ function App() {
             <div className="pro-card" style={{ gridColumn: 'span 3', padding: '3rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
                 <div><h2>Confidential Contacts</h2><p style={{ color: 'var(--text-dim)' }}>Your private enterprise address book. Stored in local vault.</p></div>
-                <button className="btn-connect-pro" onClick={() => { const name = prompt("Name:"); const address = prompt("Address:"); if (name && address) setContacts([...contacts, { name, address }]); }}><Users size={20} weight="bold" /> Add Contact</button>
+                <button className="btn-connect-pro" onClick={() => {
+                  setModalData({ field1: '', field2: '' });
+                  setActiveModal('contact');
+                }}><Plus size={20} weight="bold" /> Add Contact</button>
               </div>
               <div className="cards-layout" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
                 {contacts.length > 0 ? contacts.map((contact, i) => (
@@ -360,16 +533,126 @@ function App() {
               <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${account || 'ghost'}`} style={{ width: '180px', borderRadius: '40px', background: 'var(--bg-surface)', padding: '1rem' }} />
               <div><span className="ai-status-pill">Confidential Identity</span><h2 style={{ fontSize: '2.5rem' }}>{account ? `${account.slice(0, 10)}...` : 'Disconnected'}</h2><p style={{ color: 'var(--text-dim)' }}>Protected by iExec Nox Infrastructure.</p></div>
             </div>
+          ) : activeTab === 'settings' ? (
+            !isSettingsUnlocked ? (
+              <div className="locked-segment-container animate-fade-in">
+                <div className="lock-icon-box">
+                  <Fingerprint size={52} weight="duotone" />
+                </div>
+                <div className="section-meta">Module Locked</div>
+                <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Restricted Segment</h2>
+                <p style={{ color: 'var(--text-dim)', maxWidth: '450px' }}>
+                  This area contains sensitive protocol configurations. 
+                  Please verify your cryptographic identity to proceed.
+                </p>
+                <button className="btn-verify" onClick={handleVerifyIdentity} disabled={isVerifying}>
+                  {isVerifying ? <CircleNotch size={24} className="animate-spin" /> : "Verify Identity"}
+                </button>
+              </div>
+            ) : (
+              <div className="settings-grid">
+                <div className="settings-card" style={{ gridColumn: 'span 2' }}>
+                  <div className="settings-label"><Info size={18} weight="bold" /> Protocol Identity</div>
+                  <div className="settings-value">{account}</div>
+                  <div style={{ marginTop: '1rem', color: 'var(--success)', fontSize: '0.8rem', fontWeight: 700 }}>
+                    <ShieldCheck size={14} weight="bold" /> Identity cryptographically verified via Nox session.
+                  </div>
+                </div>
+
+                <div className="settings-card">
+                  <div className="settings-label"><Cpu size={18} weight="bold" /> Nox Contract</div>
+                  <div className="settings-value">{import.meta.env.VITE_GHOST_PAY_ADDRESS || '0x...'}</div>
+                </div>
+
+                <div className="settings-card">
+                  <div className="settings-label"><CircleNotch size={18} weight="bold" /> AI Analytics Engine</div>
+                  <div className="settings-value">ChainGPT Web3-LLM</div>
+                </div>
+
+                <div className="settings-card" style={{ gridColumn: 'span 2', background: 'rgba(45, 212, 191, 0.05)', border: '1px solid var(--primary)' }}>
+                  <div className="settings-label" style={{ color: 'var(--primary)' }}><ShieldCheck size={18} weight="bold" /> Network Status</div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ fontWeight: 800, fontSize: '1.2rem' }}>Arbitrum Sepolia</div>
+                    <div className="ai-status-pill">Active & Healthy</div>
+                  </div>
+                </div>
+              </div>
+            )
           ) : (
-            <div className="pro-card" style={{ gridColumn: 'span 3', padding: '6rem', textAlign: 'center' }}><h3>Module Locked</h3><p>Verify your cryptographic identity to access this segment.</p></div>
+            <div className="pro-card" style={{ gridColumn: 'span 3', padding: '6rem', textAlign: 'center' }}><h3>Module Not Found</h3></div>
           )}
         </div>
       </main>
 
       <aside className="right-panel">
-        <section><h2 className="panel-section-title"><TrendUp size={22} weight="bold" /> Stats</h2><div className="ai-brief-card"><span className="ai-status-pill">Health: 100%</span><p>Connected to Arbitrum Sepolia via Nox Vault.</p></div></section>
-        <section className="chat-compact"><h2 className="panel-section-title">GhostAssistant</h2><ChatAssistant history={history} view={view} /></section>
+        <section><h2 className="panel-section-title"><TrendUp size={22} weight="bold" /> Stats</h2><div className="ai-brief-card"><span className="ai-status-pill">Health: ONLINE</span><p>Connected to Arbitrum Sepolia via Nox Vault.</p></div></section>
+        <section className="chat-compact"><h2 className="panel-section-title">Transaction Audit AI</h2><ChatAssistant history={history} view={view} /></section>
       </aside>
+
+      {/* Custom Modal Overlay */}
+      {activeModal && (
+        <div className="modal-overlay" onClick={() => setActiveModal(null)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <div className="modal-title">
+              {activeModal === 'contact' ? 'New Contact' : 'Deposit Treasury'}
+            </div>
+            <div className="modal-subtitle">
+              {activeModal === 'contact' ? 'Add a recipient to your confidential vault.' : 'Wrap public USDC into confidential cUSDC.'}
+            </div>
+
+            <div className="modal-input-group">
+              <label className="modal-label">{activeModal === 'contact' ? 'Contact Name' : 'Deposit Amount'}</label>
+              <input 
+                type="text" 
+                className="modal-input" 
+                placeholder={activeModal === 'contact' ? 'e.g. Satoshi Nakamoto' : 'e.g. 500.00'}
+                value={modalData.field1}
+                onChange={e => setModalData({...modalData, field1: e.target.value})}
+                autoFocus
+              />
+            </div>
+
+            {activeModal === 'contact' && (
+              <div className="modal-input-group">
+                <label className="modal-label">Wallet Address</label>
+                <input 
+                  type="text" 
+                  className="modal-input" 
+                  placeholder="0x..."
+                  value={modalData.field2}
+                  onChange={e => setModalData({...modalData, field2: e.target.value})}
+                />
+              </div>
+            )}
+
+            <div className="modal-actions">
+              <button className="btn-modal-cancel" onClick={() => setActiveModal(null)}>Cancel</button>
+              <button 
+                className="btn-modal-submit" 
+                disabled={!modalData.field1 || (activeModal === 'contact' && !modalData.field2) || isPending}
+                onClick={async () => {
+                  if (activeModal === 'contact') {
+                    setContacts([...contacts, { name: modalData.field1, address: modalData.field2 }]);
+                    showNotification("Contact saved to confidential vault.");
+                    setActiveModal(null);
+                  } else {
+                    const amt = modalData.field1;
+                    setActiveModal(null);
+                    try {
+                      await wrapFunds(amt);
+                      showNotification(`Successfully wrapped ${amt} USDC.`);
+                    } catch (e: any) {
+                      showNotification(`Wrap failed: ${e.message}`);
+                    }
+                  }
+                }}
+              >
+                {isPending ? <CircleNotch size={20} className="animate-spin" /> : (activeModal === 'contact' ? 'Save Contact' : 'Execute Deposit')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
