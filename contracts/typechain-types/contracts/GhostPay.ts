@@ -27,7 +27,7 @@ export interface GhostPayInterface extends Interface {
   getFunction(
     nameOrSignature:
       | "confidentialBalanceOf"
-      | "demoBalances"
+      | "confidentialBalances"
       | "distributeConfidentialPayroll"
       | "owner"
       | "reclaimToUnderlying"
@@ -50,7 +50,7 @@ export interface GhostPayInterface extends Interface {
     values: [AddressLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "demoBalances",
+    functionFragment: "confidentialBalances",
     values: [AddressLike]
   ): string;
   encodeFunctionData(
@@ -84,7 +84,7 @@ export interface GhostPayInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "demoBalances",
+    functionFragment: "confidentialBalances",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -218,7 +218,11 @@ export interface GhostPay extends BaseContract {
     "view"
   >;
 
-  demoBalances: TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
+  confidentialBalances: TypedContractMethod<
+    [arg0: AddressLike],
+    [bigint],
+    "view"
+  >;
 
   distributeConfidentialPayroll: TypedContractMethod<
     [employees: AddressLike[], encryptedAmounts: BytesLike[], arg2: BytesLike],
@@ -258,7 +262,7 @@ export interface GhostPay extends BaseContract {
     nameOrSignature: "confidentialBalanceOf"
   ): TypedContractMethod<[account: AddressLike], [bigint], "view">;
   getFunction(
-    nameOrSignature: "demoBalances"
+    nameOrSignature: "confidentialBalances"
   ): TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
   getFunction(
     nameOrSignature: "distributeConfidentialPayroll"

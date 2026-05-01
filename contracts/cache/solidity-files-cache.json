@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "C:\\projects\\brokebot\\Challenge\\contracts\\contracts\\GhostPay.sol": {
-      "lastModificationDate": 1777656495661,
-      "contentHash": "4fdcf8bee07a9a8612665bf2abbb1246",
+      "lastModificationDate": 1777671989125,
+      "contentHash": "d170ff6a097f15cea7cad262631b2b35",
       "sourceName": "contracts/GhostPay.sol",
       "solcConfig": {
         "version": "0.8.28",

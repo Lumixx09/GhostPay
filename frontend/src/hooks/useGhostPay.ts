@@ -15,7 +15,7 @@ const GhostPayABI = [
   "function symbol() view returns (string)",
   "function balanceOf(address) view returns (uint256)",
   "function wrap(address, uint256) returns (bytes32)",
-  "function demoBalances(address) view returns (uint256)",
+  "function confidentialBalances(address) view returns (uint256)",
   "function distributeConfidentialPayroll(address[], bytes32[], bytes)",
   "function reclaimToUnderlying(bytes32, bytes) returns (bytes32)",
   "function finalizeUnwrap(uint256)"
@@ -165,7 +165,7 @@ export function useGhostPay() {
         );
         const bal = await underlyingContract.balanceOf(account);
         setBalance(ethers.formatUnits(bal, 18));
-        const wrappedBal = await contract.demoBalances(account);
+        const wrappedBal = await contract.confidentialBalances(account);
         setWrappedBalance(ethers.formatUnits(wrappedBal, 18));
       } catch (error) {
         console.error("Balance fetch error:", error);

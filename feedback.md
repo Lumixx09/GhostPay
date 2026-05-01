@@ -22,8 +22,15 @@ Executing confidential logic within a local Hardhat environment presents signifi
 2. SDK Type Definitions
 Certain iExec beta packages lacked complete TypeScript definitions. This required additional effort to correctly map handles and types. Enhancing the type safety of the Nox SDK would improve the developer experience and reduce implementation errors.
 
-3. Specialized Deployment Tooling
+3. RPC Node & Simulation Stability
+A significant hurdle encountered during the challenge was the inconsistency of public RPC nodes when simulating TEE-specific precompile calls. Frequent "Internal JSON-RPC" errors occurred during the simulation of `wrap` and `distribute` functions. A more stable, dedicated iExec Sepolia RPC or a more descriptive revert-reasoning system within the precompiles would significantly improve the UX for developers.
+
+4. Specialized Deployment Tooling
 While standard contract deployment is supported, the addition of specialized Hardhat plugins for the Nox layer would be beneficial. Automated handling of enclave-specific initialization and TEE-specific deployment parameters would streamline the transition from development to production.
+
+PROPOSED FEATURES
+-   **Nox Debugger UI:** A simple explorer-like interface to view the status of confidential "Unwrap Requests" or "Handles" during development.
+-   **Stability Fallbacks:** Standardized patterns for "Soft Reverts" in the iExec libraries to prevent RPC node crashes during simulation.
 
 CONCLUSION
 The iExec Nox protocol represents a fundamental advancement for institutional DeFi and real-world asset use cases. Despite being in a beta phase, the infrastructure is sufficiently stable for the development of complex applications like GhostPay. We look forward to the continued refinement of these developer tools.
