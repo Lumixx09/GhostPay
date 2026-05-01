@@ -1,3 +1,9 @@
+ethers.formatUnits(bal, 18);
+const bal = await erc20.balanceOf('0xc0Dd2bd75f7A2a77C622a62E08E5e534A5360867');
+);
+  '0x87A5AB4d891613B152A7aA1AE8cC1884681c9EE1'
+  ['function balanceOf(address) view returns (uint256)'],
+const erc20 = await ethers.getContractAt(
 const [s] = await ethers.getSigners(); s.address
 await ethers.provider.getBlockNumber()
 (await ethers.getSigners()).length

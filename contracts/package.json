@@ -8,6 +8,7 @@
     "test": "hardhat test",
     "deploy:arbitrum-sepolia": "hardhat run scripts/deploy.ts --network arbitrum-sepolia",
     "verify:arbitrum-sepolia": "hardhat verify --network arbitrum-sepolia",
+    "mint": "hardhat run scripts/mint.ts --network arbitrum-sepolia",
     "clean": "hardhat clean"
   },
   "keywords": [
@@ -25,7 +26,7 @@
     "hardhat": "^2.28.6"
   },
   "dependencies": {
-    "@iexec-nox/nox-confidential-contracts": "^0.1.0-beta.2",
+    "@iexec-nox/nox-confidential-contracts": "^0.1.0",
     "@iexec-nox/nox-protocol-contracts": "^0.1.0-beta.9",
     "@openzeppelin/contracts": "^5.6.1",
     "dotenv": "^17.4.1"
