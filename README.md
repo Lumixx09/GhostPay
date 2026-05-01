@@ -8,6 +8,7 @@ Submission Video
 
 Live Demo / Repository
 - GitHub: [Link to Repository]
+- Live Demo (Vercel): https://nox-ghostpay.vercel.app
 - Network: Arbitrum Sepolia
 - Protocol Layer: iExec Nox (Confidential Computing)
 - AI Partner: ChainGPT
@@ -82,4 +83,3 @@ We've documented our journey building with iExec Nox in feedback.md. We highligh
 
 License
 GhostPay is open-source software licensed under the MIT License.
-

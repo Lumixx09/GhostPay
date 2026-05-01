@@ -1,5 +1,6 @@
 # GhostPay: The Future of Confidential Institutional Finance
 **Watch the Demo:** https://youtu.be/hVdVOANnKoM
+**Live Application:** https://nox-ghostpay.vercel.app
 
 
 ## 🚀 The Vision
