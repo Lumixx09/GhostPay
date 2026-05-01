@@ -302,6 +302,8 @@ function App() {
       setBulkInput('');
     } catch (error: any) {
       console.error(error);
+    } finally {
+      setIsProcessing(false);
     }
   };
 

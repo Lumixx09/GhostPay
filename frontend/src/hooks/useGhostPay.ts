@@ -50,7 +50,7 @@ export function useGhostPay() {
       const fromBlock = latestBlock - 10000 > 0 ? latestBlock - 10000 : 0;
 
       const payrollFilter = contract.filters.PayrollDistributed();
-      const claimFilter = contract.filters.SalaryClaimed();
+      const claimFilter = contract.filters.SalaryClaimRequested();
 
       const [payrollEvents, claimEvents] = await Promise.all([
         contract.queryFilter(payrollFilter, fromBlock),
@@ -153,24 +153,30 @@ export function useGhostPay() {
   };
 
   const refreshBalance = useCallback(async () => {
-    if (contract && account) {
+    if (contract && account && provider) {
       try {
-        const bal = await contract.balanceOf(account);
+        const underlyingAddr = await contract.underlying();
+        const underlyingContract = new ethers.Contract(
+          underlyingAddr,
+          ["function balanceOf(address) view returns (uint256)"],
+          provider
+        );
+        const bal = await underlyingContract.balanceOf(account);
         setBalance(ethers.formatUnits(bal, 18));
       } catch (error) {
         console.error("Balance fetch error:", error);
         setBalance("0.00");
       }
     }
-  }, [contract, account]);
+  }, [contract, account, provider]);
 
   const distributePayroll = async (employees: string[], amounts: string[]) => {
     if (!contract) return;
     setIsPending(true);
     try {
       // In a real iExec Nox dApp, we would use @iexec-nox/handle to encrypt
-      // amounts[i] into a handle. For this demo, we simulate the handles.
-      const dummyHandles = amounts.map(() => ethers.toBigInt(ethers.randomBytes(32)));
+      // amounts[i] into a handle. For this demo, we pass the plaintext amount.
+      const dummyHandles = amounts.map((amt) => ethers.parseUnits(amt, 18));
       const dummyProof = ethers.randomBytes(65); // Dummy EIP-712 signature
       
       const tx = await contract.distributeConfidentialPayroll(
