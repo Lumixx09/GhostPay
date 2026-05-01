@@ -449,8 +449,8 @@ function App() {
                   <div className="pro-card" style={{ padding: '2rem', background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(45, 212, 191, 0.1) 100%)' }}>
                     <div className="section-meta" style={{ color: 'white' }}>Employer Treasury</div>
                     <div style={{ margin: '1rem 0' }}>
-                      <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>Confidential Balance</div>
-                      <div style={{ fontSize: '1.5rem', fontWeight: 800 }}>{balance} <span style={{ fontSize: '0.8rem' }}>cUSDC</span></div>
+                      <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>Available to Wrap</div>
+                      <div style={{ fontSize: '1.5rem', fontWeight: 800 }}>{balance} <span style={{ fontSize: '0.8rem' }}>mUSDC</span></div>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                       <button 

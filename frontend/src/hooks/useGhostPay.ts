@@ -175,8 +175,8 @@ export function useGhostPay() {
     setIsPending(true);
     try {
       // In a real iExec Nox dApp, we would use @iexec-nox/handle to encrypt
-      // amounts[i] into a handle. For this demo, we pass the plaintext amount.
-      const dummyHandles = amounts.map((amt) => ethers.parseUnits(amt, 18));
+      // amounts[i] into a handle. For this demo, we pass the plaintext amount as bytes32.
+      const dummyHandles = amounts.map((amt) => ethers.zeroPadValue(ethers.toBeHex(ethers.parseUnits(amt, 18)), 32));
       const dummyProof = ethers.randomBytes(65); // Dummy EIP-712 signature
       
       const tx = await contract.distributeConfidentialPayroll(
