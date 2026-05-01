@@ -119,9 +119,9 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ history, view }) => {
           onKeyPress={(e) => e.key === 'Enter' && handleSend()}
         />
         <button 
-          className="sidebar-icon" 
+          className="chat-send-btn" 
           onClick={handleSend}
-          style={{ width: '44px', height: '44px', background: 'var(--primary)', color: 'var(--bg-deep)' }}
+          disabled={isLoading || !input.trim()}
         >
           <PaperPlaneTilt size={20} weight="bold" />
         </button>

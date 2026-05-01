@@ -35,10 +35,19 @@ export const fetchAIResponse = async (question: string, chatHistory: ChatMessage
       throw new Error(`API error: ${response.statusText}`);
     }
 
-    const data = await response.json();
-    return data.answer || data.response || "No response from AI.";
-  } catch (error) {
+    const text = await response.text();
+    console.log("ChainGPT Raw Response:", text);
+
+    try {
+      const data = JSON.parse(text);
+      // Support multiple common response formats
+      return data.data?.bot || data.answer || data.response || text;
+    } catch (e) {
+      // If not JSON, it's likely the direct text response
+      return text || "No response from AI.";
+    }
+  } catch (error: any) {
     console.error("ChainGPT Error:", error);
-    return "Sorry, I encountered an error connecting to the AI service.";
+    return `Sorry, I encountered an error connecting to the AI service: ${error.message}`;
   }
 };

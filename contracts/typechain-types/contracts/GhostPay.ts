@@ -38,7 +38,6 @@ export interface GhostPayInterface extends Interface {
       | "confidentialTransferFromAndCall(address,address,bytes32,bytes)"
       | "contractURI"
       | "decimals"
-      | "depositForPayroll"
       | "distributeConfidentialPayroll"
       | "finalizeUnwrap"
       | "inferredTotalSupply"
@@ -47,6 +46,7 @@ export interface GhostPayInterface extends Interface {
       | "name"
       | "onTransferReceived"
       | "owner"
+      | "reclaimToUnderlying"
       | "renounceOwnership"
       | "setOperator"
       | "supportsInterface"
@@ -65,6 +65,7 @@ export interface GhostPayInterface extends Interface {
       | "OperatorSet"
       | "OwnershipTransferred"
       | "PayrollDistributed"
+      | "SalaryClaimRequested"
       | "UnwrapFinalized"
       | "UnwrapRequested"
   ): EventFragment;
@@ -115,12 +116,8 @@ export interface GhostPayInterface extends Interface {
   ): string;
   encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "depositForPayroll",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
     functionFragment: "distributeConfidentialPayroll",
-    values: [AddressLike[], BytesLike[]]
+    values: [AddressLike[], BytesLike[], BytesLike]
   ): string;
   encodeFunctionData(
     functionFragment: "finalizeUnwrap",
@@ -144,6 +141,10 @@ export interface GhostPayInterface extends Interface {
     values: [AddressLike, AddressLike, BigNumberish, BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "reclaimToUnderlying",
+    values: [BytesLike, BytesLike]
+  ): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
@@ -228,10 +229,6 @@ export interface GhostPayInterface extends Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "depositForPayroll",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "distributeConfidentialPayroll",
     data: BytesLike
   ): Result;
@@ -254,6 +251,10 @@ export interface GhostPayInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "reclaimToUnderlying",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
@@ -342,6 +343,19 @@ export namespace PayrollDistributedEvent {
   export interface OutputObject {
     employer: string;
     employeeCount: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace SalaryClaimRequestedEvent {
+  export type InputTuple = [employee: AddressLike, unwrapRequestId: BytesLike];
+  export type OutputTuple = [employee: string, unwrapRequestId: string];
+  export interface OutputObject {
+    employee: string;
+    unwrapRequestId: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -503,14 +517,12 @@ export interface GhostPay extends BaseContract {
 
   decimals: TypedContractMethod<[], [bigint], "view">;
 
-  depositForPayroll: TypedContractMethod<
-    [amount: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
-
   distributeConfidentialPayroll: TypedContractMethod<
-    [employees: AddressLike[], encryptedAmounts: BytesLike[]],
+    [
+      employees: AddressLike[],
+      encryptedAmounts: BytesLike[],
+      inputProof: BytesLike
+    ],
     [void],
     "nonpayable"
   >;
@@ -545,6 +557,12 @@ export interface GhostPay extends BaseContract {
   >;
 
   owner: TypedContractMethod<[], [string], "view">;
+
+  reclaimToUnderlying: TypedContractMethod<
+    [encryptedAmount: BytesLike, inputProof: BytesLike],
+    [string],
+    "nonpayable"
+  >;
 
   renounceOwnership: TypedContractMethod<[], [void], "nonpayable">;
 
@@ -688,12 +706,13 @@ export interface GhostPay extends BaseContract {
     nameOrSignature: "decimals"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
-    nameOrSignature: "depositForPayroll"
-  ): TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
-  getFunction(
     nameOrSignature: "distributeConfidentialPayroll"
   ): TypedContractMethod<
-    [employees: AddressLike[], encryptedAmounts: BytesLike[]],
+    [
+      employees: AddressLike[],
+      encryptedAmounts: BytesLike[],
+      inputProof: BytesLike
+    ],
     [void],
     "nonpayable"
   >;
@@ -735,6 +754,13 @@ export interface GhostPay extends BaseContract {
   getFunction(
     nameOrSignature: "owner"
   ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "reclaimToUnderlying"
+  ): TypedContractMethod<
+    [encryptedAmount: BytesLike, inputProof: BytesLike],
+    [string],
+    "nonpayable"
+  >;
   getFunction(
     nameOrSignature: "renounceOwnership"
   ): TypedContractMethod<[], [void], "nonpayable">;
@@ -816,6 +842,13 @@ export interface GhostPay extends BaseContract {
     PayrollDistributedEvent.OutputObject
   >;
   getEvent(
+    key: "SalaryClaimRequested"
+  ): TypedContractEvent<
+    SalaryClaimRequestedEvent.InputTuple,
+    SalaryClaimRequestedEvent.OutputTuple,
+    SalaryClaimRequestedEvent.OutputObject
+  >;
+  getEvent(
     key: "UnwrapFinalized"
   ): TypedContractEvent<
     UnwrapFinalizedEvent.InputTuple,
@@ -873,6 +906,17 @@ export interface GhostPay extends BaseContract {
       PayrollDistributedEvent.InputTuple,
       PayrollDistributedEvent.OutputTuple,
       PayrollDistributedEvent.OutputObject
+    >;
+
+    "SalaryClaimRequested(address,bytes32)": TypedContractEvent<
+      SalaryClaimRequestedEvent.InputTuple,
+      SalaryClaimRequestedEvent.OutputTuple,
+      SalaryClaimRequestedEvent.OutputObject
+    >;
+    SalaryClaimRequested: TypedContractEvent<
+      SalaryClaimRequestedEvent.InputTuple,
+      SalaryClaimRequestedEvent.OutputTuple,
+      SalaryClaimRequestedEvent.OutputObject
     >;
 
     "UnwrapFinalized(address,bytes32,uint256)": TypedContractEvent<

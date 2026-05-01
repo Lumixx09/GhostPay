@@ -9,15 +9,16 @@ declare global {
 
 const GhostPayABI = [
   "event PayrollDistributed(address indexed employer, uint256 employeeCount)",
-  "event SalaryClaimed(address indexed employee, uint256 amount)",
+  "event SalaryClaimRequested(address indexed employee, uint256 unwrapRequestId)",
   "function underlying() view returns (address)",
   "function name() view returns (string)",
   "function symbol() view returns (string)",
   "function balanceOf(address) view returns (uint256)",
   "function wrap(address, uint256)",
-  "function unwrap(address, uint256)",
-  "function distributeConfidentialPayroll(address[], uint256[])",
-  "function reclaimToUnderlying(uint256)"
+  "function unwrap(address, address, uint256, bytes) returns (uint256)",
+  "function distributeConfidentialPayroll(address[], uint256[], bytes)",
+  "function reclaimToUnderlying(uint256, bytes) returns (uint256)",
+  "function finalizeUnwrap(uint256)"
 ];
 
 export interface Transaction {
@@ -36,6 +37,7 @@ export function useGhostPay() {
   const [balance, setBalance] = useState<string>("0");
   const [isPending, setIsPending] = useState(false);
   const [history, setHistory] = useState<Transaction[]>([]);
+  const [availableAccounts, setAvailableAccounts] = useState<string[]>([]);
 
   const GHOST_PAY_ADDRESS = import.meta.env.VITE_GHOST_PAY_ADDRESS;
 
@@ -86,31 +88,71 @@ export function useGhostPay() {
     }
   }, [contract, provider]);
 
-  const connect = async () => {
-    if (window.ethereum) {
-      try {
-        const _provider = new ethers.BrowserProvider(window.ethereum);
-        const _signer = await _provider.getSigner();
-        const _account = await _signer.getAddress();
-        
-        setProvider(_provider);
-        setAccount(_account);
+  // Connect using any EIP-1193 provider (MetaMask, Phantom, Coinbase, etc.)
+  const connectWithProvider = async (walletProvider: any) => {
+    try {
+      // Request the user to approve accounts from this specific wallet
+      await walletProvider.request({ method: 'eth_requestAccounts' });
+      const accounts: string[] = await walletProvider.request({ method: 'eth_accounts' });
 
-        if (GHOST_PAY_ADDRESS) {
-          const _contract = new ethers.Contract(GHOST_PAY_ADDRESS, GhostPayABI, _signer);
-          setContract(_contract);
-        }
-        
-        return _account;
-      } catch (error) {
-        console.error("Connection error:", error);
+      if (!accounts || accounts.length === 0) throw new Error('No accounts returned');
+
+      const _account = accounts[0];
+      const _provider = new ethers.BrowserProvider(walletProvider);
+      const _signer = await _provider.getSigner();
+
+      setProvider(_provider);
+      setAccount(_account);
+      setAvailableAccounts(accounts);
+
+      if (GHOST_PAY_ADDRESS) {
+        const _contract = new ethers.Contract(GHOST_PAY_ADDRESS, GhostPayABI, _signer);
+        setContract(_contract);
       }
-    } else {
-      alert("Please install MetaMask!");
+
+      return _account;
+    } catch (error) {
+      console.error('Connection error:', error);
+      throw error;
     }
   };
 
-  const fetchBalance = useCallback(async () => {
+  // Legacy connect — triggers the WalletModal to open (handled in App.tsx)
+  const connect = async () => {
+    // App.tsx opens the WalletModal; this is a no-op fallback
+  };
+
+  // Connects to a specific account from the available list
+  const connectWithAccount = async (selectedAccount: string) => {
+    if (!window.ethereum) return;
+    try {
+      const _provider = new ethers.BrowserProvider(window.ethereum);
+      const _signer = await _provider.getSigner(selectedAccount);
+      setProvider(_provider);
+      setAccount(selectedAccount);
+      setAvailableAccounts([]);
+      if (GHOST_PAY_ADDRESS) {
+        const _contract = new ethers.Contract(GHOST_PAY_ADDRESS, GhostPayABI, _signer);
+        setContract(_contract);
+      }
+    } catch (error) {
+      console.error('Connect with account error:', error);
+    }
+  };
+
+  // No-op — kept for type compatibility
+  const requestAccountSwitch = async () => {};
+
+
+  const disconnect = () => {
+    setAccount(null);
+    setProvider(null);
+    setContract(null);
+    setBalance("0.00");
+    setHistory([]);
+  };
+
+  const refreshBalance = useCallback(async () => {
     if (contract && account) {
       try {
         const bal = await contract.balanceOf(account);
@@ -126,12 +168,18 @@ export function useGhostPay() {
     if (!contract) return;
     setIsPending(true);
     try {
+      // In a real iExec Nox dApp, we would use @iexec-nox/handle to encrypt
+      // amounts[i] into a handle. For this demo, we simulate the handles.
+      const dummyHandles = amounts.map(() => ethers.toBigInt(ethers.randomBytes(32)));
+      const dummyProof = ethers.randomBytes(65); // Dummy EIP-712 signature
+      
       const tx = await contract.distributeConfidentialPayroll(
         employees, 
-        amounts.map(a => ethers.parseUnits(a, 18))
+        dummyHandles,
+        dummyProof
       );
       await tx.wait();
-      await Promise.all([fetchBalance(), fetchHistory()]);
+      await Promise.all([refreshBalance(), fetchHistory()]);
     } catch (error) {
       console.error("Distribution error:", error);
       throw error;
@@ -144,10 +192,13 @@ export function useGhostPay() {
     if (!contract) return;
     setIsPending(true);
     try {
-      // In Nox, reclaiming usually involves unwrapping the confidential token
-      const tx = await contract.reclaimToUnderlying(ethers.parseUnits(amount, 18));
+      console.log(`Initiating confidential unwrap for ${amount} tokens...`);
+      const dummyHandle = ethers.toBigInt(ethers.randomBytes(32));
+      const dummyProof = ethers.randomBytes(65);
+      
+      const tx = await contract.reclaimToUnderlying(dummyHandle, dummyProof);
       await tx.wait();
-      await Promise.all([fetchBalance(), fetchHistory()]);
+      await Promise.all([refreshBalance(), fetchHistory()]);
     } catch (error) {
       console.error("Reclaim error:", error);
       throw error;
@@ -158,21 +209,65 @@ export function useGhostPay() {
 
   useEffect(() => {
     if (account) {
-      fetchBalance();
+      refreshBalance();
       fetchHistory();
     }
-  }, [account, fetchBalance, fetchHistory]);
+  }, [account, refreshBalance, fetchHistory]);
 
   return { 
     account, 
     balance, 
     history,
-    connect, 
+    availableAccounts,
+    connect,
+    connectWithProvider,
+    connectWithAccount,
+    requestAccountSwitch,
+    disconnect,
     isConnected: !!account,
     isPending,
     distributePayroll,
     reclaimFunds,
-    refreshBalance: fetchBalance
+    refreshBalance,
+    verifyIdentity: async (message: string) => {
+      if (!provider) return false;
+      try {
+        const signer = await provider.getSigner();
+        await signer.signMessage(message);
+        return true;
+      } catch (e) {
+        console.error("Verification failed", e);
+        return false;
+      }
+    },
+    wrapFunds: async (amount: string) => {
+      if (!contract || !provider) return;
+      setIsPending(true);
+      try {
+        const signer = await provider.getSigner();
+        const underlyingAddr = await contract.underlying();
+        const underlyingContract = new ethers.Contract(
+          underlyingAddr,
+          ["function approve(address, uint256) public returns (bool)"],
+          signer
+        );
+        
+        const parsedAmount = ethers.parseUnits(amount, 18);
+        
+        const appTx = await underlyingContract.approve(GHOST_PAY_ADDRESS, parsedAmount);
+        await appTx.wait();
+        
+        const wrapTx = await contract.wrap(account, parsedAmount);
+        await wrapTx.wait();
+        
+        await refreshBalance();
+      } catch (error) {
+        console.error("Wrap error:", error);
+        throw error;
+      } finally {
+        setIsPending(false);
+      }
+    }
   };
 }
 
