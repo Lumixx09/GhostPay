@@ -4,7 +4,7 @@ Built for the iExec Vibe Coding Challenge
 Confidential Bulk Payouts powered by iExec Nox and ChainGPT AI
 
 Submission Video
-[Link to Demo Video (4:00)]
+[Submission Video (YouTube)](https://youtu.be/hVdVOANnKoM)
 
 Live Demo / Repository
 - GitHub: [Link to Repository]

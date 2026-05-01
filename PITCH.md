@@ -1,4 +1,6 @@
 # GhostPay: The Future of Confidential Institutional Finance
+**Watch the Demo:** https://youtu.be/hVdVOANnKoM
+
 
 ## 🚀 The Vision
 GhostPay is not just a payroll app; it is a **Privacy-as-a-Service** infrastructure for the next generation of global organizations. By combining **iExec Nox** confidential computing with **ChainGPT AI**, we have built the first institutional-grade dashboard where financial transparency and personal privacy finally coexist.
