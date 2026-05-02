@@ -12,6 +12,8 @@
   "dependencies": {
     "@iexec-nox/handle": "^0.1.0-beta.10",
     "@phosphor-icons/react": "^2.1.10",
+    "@solana/spl-token": "^0.4.14",
+    "@solana/web3.js": "^1.98.4",
     "ethers": "^6.16.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
@@ -28,6 +30,7 @@
     "globals": "^17.4.0",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.58.0",
-    "vite": "^8.0.4"
+    "vite": "^8.0.4",
+    "vite-plugin-node-polyfills": "^0.26.0"
   }
 }

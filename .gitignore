@@ -1,0 +1,28 @@
+# Secrets
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Build outputs
+dist/
+build/
+*.so
+*.o
+*.a
+
+# Hardhat
+artifacts/
+cache/
+typechain-types/
+
+# IDEs
+.vscode/
+.idea/
+.DS_Store

@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ethers } from 'ethers';
+import chains, { type ChainConfig, getChainById, getDefaultChain } from '../config/chains';
 
 declare global {
   interface Window {
@@ -28,6 +29,7 @@ export interface Transaction {
   count?: number;
   timestamp: string;
   hash: string;
+  chain?: string;
 }
 
 export function useGhostPay() {
@@ -39,14 +41,77 @@ export function useGhostPay() {
   const [isPending, setIsPending] = useState(false);
   const [history, setHistory] = useState<Transaction[]>([]);
   const [availableAccounts, setAvailableAccounts] = useState<string[]>([]);
+  const [activeChain, setActiveChain] = useState<ChainConfig>(getDefaultChain());
+  const [walletProvider, setWalletProvider] = useState<any>(null);
 
-  const GHOST_PAY_ADDRESS = import.meta.env.VITE_GHOST_PAY_ADDRESS;
+  const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  const parseError = (error: any): string => {
+    const errorStr = String(error?.message || error).toLowerCase();
+    if (errorStr.includes("json-rpc") || errorStr.includes("coalesce")) {
+      return "Network sync issue. Please reset MetaMask activity (Settings → Advanced → Clear activity tab data) and refresh.";
+    }
+    if (errorStr.includes("user rejected")) {
+      return "Transaction cancelled.";
+    }
+    if (errorStr.includes("insufficient funds")) {
+      return `Insufficient ETH for gas on ${activeChain.name}.`;
+    }
+    if (errorStr.includes("allowance") || errorStr.includes("transfer amount exceeds")) {
+      return "Token allowance too low. Please approve more tokens first.";
+    }
+    return "Transaction failed. Please refresh and try again.";
+  };
+
+  // Switch the wallet to a different chain
+  const switchChain = useCallback(async (chain: ChainConfig) => {
+    if (chain.type === 'evm') {
+      if (!walletProvider) return;
+      const chainHex = `0x${Number(chain.id).toString(16)}`;
+      try {
+        await walletProvider.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: chainHex }],
+        });
+      } catch (switchError: any) {
+        if (switchError.code === 4902) {
+          await walletProvider.request({
+            method: 'wallet_addEthereumChain',
+            params: [{
+              chainId: chainHex,
+              chainName: chain.name,
+              nativeCurrency: chain.nativeCurrency,
+              rpcUrls: [chain.rpcUrl],
+              blockExplorerUrls: [chain.explorerUrl],
+            }],
+          });
+        } else {
+          throw switchError;
+        }
+      }
+
+      const _provider = new ethers.BrowserProvider(walletProvider);
+      const _signer = await _provider.getSigner();
+      setProvider(_provider);
+      if (chain.ghostPayAddress) {
+        setContract(new ethers.Contract(chain.ghostPayAddress, GhostPayABI, _signer));
+      } else {
+        setContract(null);
+      }
+    } else {
+      // Solana or other non-EVM
+      setProvider(null);
+      setContract(null);
+      setBalance("0.00");
+      setWrappedBalance("0.00");
+    }
+
+    setActiveChain(chain);
+  }, [walletProvider]);
 
   const fetchHistory = useCallback(async () => {
     if (!contract || !provider) return;
-    
     try {
-      // Query events from the last 10,000 blocks for performance
       const latestBlock = await provider.getBlockNumber();
       const fromBlock = latestBlock - 10000 > 0 ? latestBlock - 10000 : 0;
 
@@ -68,6 +133,7 @@ export function useGhostPay() {
             amount: ethers.formatUnits((ev as any).args[2], 18),
             timestamp: block ? new Date(block.timestamp * 1000).toLocaleString() : 'Recent',
             hash: ev.transactionHash,
+            chain: activeChain.shortName,
             blockNumber: ev.blockNumber
           };
         }),
@@ -79,6 +145,7 @@ export function useGhostPay() {
             amount: ethers.formatUnits((ev as any).args[1], 18),
             timestamp: block ? new Date(block.timestamp * 1000).toLocaleString() : 'Recent',
             hash: ev.transactionHash,
+            chain: activeChain.shortName,
             blockNumber: ev.blockNumber
           };
         })
@@ -88,29 +155,47 @@ export function useGhostPay() {
     } catch (error) {
       console.error("History fetch error:", error);
     }
-  }, [contract, provider]);
+  }, [contract, provider, activeChain]);
 
-  // Connect using any EIP-1193 provider (MetaMask, Phantom, Coinbase, etc.)
-  const connectWithProvider = async (walletProvider: any) => {
+  const connectWithProvider = async (rawProvider: any) => {
     try {
-      // Request the user to approve accounts from this specific wallet
-      await walletProvider.request({ method: 'eth_requestAccounts' });
-      const accounts: string[] = await walletProvider.request({ method: 'eth_accounts' });
-
+      await rawProvider.request({ method: 'eth_requestAccounts' });
+      const accounts: string[] = await rawProvider.request({ method: 'eth_accounts' });
       if (!accounts || accounts.length === 0) throw new Error('No accounts returned');
 
       const _account = accounts[0];
-      const _provider = new ethers.BrowserProvider(walletProvider);
+      const _provider = new ethers.BrowserProvider(rawProvider);
       const _signer = await _provider.getSigner();
+
+      // Detect which chain the wallet is currently on
+      const networkData = await _provider.getNetwork();
+      const detectedChain = getChainById(Number(networkData.chainId)) || getDefaultChain();
 
       setProvider(_provider);
       setAccount(_account);
       setAvailableAccounts(accounts);
+      setActiveChain(detectedChain);
+      setWalletProvider(rawProvider);
 
-      if (GHOST_PAY_ADDRESS) {
-        const _contract = new ethers.Contract(GHOST_PAY_ADDRESS, GhostPayABI, _signer);
+      if (detectedChain.ghostPayAddress) {
+        const _contract = new ethers.Contract(detectedChain.ghostPayAddress, GhostPayABI, _signer);
         setContract(_contract);
       }
+
+      // Listen for chain changes
+      rawProvider.on('chainChanged', async (chainIdHex: string) => {
+        const newChainId = parseInt(chainIdHex, 16);
+        const newChain = getChainById(newChainId) || getDefaultChain();
+        setActiveChain(newChain);
+        const newProvider = new ethers.BrowserProvider(rawProvider);
+        const newSigner = await newProvider.getSigner();
+        setProvider(newProvider);
+        if (newChain.ghostPayAddress) {
+          setContract(new ethers.Contract(newChain.ghostPayAddress, GhostPayABI, newSigner));
+        } else {
+          setContract(null);
+        }
+      });
 
       return _account;
     } catch (error) {
@@ -119,12 +204,8 @@ export function useGhostPay() {
     }
   };
 
-  // Legacy connect — triggers the WalletModal to open (handled in App.tsx)
-  const connect = async () => {
-    // App.tsx opens the WalletModal; this is a no-op fallback
-  };
+  const connect = async () => {};
 
-  // Connects to a specific account from the available list
   const connectWithAccount = async (selectedAccount: string) => {
     if (!window.ethereum) return;
     try {
@@ -133,8 +214,8 @@ export function useGhostPay() {
       setProvider(_provider);
       setAccount(selectedAccount);
       setAvailableAccounts([]);
-      if (GHOST_PAY_ADDRESS) {
-        const _contract = new ethers.Contract(GHOST_PAY_ADDRESS, GhostPayABI, _signer);
+      if (activeChain.ghostPayAddress) {
+        const _contract = new ethers.Contract(activeChain.ghostPayAddress, GhostPayABI, _signer);
         setContract(_contract);
       }
     } catch (error) {
@@ -142,9 +223,7 @@ export function useGhostPay() {
     }
   };
 
-  // No-op — kept for type compatibility
   const requestAccountSwitch = async () => {};
-
 
   const disconnect = () => {
     setAccount(null);
@@ -152,23 +231,8 @@ export function useGhostPay() {
     setContract(null);
     setBalance("0.00");
     setHistory([]);
+    setWalletProvider(null);
   };
-  
-  const parseError = (error: any): string => {
-    const errorStr = String(error?.message || error).toLowerCase();
-    if (errorStr.includes("json-rpc") || errorStr.includes("coalesce")) {
-      return "MetaMask Sync Error: Please 'Clear Activity Tab' in MetaMask Settings > Advanced.";
-    }
-    if (errorStr.includes("user rejected")) {
-      return "Transaction Cancelled: You rejected the request in MetaMask.";
-    }
-    if (errorStr.includes("insufficient funds")) {
-      return "Insufficient ETH: You need more Arbitrum Sepolia ETH for gas.";
-    }
-    return "Protocol Reverted: The network rejected the transaction. Please refresh and try again.";
-  };
-
-  const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const refreshBalance = useCallback(async () => {
     if (contract && account && provider) {
@@ -195,19 +259,11 @@ export function useGhostPay() {
     if (!contract) return;
     setIsPending(true);
     try {
-      // In a real iExec Nox dApp, we would use @iexec-nox/handle to encrypt
-      // amounts[i] into a handle. For this demo, we pass the plaintext amount as bytes32.
       const dummyHandles = amounts.map((amt) => ethers.zeroPadValue(ethers.toBeHex(ethers.parseUnits(amt, 18)), 32));
-      const dummyProof = ethers.randomBytes(65); // Dummy EIP-712 signature
-      
-      const tx = await contract.distributeConfidentialPayroll(
-        employees, 
-        dummyHandles,
-        dummyProof,
-        { gasLimit: 1000000 }
-      );
+      const dummyProof = ethers.randomBytes(65);
+      const tx = await contract.distributeConfidentialPayroll(employees, dummyHandles, dummyProof, { gasLimit: 1000000 });
       await tx.wait();
-      await sleep(2000); // Wait for RPC to sync state
+      await sleep(2000);
       await Promise.all([refreshBalance(), fetchHistory()]);
     } catch (error) {
       console.error("Distribution error:", error);
@@ -221,13 +277,11 @@ export function useGhostPay() {
     if (!contract) return;
     setIsPending(true);
     try {
-      console.log(`Initiating confidential unwrap for ${amount} tokens...`);
       const handle = ethers.zeroPadValue(ethers.toBeHex(ethers.parseUnits(amount, 18)), 32);
       const dummyProof = ethers.randomBytes(65);
-      
       const tx = await contract.reclaimToUnderlying(handle, dummyProof, { gasLimit: 1000000 });
       await tx.wait();
-      await sleep(2000); // Wait for RPC to sync state
+      await sleep(2000);
       await Promise.all([refreshBalance(), fetchHistory()]);
     } catch (error) {
       console.error("Reclaim error:", error);
@@ -244,17 +298,20 @@ export function useGhostPay() {
     }
   }, [account, refreshBalance, fetchHistory]);
 
-  return { 
-    account, 
-    balance, 
+  return {
+    account,
+    balance,
     wrappedBalance,
     history,
     availableAccounts,
+    activeChain,
+    availableChains: chains,
     connect,
     connectWithProvider,
     connectWithAccount,
     requestAccountSwitch,
     disconnect,
+    switchChain,
     isConnected: !!account,
     isPending,
     distributePayroll,
@@ -267,7 +324,6 @@ export function useGhostPay() {
         await signer.signMessage(message);
         return true;
       } catch (e) {
-        console.error("Verification failed", e);
         return false;
       }
     },
@@ -276,11 +332,9 @@ export function useGhostPay() {
       setIsPending(true);
       try {
         const parsedAmount = ethers.parseUnits(amount, 18);
-        
         const wrapTx = await contract.wrap(account, parsedAmount, { gasLimit: 1000000 });
         await wrapTx.wait();
-        
-        await sleep(2000); // Wait for RPC to sync state
+        await sleep(2000);
         await refreshBalance();
       } catch (error) {
         console.error("Wrap error:", error);
@@ -305,11 +359,10 @@ export function useGhostPay() {
         await refreshBalance();
       } catch (error) {
         console.error("Mint error:", error);
+        throw new Error(parseError(error));
       } finally {
         setIsPending(false);
       }
     }
   };
 }
-
-

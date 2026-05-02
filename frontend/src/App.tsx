@@ -16,14 +16,13 @@ import {
   Info,
   Cpu,
   Plus,
-  ArrowRight,
-  LockKey,
-  HandCoins,
   CheckCircle
 } from "@phosphor-icons/react";
 import ChatAssistant from './components/ChatAssistant';
 import WalletModal from './components/WalletModal';
+import NetworkSelector from './components/NetworkSelector';
 import { useGhostPay } from './hooks/useGhostPay';
+import { useSolanaGhostPay } from './hooks/useSolanaGhostPay';
 import './App.css';
 
 const MiniChart = ({ color = 'var(--primary)', delay = 0 }) => (
@@ -42,176 +41,165 @@ const MiniChart = ({ color = 'var(--primary)', delay = 0 }) => (
   </div>
 );
 
-const LandingPage = ({ connect, setView }: { connect: () => void, setView: (v: 'employer' | 'employee') => void }) => (
+const LandingPage = ({ connect }: { connect: () => void }) => (
   <div className="landing-container animate-fade-in">
     <nav className="landing-nav">
-      <img src="/Logo.png" alt="GhostPay Logo" style={{ height: '50px' }} />
-      <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-        <a href="#features" style={{ color: 'var(--text-dim)', textDecoration: 'none', fontWeight: 600 }}>Features</a>
-        <a href="https://docs.iex.ec" target="_blank" rel="noreferrer" style={{ color: 'var(--text-dim)', textDecoration: 'none', fontWeight: 600 }}>iExec Nox</a>
-        <button className="btn-connect-pro" onClick={connect}>Launch App</button>
+      <div className="nav-container">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <div style={{ width: '40px', height: '40px', background: 'var(--primary)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifySelf: 'center', justifyContent: 'center', color: 'white', fontWeight: 900, fontSize: '1.5rem', boxShadow: '0 0 20px var(--primary-glow)' }}>N</div>
+          <span style={{ fontSize: '1.4rem', fontWeight: 900, letterSpacing: '-0.03em', color: 'white' }}>NOX PROTOCOL</span>
+        </div>
+        <div className="landing-nav-links">
+          <a href="#features">Platform</a>
+          <a href="#security">Security</a>
+          <a href="https://docs.iex.ec" target="_blank" rel="noreferrer">Documentation</a>
+          <button className="btn-connect-pro" onClick={connect}>Launch App</button>
+        </div>
       </div>
     </nav>
 
-    <section className="landing-hero-grid">
+    <section className="landing-hero-enterprise">
+      <video 
+        autoPlay 
+        muted 
+        loop 
+        playsInline
+        className="hero-video-bg"
+      >
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-futuristic-technology-background-with-3d-data-visualization-loop-1084-large.mp4" type="video/mp4" />
+      </video>
+      <div className="hero-video-overlay"></div>
       <div className="hero-ambient-glow"></div>
+      
       <div className="hero-text-side">
-        <div className="badge-nox">Powered by iExec Nox • Arbitrum Sepolia</div>
-        <h1 className="landing-title">Confidential Payroll, <span style={{ color: 'var(--primary)' }}>Redefined.</span></h1>
-        <p className="landing-subtitle">
-          GhostPay is the leading confidential payroll protocol on Arbitrum Sepolia. 
-          Execute bulk distributions and manage global teams with end-to-end encryption 
-          powered by iExec Nox confidential computing.
+        <div className="badge-nox">Enterprise Omnichain Infrastructure</div>
+        <h1 className="landing-title-pro">
+          Confidential Wealth,<br /> Engineered for Scale.
+        </h1>
+        <p className="landing-subtitle-pro">
+          Execute global bulk distributions across Arbitrum, Ethereum, and Solana simultaneously. End-to-end encryption secures your treasury and protects employee privacy.
         </p>
-        <div style={{ display: 'flex', gap: '1.5rem', marginTop: '1rem' }}>
-          <button className="launch-btn-giant" onClick={connect}>Connect Wallet & Launch</button>
+        <div className="hero-actions">
+          <button className="launch-btn-giant" onClick={connect}>Launch Protocol</button>
+          <a href="https://docs.iex.ec" target="_blank" rel="noreferrer" className="secondary-btn-giant">Read the Docs</a>
         </div>
       </div>
+      
       <div className="hero-visual-side">
         <div className="visual-glow"></div>
         <img src="/ghostpay_3d_vault.png" className="floating-asset" alt="Confidential Vault" />
       </div>
     </section>
 
-    <section className="landing-features" id="features">
-      <div className="landing-card">
-        <div className="feature-icon-box"><ShieldCheck size={32} weight="fill" /></div>
-        <h3>Nox Confidential Vaults</h3>
-        <p>Your payroll data is stored in secure, encrypted enclaves. Neither GhostPay nor the network can see your distribution amounts.</p>
+    <section className="landing-info-extended">
+      <div className="info-extended-header">
+        <div className="badge-nox">Seamless Integration</div>
+        <h2>Scale Your Global Workforce</h2>
+        <p>Nox Protocol removes the friction of Web3 payroll management.</p>
       </div>
-      <div className="landing-card">
-        <div className="feature-icon-box"><PaperPlaneTilt size={32} weight="fill" /></div>
-        <h3>Bulk Batching</h3>
-        <p>Distribute salaries to your entire global team in a single confidential batch. Low gas, maximum privacy, zero delay.</p>
-      </div>
-      <div className="landing-card">
-        <div className="feature-icon-box"><Wallet size={32} weight="fill" /></div>
-        <h3>ZK-Earning Claims</h3>
-        <p>Employees claim their earnings via secure confidential transfers, ensuring total privacy for individual salary data.</p>
-      </div>
-    </section>
-
-    <section className="landing-info-section">
-      <div className="info-header">
-        <div className="badge-nox">Protocol Workflow</div>
-        <h2>How GhostPay Works</h2>
-        <p>A three-step confidential bridge between corporate treasury and employee wallets.</p>
-      </div>
-      <div className="workflow-grid">
-        <div className="workflow-step">
-          <div className="step-number">01</div>
-          <div className="step-icon"><LockKey size={32} color="var(--primary)" /></div>
-          <h4>Deposit & Wrap</h4>
-          <p>Employers deposit standard USDC into the GhostPay vault. iExec Nox wraps it into confidential cUSDC, hiding the balance from public view.</p>
+      <div className="info-extended-grid">
+        <div className="info-box">
+          <h4>Multi-Chain Native</h4>
+          <p>Deploy capital on EVM networks or Solana without switching platforms. Our protocol automatically routes your CSV distributions to the correct execution environment.</p>
         </div>
-        <ArrowRight size={24} className="step-arrow" />
-        <div className="workflow-step">
-          <div className="step-number">02</div>
-          <div className="step-icon"><PaperPlaneTilt size={32} color="var(--primary)" /></div>
-          <h4>Batch Dispatch</h4>
-          <p>Execute bulk payroll to thousands of addresses. On-chain observers only see a single batch transaction with encrypted individual amounts.</p>
+        <div className="info-box">
+          <h4>Institutional Privacy</h4>
+          <p>By leveraging TEEs (Trusted Execution Environments), we ensure that your organizational chart, salary data, and treasury outflows remain completely hidden from block explorers.</p>
         </div>
-        <ArrowRight size={24} className="step-arrow" />
-        <div className="workflow-step">
-          <div className="step-number">03</div>
-          <div className="step-icon"><HandCoins size={32} color="var(--primary)" /></div>
-          <h4>Private Claim</h4>
-          <p>Employees connect their wallets and claim their specific salary. The transaction history is obscured via Nox, preserving income privacy.</p>
+        <div className="info-box">
+          <h4>Employee Autonomy</h4>
+          <p>Employees receive a dedicated portal to view their encrypted earning history, communicate with the integrated AI assistant, and withdraw funds to their preferred wallets instantly.</p>
         </div>
       </div>
     </section>
 
-    <section className="landing-dual-grid">
-      <div className="ecosystem-card employer">
-        <div className="badge-nox" style={{ background: 'rgba(99, 102, 241, 0.2)', color: '#818cf8' }}>Employer Ecosystem</div>
-        <h3>Institutional Management</h3>
-        <ul className="feature-list">
-          <li>
-            <CheckCircle size={20} weight="fill" color="var(--primary)" />
-            <span><strong>Bulk CSV Engine:</strong> Paste or upload thousands of employee records instantly.</span>
-          </li>
-          <li>
-            <CheckCircle size={20} weight="fill" color="var(--primary)" />
-            <span><strong>AI Analytics:</strong> ChainGPT powered insights into payroll volume and burn rates.</span>
-          </li>
-          <li>
-            <CheckCircle size={20} weight="fill" color="var(--primary)" />
-            <span><strong>Shadow Mode:</strong> Toggle UI privacy for secure screen sharing and reporting.</span>
-          </li>
-          <li>
-            <CheckCircle size={20} weight="fill" color="var(--primary)" />
-            <span><strong>Multi-Asset Vaults:</strong> Support for any ERC-20 confidential wrapping.</span>
-          </li>
+    <section className="landing-features-pro" id="features">
+      <div className="feature-card-pro">
+        <div className="feature-icon-box"><ShieldCheck size={28} weight="fill" /></div>
+        <h3>Zero-Knowledge Architecture</h3>
+        <p>Powered by iExec Nox. Treasury deposits and individual salary claims remain completely hidden from public block explorers.</p>
+      </div>
+      <div className="feature-card-pro">
+        <div className="feature-icon-box"><PaperPlaneTilt size={28} weight="fill" /></div>
+        <h3>Omnichain Dispatch</h3>
+        <p>A single CSV engine routes payments to EVM and Solana addresses simultaneously. No more manual network switching.</p>
+      </div>
+      <div className="feature-card-pro">
+        <div className="feature-icon-box"><Wallet size={28} weight="fill" /></div>
+        <h3>Institutional Treasury</h3>
+        <p>Manage multi-asset vaults with full analytics. Built for DAOs, protocols, and enterprises scaling their global workforce.</p>
+      </div>
+    </section>
+
+    <section className="landing-split-section" id="security">
+      <div className="split-content">
+        <div className="badge-nox">Security First</div>
+        <h2>Data Privacy as a Standard.</h2>
+        <p>
+          Legacy payroll protocols expose your burn rate, organizational structure, and employee salaries to the public. Nox Protocol utilizes Trusted Execution Environments (TEEs) to wrap and distribute funds without leaking metadata.
+        </p>
+        <ul className="pro-feature-list">
+          <li><CheckCircle size={20} weight="fill" color="var(--primary)" /> End-to-end encrypted distribution channels</li>
+          <li><CheckCircle size={20} weight="fill" color="var(--primary)" /> ZK-proof employee identity verification</li>
+          <li><CheckCircle size={20} weight="fill" color="var(--primary)" /> Immutable, audited smart contracts</li>
         </ul>
       </div>
-      <div className="ecosystem-card employee">
-        <div className="badge-nox" style={{ background: 'rgba(45, 212, 191, 0.2)', color: '#5eead4' }}>Employee Portal</div>
-        <h3>Privacy-First Access</h3>
-        <ul className="feature-list">
-          <li>
-            <CheckCircle size={20} weight="fill" color="var(--success)" />
-            <span><strong>Confidential Balance:</strong> Your income is your business. Balances are hidden from Etherscan.</span>
-          </li>
-          <li>
-            <CheckCircle size={20} weight="fill" color="var(--success)" />
-            <span><strong>GhostAssistant AI:</strong> Query your specific payout history via a secure AI interface.</span>
-          </li>
-          <li>
-            <CheckCircle size={20} weight="fill" color="var(--success)" />
-            <span><strong>One-Click Claims:</strong> Withdraw your earnings to your wallet in seconds.</span>
-          </li>
-          <li>
-            <CheckCircle size={20} weight="fill" color="var(--success)" />
-            <span><strong>Identity Verification:</strong> ZK-proof based session management for profile access.</span>
-          </li>
-        </ul>
+      <div className="split-visual">
+        <div className="abstract-ui-mockup">
+          <div className="mockup-header">
+            <span></span><span></span><span></span>
+          </div>
+          <div className="mockup-body">
+            <div className="mockup-line w-100"></div>
+            <div className="mockup-line w-75"></div>
+            <div className="mockup-line w-85"></div>
+            <div style={{ marginTop: '2rem' }}></div>
+            <div className="mockup-data-row">
+              <div className="mockup-col"></div>
+              <div className="mockup-col encrypted"></div>
+            </div>
+            <div className="mockup-data-row">
+              <div className="mockup-col"></div>
+              <div className="mockup-col encrypted"></div>
+            </div>
+            <div className="mockup-data-row">
+              <div className="mockup-col"></div>
+              <div className="mockup-col encrypted"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section className="landing-cta-final">
-      <h2>Ready to take your payroll private?</h2>
-      <p>Join the future of confidential institutional finance on Arbitrum Sepolia.</p>
-      <button className="launch-btn-giant" onClick={connect} style={{ margin: '2rem auto' }}>Launch Protocol</button>
-    </section>
-
-    <footer className="landing-footer">
-      <div className="footer-content">
+    <footer className="landing-footer-pro">
+      <div className="footer-top">
         <div className="footer-brand">
-          <img src="/Logo.png" alt="GhostPay Logo" style={{ height: '40px', marginBottom: '1.5rem' }} />
-          <p>Institutional-grade confidential payroll infrastructure on Arbitrum Sepolia.</p>
-          <div className="footer-badges">
-            <div className="badge-nox" style={{ marginBottom: 0, fontSize: '10px' }}>iExec Nox</div>
-            <div className="badge-nox" style={{ marginBottom: 0, fontSize: '10px', background: 'rgba(99, 102, 241, 0.1)', color: '#818cf8' }}>ChainGPT AI</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+            <span style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--primary)' }}>NOX PROTOCOL</span>
           </div>
+          <p>Institutional-grade confidential payroll infrastructure for the omnichain economy.</p>
         </div>
-        
-        <div className="footer-links-grid">
-          <div className="footer-col">
-            <h4>Protocol</h4>
+        <div className="footer-links">
+          <div>
+            <h4>Platform</h4>
             <a href="#features">Features</a>
-            <button className="footer-link-btn" onClick={() => { setView('employer'); connect(); }}>Employer Portal</button>
-            <button className="footer-link-btn" onClick={() => { setView('employee'); connect(); }}>Employee Hub</button>
-            <a href="https://docs.iex.ec/nox-protocol/welcome" target="_blank" rel="noreferrer">Security</a>
+            <a href="#security">Security</a>
           </div>
-          <div className="footer-col">
-            <h4>Resources</h4>
+          <div>
+            <h4>Developers</h4>
             <a href="https://docs.iex.ec" target="_blank" rel="noreferrer">Documentation</a>
-            <a href="https://discord.gg/RXYHBJceMe" target="_blank" rel="noreferrer">Vibe Challenge</a>
-            <a href="https://sepolia.arbiscan.io" target="_blank" rel="noreferrer">Arbitrum Sepolia</a>
-            <a href="https://github.com/Lumixx09/GhostPay" target="_blank" rel="noreferrer">Github</a>
+
           </div>
-          <div className="footer-col">
-            <h4>Social</h4>
-            <a href="https://x.com/iex_ec" target="_blank" rel="noreferrer">Twitter / X</a>
-            <a href="https://discord.gg/RXYHBJceMe" target="_blank" rel="noreferrer">Discord</a>
-            <a href="https://t.me/iexec_rlc_official" target="_blank" rel="noreferrer">Telegram</a>
+          <div>
+            <h4>Organization</h4>
+            <a href="https://iex.ec" target="_blank" rel="noreferrer">About iExec</a>
+            <a href="mailto:contact@iex.ec">Contact Support</a>
           </div>
         </div>
       </div>
-      
-      <div className="footer-bottom">
-        <p>&copy; 2026 GhostPay Protocol. Built for the iExec Vibe Coding Challenge.</p>
-        <div style={{ display: 'flex', gap: '2rem' }}>
+      <div className="footer-bottom-pro">
+        <p>&copy; 2026 Nox Protocol. Enterprise Confidential Finance.</p>
+        <div className="legal-links">
           <a href="https://iex.ec/privacy-policy/" target="_blank" rel="noreferrer">Privacy Policy</a>
           <a href="https://iex.ec/terms-and-conditions/" target="_blank" rel="noreferrer">Terms of Service</a>
         </div>
@@ -234,6 +222,7 @@ function App() {
   const [showWalletModal, setShowWalletModal] = useState(false);
   const [activeModal, setActiveModal] = useState<null | 'contact' | 'wrap'>(null);
   const [modalData, setModalData] = useState({ field1: '', field2: '' });
+  const [isRightSidebarCollapsed, setIsRightSidebarCollapsed] = useState(false);
   const [contacts, setContacts] = useState<{name: string, address: string}[]>(() => {
     const saved = localStorage.getItem('ghostpay_contacts');
     return saved ? JSON.parse(saved) : [];
@@ -255,8 +244,13 @@ function App() {
     refreshBalance,
     verifyIdentity,
     wrapFunds,
-    mintTokens
+    mintTokens,
+    activeChain,
+    availableChains,
+    switchChain,
   } = useGhostPay();
+
+  const { connectPhantom, dispatchSolanaPayroll, isConnected: isSolanaConnected, solanaAccount, solanaBalance } = useSolanaGhostPay();
 
   useEffect(() => {
     localStorage.setItem('ghostpay_contacts', JSON.stringify(contacts));
@@ -284,29 +278,68 @@ function App() {
     showNotification("Balances synchronized with Nox Protocol.");
   };
 
+  // Universal Cross-Chain Dispatcher
   const handleBulkDistribute = async () => {
     if (!bulkInput.trim()) return;
     setIsProcessing(true);
     try {
       const lines = bulkInput.split('\n').filter(line => line.trim());
-      const addresses: string[] = [];
-      const amounts: string[] = [];
-      
+
+      const evmAddresses: string[] = [];
+      const evmAmounts: string[] = [];
+      const solanaRecipients: { address: string; amount: string }[] = [];
+      const skipped: string[] = [];
+
       lines.forEach(line => {
-        // Robust parser: handles commas, tabs, or multiple spaces
-        const parts = line.split(/[, \t]+/).map(s => s.trim());
+        const parts = line.split(/[,\t ]+/).map(s => s.trim());
         const addr = parts[0];
         const amt = parts[1];
-        
-        if (addr && addr.startsWith('0x') && amt && !isNaN(parseFloat(amt))) {
-          addresses.push(addr);
-          amounts.push(amt);
+        if (!addr || !amt || isNaN(parseFloat(amt))) { skipped.push(line); return; }
+
+        if (addr.startsWith('0x') && addr.length === 42) {
+          evmAddresses.push(addr);
+          evmAmounts.push(amt);
+        } else if (addr.length >= 32 && addr.length <= 44 && !addr.startsWith('0x')) {
+          // Solana Base58 address
+          solanaRecipients.push({ address: addr, amount: amt });
+        } else {
+          skipped.push(line);
         }
       });
 
-      if (addresses.length === 0) throw new Error("No valid recipients found. Use: address amount");
-      await distributePayroll(addresses, amounts);
-      showNotification(`Successfully distributed payroll to ${addresses.length} employees!`);
+      if (evmAddresses.length === 0 && solanaRecipients.length === 0) {
+        throw new Error('No valid recipients found. Use: address, amount — per line.');
+      }
+
+      const tasks: Promise<any>[] = [];
+      let summary: string[] = [];
+
+      // EVM dispatch
+      if (evmAddresses.length > 0) {
+        tasks.push(
+          distributePayroll(evmAddresses, evmAmounts)
+            .then(() => summary.push(`${evmAddresses.length} EVM (${activeChain.shortName})`))
+            .catch((e: any) => showNotification(`EVM dispatch failed: ${e.message}`))
+        );
+      }
+
+      // Solana dispatch
+      if (solanaRecipients.length > 0) {
+        if (!isSolanaConnected) {
+          showNotification('Connect Phantom to dispatch Solana payments.');
+        } else {
+          tasks.push(
+            dispatchSolanaPayroll(solanaRecipients)
+              .then(() => summary.push(`${solanaRecipients.length} Solana (SOL) ✓`))
+              .catch((e: any) => showNotification(`Solana dispatch failed: ${e.message}`))
+          );
+        }
+      }
+
+      await Promise.allSettled(tasks);
+
+      const summaryStr = summary.join(' + ');
+      showNotification(`Omnichain dispatch complete: ${summaryStr || 'processed'}.`);
       setBulkInput('');
     } catch (error: any) {
       console.error(error);
@@ -316,17 +349,17 @@ function App() {
     }
   };
 
-  if (!isLaunched && !isConnected) {
+  if (!isLaunched && !isConnected && !isSolanaConnected) {
     return (
       <>
-        <LandingPage connect={() => setShowWalletModal(true)} setView={setView} />
+        <LandingPage connect={() => setShowWalletModal(true)} />
         {showWalletModal && (
           <WalletModal
             onConnect={async (provider) => {
               await connectWithProvider(provider);
-              setIsLaunched(true);
               setShowWalletModal(false);
             }}
+            onSolanaConnect={connectPhantom}
             onClose={() => setShowWalletModal(false)}
           />
         )}
@@ -334,17 +367,17 @@ function App() {
     );
   }
   return (
-    <div className="dashboard-container">
+    <div className={`dashboard-container ${isRightSidebarCollapsed ? 'right-collapsed' : ''}`}>
       {/* Island Notification */}
       {notification && (
         <div className="protocol-island animate-island-in">
           <div className="island-dot"></div>
-          <span style={{ fontWeight: 700, marginRight: '8px' }}>GHOST:</span> {notification}
+          <span style={{ fontWeight: 700, marginRight: '8px' }}>NOX:</span> {notification}
         </div>
       )}
 
       <aside className="sidebar">
-        <img src="/Logo.png" alt="GhostPay Logo" className="logo-standalone" onClick={() => setActiveTab('dashboard')} />
+        <img src="/Logo.png" alt="Nox Protocol Logo" className="logo-standalone" onClick={() => setActiveTab('dashboard')} />
         <nav className="sidebar-nav">
           <div className={`sidebar-icon ${activeTab === 'dashboard' ? 'active' : ''}`} onClick={() => setActiveTab('dashboard')}>
             <House size={26} weight={activeTab === 'dashboard' ? "fill" : "regular"} />
@@ -379,13 +412,29 @@ function App() {
               <span>SHADOW MODE</span>
             </button>
           </div>
-          <button 
-            className={`btn-connect-pro ${isConnected ? 'connected' : ''}`} 
-            onClick={isConnected ? () => setActiveTab('profile') : () => setShowWalletModal(true)}
-          >
-            <Wallet size={20} weight="bold" />
-            {isConnected ? `${account?.slice(0, 6)}...${account?.slice(-4)}` : 'Connect Wallet'}
-          </button>
+          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+            {isConnected && (
+              <NetworkSelector
+                activeChain={activeChain}
+                availableChains={availableChains}
+                onSwitch={switchChain}
+                disabled={isPending}
+              />
+            )}
+            <button 
+              className={`btn-connect-pro ${(activeChain.type === 'evm' ? isConnected : isSolanaConnected) ? 'connected' : ''}`} 
+              onClick={() => setShowWalletModal(true)}
+            >
+              <div className="active-dot"></div>
+              <Wallet size={18} weight="bold" />
+              <span>
+                {activeChain.type === 'evm' 
+                  ? (account ? `${account.slice(0, 6)}...${account.slice(-4)}` : 'Connect Wallet')
+                  : (solanaAccount ? `${solanaAccount.slice(0, 4)}...${solanaAccount.slice(-4)}` : 'Connect Wallet')
+                }
+              </span>
+            </button>
+          </div>
         </div>
 
         <section className="section-header animate-fade-in">
@@ -431,7 +480,7 @@ function App() {
                       <div style={{ fontSize: '1.8rem', fontWeight: 800, margin: '5px 0' }}>
                         {history.length}
                       </div>
-                      <MiniChart color="#6366f1" delay={0.5} />
+                      <MiniChart color="var(--secondary)" delay={0.5} />
                     </div>
                     <div className="pro-card" style={{ padding: '1.5rem', overflow: 'visible' }}>
                       <div className="section-meta">Total Recipients</div>
@@ -455,7 +504,7 @@ function App() {
                     <div style={{ display: 'flex', gap: '8px', alignItems: 'center', color: 'var(--success)', fontWeight: 700 }}>+Real-time synced</div>
                   </div>
                   
-                  <div className="pro-card" style={{ padding: '2rem', background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(45, 212, 191, 0.1) 100%)' }}>
+                  <div className="pro-card" style={{ padding: '2rem', background: 'linear-gradient(135deg, rgba(159, 122, 234, 0.1) 0%, rgba(214, 188, 250, 0.1) 100%)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <div className="section-meta" style={{ color: 'white', margin: 0 }}>Employer Treasury</div>
                       <button 
@@ -484,30 +533,50 @@ function App() {
                     </div>
                     <div style={{ margin: '1rem 0', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                       <div>
-                        <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>Available to Wrap</div>
+                        <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>
+                          {activeChain.type === 'evm' ? 'Available to Wrap' : 'Solana Balance'}
+                        </div>
                         <div style={{ fontSize: '1.2rem', fontWeight: 800 }}>
-                          {isShadowMode ? <div className="masked-data" style={{ width: '80px' }}></div> : balance} <span style={{ fontSize: '0.8rem' }}>mUSDC</span>
+                          {isShadowMode ? (
+                            <div className="masked-data" style={{ width: '80px' }}></div>
+                          ) : (
+                            activeChain.type === 'evm' ? balance : solanaBalance
+                          )} 
+                          <span style={{ fontSize: '0.8rem' }}> {activeChain.nativeCurrency.symbol}</span>
                         </div>
                       </div>
-                      <div style={{ padding: '8px', background: 'rgba(255,255,255,0.05)', borderRadius: '12px' }}>
-                        <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>Confidential Balance</div>
-                        <div style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--primary)' }}>
-                          {isShadowMode ? <div className="masked-data" style={{ width: '80px' }}></div> : wrappedBalance} <span style={{ fontSize: '0.8rem' }}>cUSDC</span>
+                      {activeChain.type === 'evm' && (
+                        <div style={{ padding: '8px', background: 'rgba(255,255,255,0.05)', borderRadius: '12px' }}>
+                          <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>Confidential Balance</div>
+                          <div style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--primary)' }}>
+                            {isShadowMode ? <div className="masked-data" style={{ width: '80px' }}></div> : wrappedBalance} <span style={{ fontSize: '0.8rem' }}>cUSDC</span>
+                          </div>
                         </div>
-                      </div>
+                      )}
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                      <button 
-                        className="btn-connect-pro" 
-                        style={{ width: '100%', justifyContent: 'center' }} 
-                        onClick={() => {
-                          setModalData({ field1: '', field2: '' });
-                          setActiveModal('wrap');
-                        }}
-                        disabled={isPending}
-                      >
-                        {isPending ? <CircleNotch size={20} className="animate-spin" /> : "Deposit & Wrap"}
-                      </button>
+                      {activeChain.type === 'evm' ? (
+                        <button 
+                          className="btn-connect-pro" 
+                          style={{ width: '100%', justifyContent: 'center' }} 
+                          onClick={() => {
+                            setModalData({ field1: '', field2: '' });
+                            setActiveModal('wrap');
+                          }}
+                          disabled={isPending}
+                        >
+                          {isPending ? <CircleNotch size={20} className="animate-spin" /> : "Deposit & Wrap"}
+                        </button>
+                      ) : (
+                        <button 
+                          className="btn-connect-pro" 
+                          style={{ width: '100%', justifyContent: 'center', background: '#14F195', color: '#000' }} 
+                          onClick={() => connectPhantom()}
+                          disabled={isSolanaConnected}
+                        >
+                          {isSolanaConnected ? "Phantom Connected" : "Connect Phantom"}
+                        </button>
+                      )}
                       <button className="btn-connect-pro" style={{ width: '100%', justifyContent: 'center', background: 'transparent', border: '1px solid var(--glass-border)' }} onClick={() => setActiveTab('payrolls')}>Dispatch Batch</button>
                     </div>
                   </div>
@@ -578,17 +647,76 @@ function App() {
             ) : activeTab === 'payrolls' ? (
               <div className="pro-card" style={{ gridColumn: 'span 3', padding: '3rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-                  <div><h2 style={{ fontSize: '1.8rem' }}>Bulk Confidential Payroll</h2><p style={{ color: 'var(--text-dim)', marginTop: '0.5rem' }}>Enter addresses and amounts to distribute privately via Nox.</p></div>
+                  <div>
+                    <h2 style={{ fontSize: '1.8rem' }}>Omnichain Payroll Dispatch</h2>
+                    <p style={{ color: 'var(--text-dim)', marginTop: '0.5rem' }}>
+                      Enter EVM <span style={{ color: 'var(--primary)' }}>(0x...)</span> and Solana <span style={{ color: '#a78bfa' }}>(Base58)</span> addresses together. GhostPay routes each payment automatically.
+                    </p>
+                  </div>
                   <ShieldCheck size={48} weight="fill" color="var(--primary)" />
                 </div>
+
+                {/* Live Chain Preview */}
+                {bulkInput.trim() && (() => {
+                  const lines = bulkInput.split('\n').filter(l => l.trim());
+                  let evm = 0, sol = 0, invalid = 0;
+                  lines.forEach(line => {
+                    const parts = line.split(/[,\t ]+/).map(s => s.trim());
+                    const addr = parts[0]; const amt = parts[1];
+                    if (!addr || !amt || isNaN(parseFloat(amt))) { invalid++; return; }
+                    if (addr.startsWith('0x') && addr.length === 42) evm++;
+                    else if (addr.length >= 32 && addr.length <= 44) sol++;
+                    else invalid++;
+                  });
+                  return (
+                    <div style={{ display: 'flex', gap: '12px', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
+                      {evm > 0 && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 14px', background: 'rgba(45,212,191,0.1)', border: '1px solid rgba(45,212,191,0.3)', borderRadius: '20px', fontSize: '0.78rem', fontWeight: 700 }}>
+                          <span style={{ width: 7, height: 7, borderRadius: '50%', background: activeChain.color, display: 'inline-block' }} />
+                          {evm} × {activeChain.shortName} (EVM)
+                        </div>
+                      )}
+                      {sol > 0 && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 14px', background: 'rgba(167,139,250,0.1)', border: '1px solid rgba(167,139,250,0.3)', borderRadius: '20px', fontSize: '0.78rem', fontWeight: 700, color: '#a78bfa' }}>
+                          <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#a78bfa', display: 'inline-block' }} />
+                          {sol} × Solana (SOL)
+                          {!isSolanaConnected && <span style={{ color: '#f59e0b', marginLeft: 4 }}>· Connect Phantom</span>}
+                        </div>
+                      )}
+                      {invalid > 0 && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 14px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '20px', fontSize: '0.78rem', fontWeight: 700, color: '#f87171' }}>
+                          ⚠ {invalid} invalid lines (will be skipped)
+                        </div>
+                      )}
+                    </div>
+                  );
+                })()}
+
                 <div className="bulk-input-container">
-                  <div className="bulk-input-wrapper"><div className="shield-scan-line"></div><textarea className="bulk-textarea" placeholder="0x123..., 100&#10;0x456..., 250" value={bulkInput} onChange={(e) => setBulkInput(e.target.value)} disabled={isPending || isProcessing} /></div>
-                  <div className="input-hint">Format: [Wallet Address], [Amount in USDC] per line</div>
+                  <div className="bulk-input-wrapper">
+                    <div className="shield-scan-line"></div>
+                    <textarea
+                      className="bulk-textarea"
+                      placeholder={`EVM:    0x1234...abcd, 500\nSolana: 7xKXtg...9Qzc, 250\n0x5678...efgh, 1000`}
+                      value={bulkInput}
+                      onChange={(e) => setBulkInput(e.target.value)}
+                      disabled={isPending || isProcessing}
+                    />
+                  </div>
+                  <div className="input-hint">Format: [address], [amount in USDC] — Mix EVM and Solana addresses freely</div>
                 </div>
-                <button className="btn-connect-pro" style={{ width: '100%', marginTop: '2rem', padding: '20px', background: 'var(--primary)', color: 'var(--bg-deep)', justifyContent: 'center' }} onClick={handleBulkDistribute} disabled={isPending || isProcessing || !isConnected}>
-                  {isProcessing || isPending ? <CircleNotch size={24} className="animate-spin" /> : <><PaperPlaneTilt size={24} weight="bold" /> Execute Confidential Payout</>}
+                <button
+                  className="btn-connect-pro"
+                  style={{ width: '100%', marginTop: '2rem', padding: '20px', background: 'var(--primary)', color: 'var(--bg-deep)', justifyContent: 'center' }}
+                  onClick={handleBulkDistribute}
+                  disabled={isPending || isProcessing || !isConnected}
+                >
+                  {isProcessing || isPending
+                    ? <CircleNotch size={24} className="animate-spin" />
+                    : <><PaperPlaneTilt size={24} weight="bold" /> Execute Omnichain Payout</>}
                 </button>
               </div>
+
             ) : activeTab === 'contacts' ? (
               <div className="pro-card" style={{ gridColumn: 'span 3', padding: '3rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
@@ -721,12 +849,19 @@ function App() {
                     <div className="settings-value">ChainGPT Web3-LLM</div>
                   </div>
 
-                  <div className="settings-card" style={{ gridColumn: 'span 2', background: 'rgba(45, 212, 191, 0.05)', border: '1px solid var(--primary)' }}>
-                    <div className="settings-label" style={{ color: 'var(--primary)' }}><ShieldCheck size={18} weight="bold" /> Network Status</div>
+                  <div className="settings-card" style={{ gridColumn: 'span 2', background: `${activeChain.color}10`, border: `1px solid ${activeChain.color}44` }}>
+                    <div className="settings-label" style={{ color: activeChain.color }}><ShieldCheck size={18} weight="bold" /> Network Status</div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <div style={{ fontWeight: 800, fontSize: '1.2rem' }}>Arbitrum Sepolia</div>
+                      <div style={{ fontWeight: 800, fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <span style={{ width: 10, height: 10, borderRadius: '50%', background: activeChain.color, boxShadow: `0 0 8px ${activeChain.color}`, display: 'inline-block' }} />
+                        {activeChain.name}
+                        {activeChain.isTestnet && <span style={{ fontSize: '0.65rem', padding: '2px 8px', background: 'rgba(255,150,0,0.15)', color: '#f59e0b', borderRadius: 6, fontWeight: 700 }}>TESTNET</span>}
+                      </div>
                       <div className="ai-status-pill">Active & Healthy</div>
                     </div>
+                    {!activeChain.ghostPayAddress && (
+                      <div style={{ marginTop: '0.75rem', fontSize: '0.75rem', color: '#f59e0b' }}>⚠ GhostPay not yet deployed on this chain. Deploy the contract and add the address to your .env to activate.</div>
+                    )}
                   </div>
                 </div>
               )
@@ -738,8 +873,18 @@ function App() {
       </main>
 
       <aside className="right-panel">
-        <section><h2 className="panel-section-title"><TrendUp size={22} weight="bold" /> Stats</h2><div className="ai-brief-card"><span className="ai-status-pill">Health: ONLINE</span><p>Connected to Arbitrum Sepolia via Nox Vault.</p></div></section>
-        <section className="chat-compact"><h2 className="panel-section-title">Transaction Audit AI</h2><ChatAssistant history={history} view={view} /></section>
+        <button 
+          className="right-panel-toggle" 
+          onClick={() => setIsRightSidebarCollapsed(!isRightSidebarCollapsed)}
+        >
+          {isRightSidebarCollapsed ? '«' : '»'}
+        </button>
+        {!isRightSidebarCollapsed && (
+          <>
+            <section><h2 className="panel-section-title"><TrendUp size={22} weight="bold" /> Stats</h2><div className="ai-brief-card"><span className="ai-status-pill">Health: ONLINE</span><p>Connected to {activeChain.name} via Nox Vault.</p></div></section>
+            <section className="chat-compact"><h2 className="panel-section-title">Transaction Audit AI</h2><ChatAssistant history={history} view={view} /></section>
+          </>
+        )}
       </aside>
 
       {/* Wallet Connect Modal */}
@@ -749,6 +894,14 @@ function App() {
             await connectWithProvider(provider);
             setIsLaunched(true);
             setShowWalletModal(false);
+          }}
+          onSolanaConnect={async () => {
+            const addr = await connectPhantom();
+            if (addr) {
+              setIsLaunched(true);
+              setShowWalletModal(false);
+            }
+            return addr;
           }}
           onClose={() => setShowWalletModal(false)}
         />

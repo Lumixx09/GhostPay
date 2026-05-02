@@ -16,12 +16,14 @@ interface EIP6963ProviderDetail {
 
 interface WalletModalProps {
   onConnect: (provider: any, walletName: string) => Promise<void>;
+  onSolanaConnect?: () => Promise<string | null>;
   onClose: () => void;
 }
 
-export default function WalletModal({ onConnect, onClose }: WalletModalProps) {
+export default function WalletModal({ onConnect, onSolanaConnect, onClose }: WalletModalProps) {
   const [detectedWallets, setDetectedWallets] = useState<EIP6963ProviderDetail[]>([]);
   const [isConnecting, setIsConnecting] = useState<string | null>(null);
+  const hasPhantomSolana = !!(window as any)?.phantom?.solana?.isPhantom;
 
   useEffect(() => {
     const providers: EIP6963ProviderDetail[] = [];
@@ -182,6 +184,71 @@ export default function WalletModal({ onConnect, onClose }: WalletModalProps) {
               </button>
             ))}
           </div>
+        )}
+
+        {/* Solana Section */}
+        {(hasPhantomSolana || onSolanaConnect) && (
+          <>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', margin: '1.25rem 0 0.75rem' }}>
+              <div style={{ flex: 1, height: '1px', background: 'var(--glass-border)' }} />
+              <span style={{ fontSize: '0.65rem', color: 'var(--text-dim)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Solana Network</span>
+              <div style={{ flex: 1, height: '1px', background: 'var(--glass-border)' }} />
+            </div>
+            <button
+              onClick={async () => {
+                if (!onSolanaConnect) return;
+                setIsConnecting('phantom-solana');
+                try {
+                  const addr = await onSolanaConnect();
+                  if (addr) onClose();
+                } catch (e) {
+                  console.error('Solana connect error:', e);
+                } finally {
+                  setIsConnecting(null);
+                }
+              }}
+              disabled={isConnecting === 'phantom-solana'}
+              style={{
+                display: 'flex', alignItems: 'center', gap: '1rem',
+                background: 'rgba(88, 32, 254, 0.08)',
+                border: '1px solid rgba(88, 32, 254, 0.3)',
+                borderRadius: '16px', padding: '1rem 1.25rem',
+                cursor: 'pointer', color: 'white', textAlign: 'left',
+                transition: 'all 0.2s', width: '100%',
+              }}
+              onMouseEnter={e => {
+                (e.currentTarget as HTMLElement).style.borderColor = '#5820FE';
+                (e.currentTarget as HTMLElement).style.background = 'rgba(88, 32, 254, 0.15)';
+              }}
+              onMouseLeave={e => {
+                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(88, 32, 254, 0.3)';
+                (e.currentTarget as HTMLElement).style.background = 'rgba(88, 32, 254, 0.08)';
+              }}
+            >
+              {/* Phantom SVG icon */}
+              <svg width="40" height="40" viewBox="0 0 128 128" style={{ borderRadius: '10px', flexShrink: 0 }}>
+                <rect width="128" height="128" rx="26" fill="#5420FE"/>
+                <path fill="white" d="M110.4 64C110.4 40.4 91.3 21 68 21H25.2C22.1 21 19.7 23.4 19.7 26.5V64C19.7 87.6 38.8 107 62.1 107H84.2C99 107 110.4 96 110.4 81.6V64Z"/>
+                <ellipse cx="50" cy="67" rx="7" ry="9" fill="#5420FE"/>
+                <ellipse cx="80" cy="67" rx="7" ry="9" fill="#5420FE"/>
+              </svg>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontWeight: 700, fontSize: '1rem' }}>Phantom</div>
+                <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>
+                  {isConnecting === 'phantom-solana' ? 'Connecting to Solana...' : 'Connect Solana wallet'}
+                </div>
+              </div>
+              <span style={{ fontSize: '0.65rem', padding: '3px 8px', background: 'rgba(88,32,254,0.3)', borderRadius: 6, color: '#a78bfa', fontWeight: 700 }}>SOLANA</span>
+              {isConnecting === 'phantom-solana' && (
+                <div style={{ width: '20px', height: '20px', border: '2px solid #5820FE', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+              )}
+            </button>
+            {!hasPhantomSolana && (
+              <p style={{ fontSize: '0.7rem', color: 'var(--text-dim)', marginTop: '6px', textAlign: 'center' }}>
+                Phantom not detected. <a href="https://phantom.app/" target="_blank" rel="noreferrer" style={{ color: '#a78bfa' }}>Install Phantom</a> to enable Solana payments.
+              </p>
+            )}
+          </>
         )}
 
         <p style={{ fontSize: '0.72rem', color: 'var(--text-dim)', marginTop: '1.5rem', textAlign: 'center', lineHeight: 1.6 }}>

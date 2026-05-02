@@ -11,7 +11,7 @@ interface ChatAssistantProps {
 
 const ChatAssistant: React.FC<ChatAssistantProps> = ({ history, view }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: 'assistant', content: 'GhostPay Analyst online. I see your live protocol events. Ask me anything about your payroll volume or history!' }
+    { role: 'assistant', content: 'Nox Analyst online. I see your live protocol events. Ask me anything about your wealth distribution history!' }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -42,7 +42,7 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ history, view }) => {
         ? `Protocol Status: ${payrolls.length} distributions and ${claims.length} claims. Total volume: $${totalVolume.toLocaleString()}. Latest: ${history[0].type} at ${history[0].timestamp}.`
         : "The protocol has no events yet.";
         
-      const systemContext = `You are the GhostPay Analytics Engine. ${historySummary} GhostPay uses iExec Nox for confidential payroll on Arbitrum Sepolia. The user is currently in ${view} view. Answer with protocol intelligence. `;
+      const systemContext = `You are the Nox Protocol Analytics Engine. ${historySummary} Nox Protocol uses iExec Nox for confidential distributions on Arbitrum Sepolia. The user is currently in ${view} view. Answer with protocol intelligence. `;
       const prompt = systemContext + input;
       const aiAnswer = await fetchAIResponse(prompt, messages);
       setMessages(prev => [...prev, { role: 'assistant', content: aiAnswer }]);
@@ -76,7 +76,7 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ history, view }) => {
             <Robot size={20} weight="bold" />
           </div>
           <div>
-            <div style={{ fontWeight: 700, fontSize: '0.9375rem' }}>GhostPay AI</div>
+            <div style={{ fontWeight: 700, fontSize: '0.9375rem' }}>Nox AI</div>
             <div className="ai-status-pill" style={{ margin: 0, padding: '2px 8px', fontSize: '10px' }}>Analyzing</div>
           </div>
         </div>
@@ -113,7 +113,7 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ history, view }) => {
       <div className="chat-input-pro">
         <input 
           type="text" 
-          placeholder="Ask about payroll..." 
+          placeholder="Ask about protocol volume..." 
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={(e) => e.key === 'Enter' && handleSend()}
