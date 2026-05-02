@@ -41,6 +41,7 @@ export function useGhostPay() {
   const [availableAccounts, setAvailableAccounts] = useState<string[]>([]);
 
   const GHOST_PAY_ADDRESS = import.meta.env.VITE_GHOST_PAY_ADDRESS;
+  const ARBITRUM_SEPOLIA_CHAIN_ID = "0x66eee"; // 421614
 
   const fetchHistory = useCallback(async () => {
     if (!contract || !provider) return;
@@ -93,7 +94,13 @@ export function useGhostPay() {
   // Connect using any EIP-1193 provider (MetaMask, Phantom, Coinbase, etc.)
   const connectWithProvider = async (walletProvider: any) => {
     try {
-      // Request the user to approve accounts from this specific wallet
+      // 1. Ensure correct network first
+      const chainId = await walletProvider.request({ method: 'eth_chainId' });
+      if (chainId !== ARBITRUM_SEPOLIA_CHAIN_ID) {
+        await switchNetwork(walletProvider);
+      }
+
+      // 2. Request the user to approve accounts
       await walletProvider.request({ method: 'eth_requestAccounts' });
       const accounts: string[] = await walletProvider.request({ method: 'eth_accounts' });
 
@@ -119,6 +126,56 @@ export function useGhostPay() {
     }
   };
 
+  const switchNetwork = async (rawProvider: any) => {
+    try {
+      await rawProvider.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: ARBITRUM_SEPOLIA_CHAIN_ID }],
+      });
+    } catch (switchError: any) {
+      // This error code indicates that the chain has not been added to MetaMask.
+      if (switchError.code === 4902) {
+        try {
+          await rawProvider.request({
+            method: 'wallet_addEthereumChain',
+            params: [
+              {
+                chainId: ARBITRUM_SEPOLIA_CHAIN_ID,
+                chainName: 'Arbitrum Sepolia',
+                rpcUrls: ['https://sepolia-rollup.arbitrum.io/rpc'],
+                nativeCurrency: {
+                  name: 'ETH',
+                  symbol: 'ETH',
+                  decimals: 18,
+                },
+                blockExplorerUrls: ['https://sepolia.arbiscan.io/'],
+              },
+            ],
+          });
+        } catch (addError) {
+          console.error('Failed to add network:', addError);
+        }
+      }
+      console.error('Failed to switch network:', switchError);
+    }
+  };
+
+  const ensureNetworkAndBalance = async () => {
+    if (!window.ethereum || !account || !provider) return;
+    
+    // 1. Check Network
+    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+    if (chainId !== ARBITRUM_SEPOLIA_CHAIN_ID) {
+      await switchNetwork(window.ethereum);
+    }
+
+    // 2. Check ETH Balance
+    const ethBalance = await provider.getBalance(account);
+    if (ethBalance < ethers.parseEther("0.0001")) {
+      throw new Error("Insufficient ETH: You need a small amount of Arbitrum Sepolia ETH in your wallet to pay for transaction gas fees. Please use an Arbitrum Sepolia faucet.");
+    }
+  };
+
   // Legacy connect — triggers the WalletModal to open (handled in App.tsx)
   const connect = async () => {
     // App.tsx opens the WalletModal; this is a no-op fallback
@@ -128,6 +185,7 @@ export function useGhostPay() {
   const connectWithAccount = async (selectedAccount: string) => {
     if (!window.ethereum) return;
     try {
+      await ensureNetworkAndBalance();
       const _provider = new ethers.BrowserProvider(window.ethereum);
       const _signer = await _provider.getSigner(selectedAccount);
       setProvider(_provider);
@@ -155,9 +213,17 @@ export function useGhostPay() {
   };
   
   const parseError = (error: any): string => {
+    console.group("Protocol Error Details");
+    console.error("Raw Error Object:", error);
+    if (error.payload) console.error("RPC Payload:", error.payload);
+    if (error.data) console.error("Revert Data:", error.data);
+    console.groupEnd();
+
     const errorStr = String(error?.message || error).toLowerCase();
-    if (errorStr.includes("json-rpc") || errorStr.includes("coalesce")) {
-      return "MetaMask Sync Error: Please 'Clear Activity Tab' in MetaMask Settings > Advanced.";
+    const errorCode = error?.code || (error?.error?.code);
+
+    if (errorCode === -32603 || errorStr.includes("json-rpc") || errorStr.includes("coalesce")) {
+      return "Network/Gas Error (-32603): MetaMask failed to process the transaction. This usually means you have 0 ETH, a stuck transaction, or the wrong network. Action: 1. Check ETH balance. 2. Clear Activity Tab in MetaMask Settings > Advanced. 3. Ensure Arbitrum Sepolia is selected.";
     }
     if (errorStr.includes("user rejected")) {
       return "Transaction Cancelled: You rejected the request in MetaMask.";
@@ -165,7 +231,10 @@ export function useGhostPay() {
     if (errorStr.includes("insufficient funds")) {
       return "Insufficient ETH: You need more Arbitrum Sepolia ETH for gas.";
     }
-    return "Protocol Reverted: The network rejected the transaction. Please refresh and try again.";
+    if (errorStr.includes("underlying.transferfrom")) {
+      return "Allowance Error: Protocol could not transfer USDC. Please ensure you have sufficient balance and approved the wrap.";
+    }
+    return "Protocol Reverted: The network rejected the transaction. This might be due to a logic revert or network congestion. Please refresh and try again.";
   };
 
   const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -204,6 +273,7 @@ export function useGhostPay() {
 
     setIsPending(true);
     try {
+      await ensureNetworkAndBalance();
       // In a real iExec Nox dApp, we would use @iexec-nox/handle to encrypt
       // amounts[i] into a handle. For this demo, we pass the plaintext amount as bytes32.
       const dummyHandles = amounts.map((amt) => ethers.zeroPadValue(ethers.toBeHex(ethers.parseUnits(amt, 18)), 32));
@@ -230,6 +300,7 @@ export function useGhostPay() {
     if (!contract) return;
     setIsPending(true);
     try {
+      await ensureNetworkAndBalance();
       console.log(`Initiating confidential unwrap for ${amount} tokens...`);
       const handle = ethers.zeroPadValue(ethers.toBeHex(ethers.parseUnits(amount, 18)), 32);
       const dummyProof = ethers.randomBytes(65);
@@ -284,6 +355,7 @@ export function useGhostPay() {
       if (!contract || !provider) return;
       setIsPending(true);
       try {
+        await ensureNetworkAndBalance();
         const parsedAmount = ethers.parseUnits(amount, 18);
         
         // 1. Check Allowance & Approve
@@ -322,6 +394,7 @@ export function useGhostPay() {
       if (!account || !provider) return;
       setIsPending(true);
       try {
+        await ensureNetworkAndBalance();
         const underlyingAddr = await contract?.underlying();
         const underlyingContract = new ethers.Contract(
           underlyingAddr,
