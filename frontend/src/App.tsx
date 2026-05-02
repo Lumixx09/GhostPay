@@ -538,7 +538,9 @@ function App() {
                 <div className="balance-card-pro" style={{ gridColumn: 'span 3' }}>
                   <span className="ai-status-pill"><ShieldCheck size={14} weight="bold" /> Nox Protocol Active</span>
                   <div className="section-meta" style={{ marginTop: '1.5rem' }}>Your Confidential Balance</div>
-                  <div className="balance-pro-value">{wrappedBalance} <span className="currency">cUSDC</span></div>
+                  <div className="balance-pro-value">
+                    {isShadowMode ? <div className="masked-data" style={{ width: '250px', height: '60px' }}></div> : <>{wrappedBalance} <span className="currency">cUSDC</span></>}
+                  </div>
                   <div style={{ display: 'flex', gap: '1rem' }}>
                     <button 
                       className="btn-connect-pro" 

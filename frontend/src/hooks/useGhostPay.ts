@@ -282,10 +282,10 @@ export function useGhostPay() {
         const underlyingAddr = await contract?.underlying();
         const underlyingContract = new ethers.Contract(
           underlyingAddr,
-          ["function mint(address, uint256) returns (bool)"],
+          ["function mint(address, uint256)"],
           await provider.getSigner()
         );
-        const tx = await underlyingContract.mint(account, ethers.parseUnits("10000", 18));
+        const tx = await underlyingContract.mint(account, ethers.parseUnits("10000", 18), { gasLimit: 200000 });
         await tx.wait();
         await sleep(2000);
         await refreshBalance();
