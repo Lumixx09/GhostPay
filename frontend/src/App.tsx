@@ -254,7 +254,8 @@ function App() {
     reclaimFunds,
     refreshBalance,
     verifyIdentity,
-    wrapFunds 
+    wrapFunds,
+    mintTokens
   } = useGhostPay();
 
   useEffect(() => {
@@ -449,7 +450,25 @@ function App() {
                   </div>
                   
                   <div className="pro-card" style={{ padding: '2rem', background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(45, 212, 191, 0.1) 100%)' }}>
-                    <div className="section-meta" style={{ color: 'white' }}>Employer Treasury</div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div className="section-meta" style={{ color: 'white', margin: 0 }}>Employer Treasury</div>
+                      <button 
+                        onClick={mintTokens}
+                        disabled={isPending}
+                        style={{ 
+                          background: 'rgba(255,255,255,0.05)', 
+                          border: '1px solid rgba(255,255,255,0.1)', 
+                          color: 'var(--primary)', 
+                          fontSize: '0.7rem', 
+                          padding: '4px 8px', 
+                          borderRadius: '8px',
+                          cursor: 'pointer',
+                          fontWeight: 700
+                        }}
+                      >
+                        {isPending ? '...' : 'GET FAUCET'}
+                      </button>
+                    </div>
                     <div style={{ margin: '1rem 0', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                       <div>
                         <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>Available to Wrap</div>

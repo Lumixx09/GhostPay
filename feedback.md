@@ -29,8 +29,11 @@ A significant hurdle encountered during the challenge was the inconsistency of p
 While standard contract deployment is supported, the addition of specialized Hardhat plugins for the Nox layer would be beneficial. Automated handling of enclave-specific initialization and TEE-specific deployment parameters would streamline the transition from development to production.
 
 PROPOSED FEATURES
--   **Nox Debugger UI:** A simple explorer-like interface to view the status of confidential "Unwrap Requests" or "Handles" during development.
--   **Stability Fallbacks:** Standardized patterns for "Soft Reverts" in the iExec libraries to prevent RPC node crashes during simulation.
+-   **Descriptive Error Registry:** Transition away from generic "Internal JSON-RPC" errors to descriptive revert reasons (e.g., "Nox-Error: Precompile Simulation Failed - Invalid Handle").
+-   **Official Hardhat Starter-Kits:** Provide "Vibe-coded" boilerplate templates for common patterns like Payroll, Escrow, and Multisig to accelerate the 0-to-1 phase.
+-   **Confidential Event Indexer:** A specialized, privacy-preserving indexing service (similar to a private Subgraph) to handle state tracking without taxing the RPC nodes.
+-   **Nox Debugger VS Code Extension:** An IDE plugin to visualize unwrap requests and encrypted state transitions in real-time.
+-   **Integrated Developer Faucet:** A unified portal to acquire both gas (ETH) and confidential assets (cUSDC) to simplify the onboarding journey.
 
 CONCLUSION
 The iExec Nox protocol represents a fundamental advancement for institutional DeFi and real-world asset use cases. Despite being in a beta phase, the infrastructure is sufficiently stable for the development of complex applications like GhostPay. We look forward to the continued refinement of these developer tools.

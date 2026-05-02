@@ -154,6 +154,8 @@ export function useGhostPay() {
     setHistory([]);
   };
 
+  const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
   const refreshBalance = useCallback(async () => {
     if (contract && account && provider) {
       try {
@@ -191,6 +193,7 @@ export function useGhostPay() {
         { gasLimit: 1000000 }
       );
       await tx.wait();
+      await sleep(2000); // Wait for RPC to sync state
       await Promise.all([refreshBalance(), fetchHistory()]);
     } catch (error) {
       console.error("Distribution error:", error);
@@ -210,6 +213,7 @@ export function useGhostPay() {
       
       const tx = await contract.reclaimToUnderlying(handle, dummyProof, { gasLimit: 1000000 });
       await tx.wait();
+      await sleep(2000); // Wait for RPC to sync state
       await Promise.all([refreshBalance(), fetchHistory()]);
     } catch (error) {
       console.error("Reclaim error:", error);
@@ -262,10 +266,31 @@ export function useGhostPay() {
         const wrapTx = await contract.wrap(account, parsedAmount, { gasLimit: 1000000 });
         await wrapTx.wait();
         
+        await sleep(2000); // Wait for RPC to sync state
         await refreshBalance();
       } catch (error) {
         console.error("Wrap error:", error);
         throw error;
+      } finally {
+        setIsPending(false);
+      }
+    },
+    mintTokens: async () => {
+      if (!account || !provider) return;
+      setIsPending(true);
+      try {
+        const underlyingAddr = await contract?.underlying();
+        const underlyingContract = new ethers.Contract(
+          underlyingAddr,
+          ["function mint(address, uint256) returns (bool)"],
+          await provider.getSigner()
+        );
+        const tx = await underlyingContract.mint(account, ethers.parseUnits("10000", 18));
+        await tx.wait();
+        await sleep(2000);
+        await refreshBalance();
+      } catch (error) {
+        console.error("Mint error:", error);
       } finally {
         setIsPending(false);
       }
