@@ -1,4 +1,6 @@
 # GhostPay: 4-Minute Demo Walkthrough Script
+**Final Submission Video:** https://youtu.be/hVdVOANnKoM
+
 
 Follow this guide to record a high-scoring submission video!
 

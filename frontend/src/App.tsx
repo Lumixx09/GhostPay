@@ -475,6 +475,7 @@ function App() {
     refreshBalance,
     verifyIdentity,
     wrapFunds,
+    mintTokens,
   } = useGhostPay();
 
   useEffect(() => {
@@ -498,6 +499,11 @@ function App() {
       showNotification('Verification Failed.');
     }
     setIsVerifying(false);
+  };
+
+  const handleRefresh = async () => {
+    await refreshBalance();
+    showNotification('Balances synchronized with Nox Protocol.');
   };
 
   const handleBulkDistribute = async () => {
@@ -529,6 +535,7 @@ function App() {
       setBulkInput('');
     } catch (error: any) {
       console.error(error);
+      showNotification(error.message);
     } finally {
       setIsProcessing(false);
     }
@@ -819,14 +826,14 @@ function App() {
                       lineHeight: 1,
                     }}
                   >
-                    $
-                    {history
-                      .reduce(
-                        (acc, tx) =>
-                          acc + (tx.amount ? parseFloat(tx.amount) : 0),
-                        0,
-                      )
-                      .toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                    {isShadowMode ? (
+                      <div
+                        className="masked-data"
+                        style={{ width: '280px', height: '48px' }}
+                      ></div>
+                    ) : (
+                      `$${history.reduce((acc, tx) => acc + (tx.amount ? parseFloat(tx.amount) : 0), 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}`
+                    )}
                   </div>
                   <div
                     style={{
@@ -849,8 +856,44 @@ function App() {
                       'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(45, 212, 191, 0.1) 100%)',
                   }}
                 >
-                  <div className="section-meta" style={{ color: 'white' }}>
-                    Employer Treasury
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <div
+                      className="section-meta"
+                      style={{ color: 'white', margin: 0 }}
+                    >
+                      Employer Treasury
+                    </div>
+                    <button
+                      onClick={async () => {
+                        try {
+                          await mintTokens();
+                          showNotification(
+                            'Successfully minted 10,000 test mUSDC!',
+                          );
+                        } catch (e: any) {
+                          showNotification(e.message);
+                        }
+                      }}
+                      disabled={isPending}
+                      style={{
+                        background: 'rgba(255,255,255,0.05)',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        color: 'var(--primary)',
+                        fontSize: '0.7rem',
+                        padding: '4px 8px',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        fontWeight: 700,
+                      }}
+                    >
+                      {isPending ? '...' : 'GET FAUCET'}
+                    </button>
                   </div>
                   <div
                     style={{
@@ -865,7 +908,14 @@ function App() {
                         Available to Wrap
                       </div>
                       <div style={{ fontSize: '1.2rem', fontWeight: 800 }}>
-                        {balance}{' '}
+                        {isShadowMode ? (
+                          <div
+                            className="masked-data"
+                            style={{ width: '80px' }}
+                          ></div>
+                        ) : (
+                          balance
+                        )}{' '}
                         <span style={{ fontSize: '0.8rem' }}>mUSDC</span>
                       </div>
                     </div>
@@ -886,7 +936,14 @@ function App() {
                           color: 'var(--primary)',
                         }}
                       >
-                        {wrappedBalance}{' '}
+                        {isShadowMode ? (
+                          <div
+                            className="masked-data"
+                            style={{ width: '80px' }}
+                          ></div>
+                        ) : (
+                          wrappedBalance
+                        )}{' '}
                         <span style={{ fontSize: '0.8rem' }}>cUSDC</span>
                       </div>
                     </div>
@@ -1062,7 +1119,16 @@ function App() {
                   Your Confidential Balance
                 </div>
                 <div className="balance-pro-value">
-                  {wrappedBalance} <span className="currency">cUSDC</span>
+                  {isShadowMode ? (
+                    <div
+                      className="masked-data"
+                      style={{ width: '250px', height: '60px' }}
+                    ></div>
+                  ) : (
+                    <>
+                      {wrappedBalance} <span className="currency">cUSDC</span>
+                    </>
+                  )}
                 </div>
                 <div style={{ display: 'flex', gap: '1rem' }}>
                   <button
@@ -1072,7 +1138,16 @@ function App() {
                       background: 'var(--primary)',
                       color: 'var(--bg-deep)',
                     }}
-                    onClick={() => reclaimFunds(wrappedBalance)}
+                    onClick={async () => {
+                      try {
+                        await reclaimFunds(wrappedBalance);
+                        showNotification(
+                          'Withdrawal successful! Tokens sent to your wallet.',
+                        );
+                      } catch (e: any) {
+                        showNotification(e.message);
+                      }
+                    }}
                     disabled={
                       !isConnected ||
                       isPending ||
@@ -1087,10 +1162,14 @@ function App() {
                   </button>
                   <button
                     className="btn-connect-pro"
-                    onClick={refreshBalance}
+                    onClick={handleRefresh}
                     disabled={isPending}
                   >
-                    Refresh Balance
+                    {isPending ? (
+                      <CircleNotch size={20} className="animate-spin" />
+                    ) : (
+                      'Refresh Balance'
+                    )}
                   </button>
                 </div>
               </div>
@@ -1517,7 +1596,16 @@ function App() {
                   <div className="settings-label">
                     <Info size={18} weight="bold" /> Protocol Identity
                   </div>
-                  <div className="settings-value">{account}</div>
+                  <div className="settings-value">
+                    {isShadowMode ? (
+                      <div
+                        className="masked-data"
+                        style={{ width: '100%' }}
+                      ></div>
+                    ) : (
+                      account
+                    )}
+                  </div>
                   <div
                     style={{
                       marginTop: '1rem',
@@ -1536,7 +1624,14 @@ function App() {
                     <Cpu size={18} weight="bold" /> Nox Contract
                   </div>
                   <div className="settings-value">
-                    {import.meta.env.VITE_GHOST_PAY_ADDRESS || '0x...'}
+                    {isShadowMode ? (
+                      <div
+                        className="masked-data"
+                        style={{ width: '100%' }}
+                      ></div>
+                    ) : (
+                      import.meta.env.VITE_GHOST_PAY_ADDRESS || '0x...'
+                    )}
                   </div>
                 </div>
 

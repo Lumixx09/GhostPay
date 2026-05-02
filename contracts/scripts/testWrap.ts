@@ -1,19 +1,21 @@
 import { ethers } from "hardhat";
 
 async function main() {
-  const [deployer] = await ethers.getSigners();
-  const mUSDC = await ethers.getContractAt("MockERC20", "0x706a2dc3cCF2Def6362B5fCB0556F38ec6bfe0C0");
-  const GhostPay = await ethers.getContractAt("GhostPay", "0x2a3d27a23476226e33E13Bfb04eaD028b557f3D0");
-
-  console.log("Minting...");
-  await (await mUSDC.mint(deployer.address, ethers.parseUnits("100", 18))).wait();
-
-  console.log("Approving...");
-  await (await mUSDC.approve(await GhostPay.getAddress(), ethers.parseUnits("100", 18))).wait();
-
-  console.log("Wrapping...");
-  await (await GhostPay.wrap(deployer.address, ethers.parseUnits("100", 18))).wait();
+  const ghostPayAddress = "0xdBCbd9d4e6eaa19AEF54ef133632Ff1EC6FD355d";
+  const userAddress = "0xc0Dd2bd75f7A2a77C622a62E08E5e534A5360867";
   
-  console.log("Success!");
+  const ghostPay = await ethers.getContractAt("GhostPay", ghostPayAddress);
+  
+  console.log("Attempting test wrap of 100 tokens...");
+  const tx = await ghostPay.wrap(userAddress, ethers.parseUnits("100", 18), { gasLimit: 1000000 });
+  await tx.wait();
+  console.log("Wrap SUCCESSFUL on-chain!");
+  
+  const bal = await ghostPay.confidentialBalances(userAddress);
+  console.log("New Confidential Balance:", ethers.formatUnits(bal, 18));
 }
-main().catch(console.error);
+
+main().catch((error) => {
+  console.error("Test Wrap FAILED:", error);
+  process.exitCode = 1;
+});

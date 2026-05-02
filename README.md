@@ -4,10 +4,11 @@ Built for the iExec Vibe Coding Challenge
 Confidential Bulk Payouts powered by iExec Nox and ChainGPT AI
 
 Submission Video
-[Link to Demo Video (4:00)]
+[Submission Video (YouTube)](https://youtu.be/hVdVOANnKoM)
 
 Live Demo / Repository
 - GitHub: [Link to Repository]
+- Live Demo (Vercel): https://nox-ghostpay.vercel.app
 - Network: Arbitrum Sepolia
 - Protocol Layer: iExec Nox (Confidential Computing)
 - AI Partner: ChainGPT
@@ -82,4 +83,3 @@ We've documented our journey building with iExec Nox in feedback.md. We highligh
 
 License
 GhostPay is open-source software licensed under the MIT License.
-

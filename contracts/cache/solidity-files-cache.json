@@ -1,10 +1,10 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "C:\\Work\\GhostPay\\contracts\\node_modules\\@iexec-nox\\nox-confidential-contracts\\contracts\\token\\ERC7984.sol": {
-      "lastModificationDate": 1775720335343,
-      "contentHash": "88071b19f1e1959f1ef5431a048d8dcf",
-      "sourceName": "@iexec-nox/nox-confidential-contracts/contracts/token/ERC7984.sol",
+    "C:\\projects\\brokebot\\Challenge\\contracts\\contracts\\GhostPay.sol": {
+      "lastModificationDate": 1777714845791,
+      "contentHash": "8e7cacf6200bebd048019b0d66664b73",
+      "sourceName": "contracts/GhostPay.sol",
       "solcConfig": {
         "version": "0.8.28",
         "settings": {
@@ -22,9 +22,7 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
@@ -36,12 +34,8 @@
         "./utils/ERC7984Utils.sol",
         "@iexec-nox/nox-protocol-contracts/contracts/sdk/Nox.sol"
       ],
-      "versionPragmas": [
-        "^0.8.28"
-      ],
-      "artifacts": [
-        "ERC7984"
-      ]
+      "versionPragmas": ["^0.8.28"],
+      "artifacts": ["ERC7984"]
     },
     "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\IERC20.sol": {
       "lastModificationDate": 1775720340090,
@@ -64,20 +58,14 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
       },
       "imports": [],
-      "versionPragmas": [
-        ">=0.4.16"
-      ],
-      "artifacts": [
-        "IERC20"
-      ]
+      "versionPragmas": [">=0.4.16"],
+      "artifacts": ["IERC20"]
     },
     "C:\\Work\\GhostPay\\contracts\\node_modules\\@iexec-nox\\nox-protocol-contracts\\contracts\\sdk\\Nox.sol": {
       "lastModificationDate": 1775720335364,
@@ -100,9 +88,7 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
@@ -112,12 +98,8 @@
         "../interfaces/INoxCompute.sol",
         "encrypted-types/EncryptedTypes.sol"
       ],
-      "versionPragmas": [
-        "^0.8.27"
-      ],
-      "artifacts": [
-        "Nox"
-      ]
+      "versionPragmas": ["^0.8.27"],
+      "artifacts": ["Nox"]
     },
     "C:\\Work\\GhostPay\\contracts\\node_modules\\@iexec-nox\\nox-confidential-contracts\\contracts\\token\\extensions\\ERC20ToERC7984Wrapper.sol": {
       "lastModificationDate": 1775720335344,
@@ -140,9 +122,7 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
@@ -158,12 +138,8 @@
         "../../interfaces/IERC20ToERC7984Wrapper.sol",
         "../ERC7984.sol"
       ],
-      "versionPragmas": [
-        "^0.8.28"
-      ],
-      "artifacts": [
-        "ERC20ToERC7984Wrapper"
-      ]
+      "versionPragmas": ["^0.8.28"],
+      "artifacts": ["ERC20ToERC7984Wrapper"]
     },
     "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\utils\\Context.sol": {
       "lastModificationDate": 1775720340136,
@@ -186,20 +162,14 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
       },
       "imports": [],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "Context"
-      ]
+      "versionPragmas": ["^0.8.20"],
+      "artifacts": ["Context"]
     },
     "C:\\Work\\GhostPay\\contracts\\node_modules\\@iexec-nox\\nox-confidential-contracts\\contracts\\interfaces\\IERC7984.sol": {
       "lastModificationDate": 1775720335340,
@@ -222,9 +192,7 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
@@ -233,12 +201,8 @@
         "@iexec-nox/nox-protocol-contracts/contracts/sdk/Nox.sol",
         "@openzeppelin/contracts/interfaces/IERC165.sol"
       ],
-      "versionPragmas": [
-        "^0.8.28"
-      ],
-      "artifacts": [
-        "IERC7984"
-      ]
+      "versionPragmas": ["^0.8.28"],
+      "artifacts": ["IERC7984"]
     },
     "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\utils\\introspection\\ERC165.sol": {
       "lastModificationDate": 1775720340177,
@@ -261,22 +225,14 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
       },
-      "imports": [
-        "./IERC165.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "ERC165"
-      ]
+      "imports": ["./IERC165.sol"],
+      "versionPragmas": ["^0.8.20"],
+      "artifacts": ["ERC165"]
     },
     "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\utils\\introspection\\IERC165.sol": {
       "lastModificationDate": 1775720340179,
@@ -299,20 +255,14 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
       },
       "imports": [],
-      "versionPragmas": [
-        ">=0.4.16"
-      ],
-      "artifacts": [
-        "IERC165"
-      ]
+      "versionPragmas": [">=0.4.16"],
+      "artifacts": ["IERC165"]
     },
     "C:\\Work\\GhostPay\\contracts\\node_modules\\@iexec-nox\\nox-confidential-contracts\\contracts\\token\\utils\\ERC7984Utils.sol": {
       "lastModificationDate": 1775720335346,
@@ -335,9 +285,7 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
@@ -347,12 +295,8 @@
         "../../interfaces/IERC7984Receiver.sol",
         "../ERC7984.sol"
       ],
-      "versionPragmas": [
-        "^0.8.28"
-      ],
-      "artifacts": [
-        "ERC7984Utils"
-      ]
+      "versionPragmas": ["^0.8.28"],
+      "artifacts": ["ERC7984Utils"]
     },
     "C:\\Work\\GhostPay\\contracts\\node_modules\\@iexec-nox\\nox-protocol-contracts\\contracts\\shared\\TypeUtils.sol": {
       "lastModificationDate": 1775720335367,
@@ -375,20 +319,14 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
       },
       "imports": [],
-      "versionPragmas": [
-        "^0.8.27"
-      ],
-      "artifacts": [
-        "TypeUtils"
-      ]
+      "versionPragmas": ["^0.8.27"],
+      "artifacts": ["TypeUtils"]
     },
     "C:\\Work\\GhostPay\\contracts\\node_modules\\encrypted-types\\EncryptedTypes.sol": {
       "lastModificationDate": 1775720345200,
@@ -411,17 +349,13 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
       },
       "imports": [],
-      "versionPragmas": [
-        "^0.8.24"
-      ],
+      "versionPragmas": ["^0.8.24"],
       "artifacts": []
     },
     "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\interfaces\\IERC165.sol": {
@@ -445,19 +379,13 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
       },
-      "imports": [
-        "../utils/introspection/IERC165.sol"
-      ],
-      "versionPragmas": [
-        ">=0.4.16"
-      ],
+      "imports": ["../utils/introspection/IERC165.sol"],
+      "versionPragmas": [">=0.4.16"],
       "artifacts": []
     },
     "C:\\Work\\GhostPay\\contracts\\node_modules\\@iexec-nox\\nox-confidential-contracts\\contracts\\interfaces\\IERC7984Receiver.sol": {
@@ -481,22 +409,14 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
       },
-      "imports": [
-        "@iexec-nox/nox-protocol-contracts/contracts/sdk/Nox.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.28"
-      ],
-      "artifacts": [
-        "IERC7984Receiver"
-      ]
+      "imports": ["@iexec-nox/nox-protocol-contracts/contracts/sdk/Nox.sol"],
+      "versionPragmas": ["^0.8.28"],
+      "artifacts": ["IERC7984Receiver"]
     },
     "C:\\Work\\GhostPay\\contracts\\node_modules\\@iexec-nox\\nox-confidential-contracts\\contracts\\interfaces\\IERC20ToERC7984Wrapper.sol": {
       "lastModificationDate": 1775720335339,
@@ -519,9 +439,7 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
@@ -530,12 +448,8 @@
         "@iexec-nox/nox-protocol-contracts/contracts/sdk/Nox.sol",
         "./IERC7984.sol"
       ],
-      "versionPragmas": [
-        "^0.8.28"
-      ],
-      "artifacts": [
-        "IERC20ToERC7984Wrapper"
-      ]
+      "versionPragmas": ["^0.8.28"],
+      "artifacts": ["IERC20ToERC7984Wrapper"]
     },
     "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\interfaces\\IERC20.sol": {
       "lastModificationDate": 1775720339992,
@@ -558,19 +472,13 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
       },
-      "imports": [
-        "../token/ERC20/IERC20.sol"
-      ],
-      "versionPragmas": [
-        ">=0.4.16"
-      ],
+      "imports": ["../token/ERC20/IERC20.sol"],
+      "versionPragmas": [">=0.4.16"],
       "artifacts": []
     },
     "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\interfaces\\IERC20Metadata.sol": {
@@ -594,19 +502,13 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
       },
-      "imports": [
-        "../token/ERC20/extensions/IERC20Metadata.sol"
-      ],
-      "versionPragmas": [
-        ">=0.6.2"
-      ],
+      "imports": ["../token/ERC20/extensions/IERC20Metadata.sol"],
+      "versionPragmas": [">=0.6.2"],
       "artifacts": []
     },
     "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\utils\\SafeERC20.sol": {
@@ -630,23 +532,14 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
       },
-      "imports": [
-        "../IERC20.sol",
-        "../../../interfaces/IERC1363.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "SafeERC20"
-      ]
+      "imports": ["../IERC20.sol", "../../../interfaces/IERC1363.sol"],
+      "versionPragmas": ["^0.8.20"],
+      "artifacts": ["SafeERC20"]
     },
     "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\extensions\\IERC20Metadata.sol": {
       "lastModificationDate": 1775720340101,
@@ -669,22 +562,14 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
       },
-      "imports": [
-        "../IERC20.sol"
-      ],
-      "versionPragmas": [
-        ">=0.6.2"
-      ],
-      "artifacts": [
-        "IERC20Metadata"
-      ]
+      "imports": ["../IERC20.sol"],
+      "versionPragmas": [">=0.6.2"],
+      "artifacts": ["IERC20Metadata"]
     },
     "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\interfaces\\IERC1363.sol": {
       "lastModificationDate": 1775720339986,
@@ -707,23 +592,14 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
       },
-      "imports": [
-        "./IERC20.sol",
-        "./IERC165.sol"
-      ],
-      "versionPragmas": [
-        ">=0.6.2"
-      ],
-      "artifacts": [
-        "IERC1363"
-      ]
+      "imports": ["./IERC20.sol", "./IERC165.sol"],
+      "versionPragmas": [">=0.6.2"],
+      "artifacts": ["IERC1363"]
     },
     "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\ERC20.sol": {
       "lastModificationDate": 1775720340089,
@@ -746,9 +622,7 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
@@ -759,12 +633,8 @@
         "../../utils/Context.sol",
         "../../interfaces/draft-IERC6093.sol"
       ],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "ERC20"
-      ]
+      "versionPragmas": ["^0.8.20"],
+      "artifacts": ["ERC20"]
     },
     "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\interfaces\\draft-IERC6093.sol": {
       "lastModificationDate": 1775720340056,
@@ -787,22 +657,14 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
       },
       "imports": [],
-      "versionPragmas": [
-        ">=0.8.4"
-      ],
-      "artifacts": [
-        "IERC1155Errors",
-        "IERC20Errors",
-        "IERC721Errors"
-      ]
+      "versionPragmas": [">=0.8.4"],
+      "artifacts": ["IERC1155Errors", "IERC20Errors", "IERC721Errors"]
     },
     "C:\\Work\\GhostPay\\contracts\\contracts\\GhostPay.sol": {
       "lastModificationDate": 1777659001545,
@@ -825,9 +687,7 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
@@ -836,12 +696,8 @@
         "@openzeppelin/contracts/token/ERC20/IERC20.sol",
         "@openzeppelin/contracts/access/Ownable.sol"
       ],
-      "versionPragmas": [
-        "^0.8.28"
-      ],
-      "artifacts": [
-        "GhostPay"
-      ]
+      "versionPragmas": ["^0.8.28"],
+      "artifacts": ["GhostPay"]
     },
     "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\access\\Ownable.sol": {
       "lastModificationDate": 1775720339705,
@@ -864,22 +720,14 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
       },
-      "imports": [
-        "../utils/Context.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "Ownable"
-      ]
+      "imports": ["../utils/Context.sol"],
+      "versionPragmas": ["^0.8.20"],
+      "artifacts": ["Ownable"]
     },
     "C:\\Work\\GhostPay\\contracts\\contracts\\MockERC20.sol": {
       "lastModificationDate": 1777659167116,
@@ -902,22 +750,14 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         }
       },
-      "imports": [
-        "@openzeppelin/contracts/token/ERC20/ERC20.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.28"
-      ],
-      "artifacts": [
-        "MockERC20"
-      ]
+      "imports": ["@openzeppelin/contracts/token/ERC20/ERC20.sol"],
+      "versionPragmas": ["^0.8.28"],
+      "artifacts": ["MockERC20"]
     }
   }
 }
