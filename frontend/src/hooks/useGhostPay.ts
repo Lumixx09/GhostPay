@@ -296,7 +296,8 @@ export function useGhostPay() {
 
         const currentAllowance = await underlyingContract.allowance(account, await contract.getAddress());
         if (currentAllowance < parsedAmount) {
-          const approveTx = await underlyingContract.approve(await contract.getAddress(), ethers.MaxUint256);
+          // Explicit gas limit for approval to prevent estimation failure on Arbitrum
+          const approveTx = await underlyingContract.approve(await contract.getAddress(), ethers.MaxUint256, { gasLimit: 100000 });
           await approveTx.wait();
         }
 
@@ -304,11 +305,15 @@ export function useGhostPay() {
         const wrapTx = await contract.wrap(account, parsedAmount, { gasLimit: 1000000 });
         await wrapTx.wait();
         
-        await sleep(2000); // Wait for RPC to sync state
+        await sleep(3000); // Increased sync delay
         await refreshBalance();
       } catch (error) {
         console.error("Wrap error:", error);
-        throw new Error(parseError(error));
+        const msg = parseError(error);
+        if (msg.includes("MetaMask Sync")) {
+          throw new Error("RPC Sync Error: Please ensure you have Arbitrum Sepolia ETH and 'Clear activity tab data' in MetaMask Settings > Advanced.");
+        }
+        throw new Error(msg);
       } finally {
         setIsPending(false);
       }
