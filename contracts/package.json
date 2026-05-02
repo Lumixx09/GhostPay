@@ -8,7 +8,6 @@
     "test": "hardhat test",
     "deploy:arbitrum-sepolia": "hardhat run scripts/deploy.ts --network arbitrum-sepolia",
     "verify:arbitrum-sepolia": "hardhat verify --network arbitrum-sepolia",
-    "mint": "hardhat run scripts/mint.ts --network arbitrum-sepolia",
     "clean": "hardhat clean"
   },
   "keywords": [

@@ -1,132 +1,119 @@
-# GhostPay - Confidential Web3 Payroll
+GhostPay Confidential Web3 Payroll
 
-GhostPay is a confidential payroll platform designed to solve the massive privacy issues surrounding public on-chain salaries in Web3. By leveraging **iExec Nox and Confidential Tokens (ERC-7984)**, GhostPay allows employers to stream payments, while employee balances and transactions remain completely hidden. Enhanced with an integrated **ChainGPT AI chatbot**, employees can query their balances and request advances seamlessly.
+GhostPay is a confidential payroll platform designed to solve the massive privacy issues surrounding public on-chain salaries in Web3. By leveraging iExec Nox and Confidential Tokens (ERC-7984), GhostPay allows employers to stream payments, while employee balances and transactions remain completely hidden. Enhanced with an integrated ChainGPT AI chatbot, employees can query their balances and request advances seamlessly.
 
 This plan details the technical architecture and implementation steps to build the application end-to-end within the time constraints of the Vibe Coding Challenge.
 
-## User Review Required
+User Review Required
 
-> [!IMPORTANT]  
-> **Visual Overhaul**: I am pivoting the design to match the high-fidelity portfolio dashboard style you provided. This includes:
-> 1. **Three-Column Layout**: Left Sidebar (Navigation), Center Panel (Payroll/Streams Management), Right Panel (AI Assistant & Notifications).
-> 2. **Rich Gradient Cards**: The payroll streams will be represented as vibrant gradient cards with progress bars and employee avatars.
-> 3. **Deep Dark Theme**: Moving from a simple dark mode to a premium "Layered Dark" aesthetic with subtle 3D-like shadows and floating elements.
-> 
-> **Does this new layout and aesthetic align with your vision for the final submission?**
+Visual Overhaul: I am pivoting the design to match the high-fidelity portfolio dashboard style you provided. This includes:
+1. Three-Column Layout: Left Sidebar (Navigation), Center Panel (Payroll/Streams Management), Right Panel (AI Assistant and Notifications).
+2. Rich Gradient Cards: The payroll streams will be represented as vibrant gradient cards with progress bars and employee avatars.
+3. Deep Dark Theme: Moving from a simple dark mode to a premium Layered Dark aesthetic with subtle 3D-like shadows and floating elements.
 
-## Architecture & Tech Stack
+Does this new layout and aesthetic align with your vision for the final submission?
 
-- **Frontend**: Vite (React, TypeScript), Ethers.js
-- **Styling**: Vanilla CSS (CSS Modules) with rich, dynamic animations and a glassmorphic dark theme.
-- **Backend / Integration**: Node.js API routes (if needed) for interacting securely with ChainGPT APIs.
-- **Smart Contracts**: Solidity (ERC-7984 standard compliant for confidential balances).
-- **Networks**: Arbitrum Sepolia.
+Architecture and Tech Stack
 
-## Proposed Changes
+- Frontend: Vite (React, TypeScript), Ethers.js
+- Styling: Vanilla CSS (CSS Modules) with rich, dynamic animations and a glassmorphic dark theme.
+- Backend / Integration: Node.js API routes (if needed) for interacting securely with ChainGPT APIs.
+- Smart Contracts: Solidity (ERC-7984 standard compliant for confidential balances).
+- Networks: Arbitrum Sepolia.
 
----
+Proposed Changes
 
-### Phase 1: Foundation & Scaffold
+Phase 1: Foundation and Scaffold
 
-#### [NEW] `frontend/`
+NEW frontend/
 - Initialize standard Vite + React project.
-- Implement the core design system (`index.css`): dark theme palette, glassmorphism utilities, smooth gradients, and custom typography (e.g., Inter/Outfit).
+- Implement the core design system (index.css): dark theme palette, glassmorphism utilities, smooth gradients, and custom typography (e.g., Inter/Outfit).
 
-#### [NEW] `contracts/`
+NEW contracts/
 - Initialize Hardhat project.
-- Install necessary OpenZeppelin and `iexec-nox` libraries.
-- Scaffold the core `GhostPay.sol` contract and the Confidential Token wrappers.
+- Install necessary OpenZeppelin and iexec-nox libraries.
+- Scaffold the core GhostPay.sol contract and the Confidential Token wrappers.
 
----
+Phase 2: Smart Contracts (iExec Nox integration)
 
-### Phase 2: Smart Contracts (iExec Nox integration)
-
-#### [NEW] `contracts/GhostPay.sol`
+NEW contracts/GhostPay.sol
 - Implement a payroll registry mapping employee addresses to confidential streamed amounts.
 - Build functions to deposit ERC-20, wrap into cERC-20 (Confidential Token), and allocate securely.
 - Ensure compliance with ERC-7984 features for hidden balances.
 
----
+Phase 3: AI Integration (ChainGPT)
 
-### Phase 3: AI Integration (ChainGPT)
-
-#### [NEW] `frontend/src/services/chaingpt.ts`
+NEW frontend/src/services/chaingpt.ts
 - Implement API calls to ChainGPT's Web3 LLM.
 - Craft the system prompt so the AI acts as an HR assistant that understands the employee's on-chain context (anonymously).
 
-#### [NEW] `frontend/src/components/ChatAssistant.tsx`
+NEW frontend/src/components/ChatAssistant.tsx
 - Build a floating, visually stunning chat widget for employees to interact with the GhostPay AI Assistant.
 
----
+Phase 4: Frontend Development
 
-### Phase 4: Frontend Development
-
-#### [MODIFY] `frontend/src/App.tsx`
+MODIFY frontend/src/App.tsx
 - Implement the three-column layout (Sidebar, Main, AI Panel).
-- Refactor the "GhostPay" components to fit into the new card-based project view.
+- Refactor the GhostPay components to fit into the new card-based project view.
 
-#### [MODIFY] `frontend/src/App.css`
+MODIFY frontend/src/App.css
 - Complete overhaul of the design system to match the provided reference: deep backgrounds, vibrant gradients, and sophisticated typography.
 
-### Phase 6: Final UX/UI Refinement [NEW]
+Phase 6: Final UX/UI Refinement [NEW]
 
-#### [MODIFY] `frontend/src/App.tsx` & `App.css`
-- **Branding**: Integrate the official GhostPay Logo (`Logo.png`). Ensure it stands alone without containers in the sidebar. Update the favicon to match.
-- **AI Sidebar**: Refactor the right panel to be a more dedicated "AI Workspace" with a GPT-style icon and smoother chat flows.
-- **Background**: Shift to a "Deep Space" gradient (Charcoal to Raven) for better UI depth.
-- **Interactivity**: Make all sidebar icons functional (state-driven navigation).
-- **Wallet Button**: Design a more "premium" connection button with actionable feedback.
+MODIFY frontend/src/App.tsx and App.css
+- Branding: Integrate the official GhostPay Logo (Logo.png). Ensure it stands alone without containers in the sidebar. Update the favicon to match.
+- AI Sidebar: Refactor the right panel to be a more dedicated AI Workspace with a GPT-style icon and smoother chat flows.
+- Background: Shift to a Deep Space gradient (Charcoal to Raven) for better UI depth.
+- Interactivity: Make all sidebar icons functional (state-driven navigation).
+- Wallet Button: Design a more premium connection button with actionable feedback.
 
-### Phase 7: True UI/UX Overhaul [NEW]
+Phase 7: True UI/UX Overhaul [NEW]
 
-#### [MODIFY] `frontend/src/App.css`
-- **Grid Layout**: Rebuild the 3-column architecture to ensure proper scaling and no "floating" elements.
-- **Typography**: Complete audit of font sizes and weights for optimal legibility and "premium" feel.
-- **Component Styling**:
-    - **Header**: Refined tab-switcher (Employer/Employee) and high-fidelity 'Connect' button.
-    - **Cards**: Modernized project cards with depth, subtle glassmorphism, and better progress indicators.
-    - **Sidebar**: Balanced logo and icon spacing.
-- **Animations**: Add subtle transitions for tab switching and hover states.
+MODIFY frontend/src/App.css
+- Grid Layout: Rebuild the 3-column architecture to ensure proper scaling and no floating elements.
+- Typography: Complete audit of font sizes and weights for optimal legibility and premium feel.
+- Component Styling:
+    - Header: Refined tab-switcher (Employer/Employee) and high-fidelity Connect button.
+    - Cards: Modernized project cards with depth, subtle glassmorphism, and better progress indicators.
+    - Sidebar: Balanced logo and icon spacing.
+- Animations: Add subtle transitions for tab switching and hover states.
 
-#### [MODIFY] `frontend/src/App.tsx`
+MODIFY frontend/src/App.tsx
 - Ensure semantic HTML structure for better accessibility and layout consistency.
 - Standardize spacing and alignment across all dashboard views.
 
-### Phase 8: Deployment & Onboarding Protocol [NEW]
+Phase 8: Deployment and Onboarding Protocol [NEW]
 
-#### [MODIFY] `contracts/scripts/deploy.ts`
+MODIFY contracts/scripts/deploy.ts
 - Finalize the deployment script for Arbitrum Sepolia.
-- Deploy `MockERC20` (test funds) and `GhostPay` (Payroll logic).
+- Deploy MockERC20 (test funds) and GhostPay (Payroll logic).
 - Export contract addresses for frontend consumption.
 
-#### [MODIFY] `frontend/src/hooks/useGhostPay.ts`
-- Update ABI to include `underlying`, `depositForPayroll`, and `distributeConfidentialPayroll`.
+MODIFY frontend/src/hooks/useGhostPay.ts
+- Update ABI to include underlying, depositForPayroll, and distributeConfidentialPayroll.
 - Implement actual contract interaction logic (waiting for deployment).
 
-#### [MODIFY] `frontend/src/App.tsx`
-- **Employee Onboarding**: Add an "Add Employee" interface in the Employer view to simulate the retrieval of wallet addresses from encrypted data.
-- **Workflow Integration**: Connect the "Distribute" buttons to the `useGhostPay` hook for actual (simulated) transactions.
+MODIFY frontend/src/App.tsx
+- Employee Onboarding: Add an Add Employee interface in the Employer view to simulate the retrieval of wallet addresses from encrypted data.
+- Workflow Integration: Connect the Distribute buttons to the useGhostPay hook for actual (simulated) transactions.
 
----
+Open Questions
 
-## Open Questions
+Employee Wallets: In a production confidential app, we would use iExec DataProtector to allow employees to share their wallets privately. For the hackathon demo, do you want me to build a simple Add Employee Address manual form, or should I mock the DataProtector flow?
 
-> [!IMPORTANT]
-> **Employee Wallets**: In a production confidential app, we would use **iExec DataProtector** to allow employees to share their wallets privately. For the hackathon demo, do you want me to build a simple "Add Employee Address" manual form, or should I mock the DataProtector flow?
+Do you have a specific Arbitrum Sepolia RPC you'd like to use, or should I stick with the default public one in the .env?
 
-> [!QUESTION]
-> Do you have a specific Arbitrum Sepolia RPC you'd like to use, or should I stick with the default public one in the `.env`?
+API Keys: We will need access to a ChainGPT API key and potentially standard RPC providers (like Alchemy/Infura) for Arbitrum Sepolia. I can structure the code to use .env files for these. Can you confirm you have or can obtain these credentials?
 
-> [!CAUTION]  
-> **API Keys**: We will need access to a ChainGPT API key and potentially standard RPC providers (like Alchemy/Infura) for Arbitrum Sepolia. I can structure the code to use `.env` files for these. Can you confirm you have or can obtain these credentials?
+Verification Plan
 
-## Verification Plan
-
-### Automated Tests
-- Hardhat tests verifying the deposit, wrapping, and withdrawal mechanisms of the `GhostPay` contract.
+Automated Tests
+- Hardhat tests verifying the deposit, wrapping, and withdrawal mechanisms of the GhostPay contract.
 - Local verification of ChainGPT API responses via unit tests.
 
-### Manual Verification
+Manual Verification
 - Deploy contracts to Arbitrum Sepolia.
 - Run frontend locally -> Connect Employer Wallet -> Deposit test ERC-20 -> Add Employee -> Connect Employee Wallet -> Verify confidential balance -> Interact with AI Chatbot.
 - Record the comprehensive 4-minute demo video for submission.
+

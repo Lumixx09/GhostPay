@@ -1,4 +1,4 @@
-IEXEC TOOLING FEEDBACK REPORT - GHOSTPAY
+IEXEC TOOLING FEEDBACK REPORT GHOSTPAY
 
 OVERVIEW
 During the Vibe Coding Challenge, the GhostPay team integrated the iExec Nox protocol to establish a confidential payroll system. This report provides our technical feedback regarding the developer experience with iExec tools and the Nox protocol layer.
@@ -27,3 +27,4 @@ While standard contract deployment is supported, the addition of specialized Har
 
 CONCLUSION
 The iExec Nox protocol represents a fundamental advancement for institutional DeFi and real-world asset use cases. Despite being in a beta phase, the infrastructure is sufficiently stable for the development of complex applications like GhostPay. We look forward to the continued refinement of these developer tools.
+

@@ -1,86 +1,6 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "C:\\Work\\GhostPay\\contracts\\contracts\\GhostPay.sol": {
-      "lastModificationDate": 1777594688320,
-      "contentHash": "f661a4e60ce892c670a8298520856f54",
-      "sourceName": "contracts/GhostPay.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "evmVersion": "paris",
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "@openzeppelin/contracts/token/ERC20/IERC20.sol",
-        "@iexec-nox/nox-confidential-contracts/contracts/token/extensions/ERC20ToERC7984Wrapper.sol",
-        "@iexec-nox/nox-confidential-contracts/contracts/token/ERC7984.sol",
-        "@openzeppelin/contracts/access/Ownable.sol",
-        "@iexec-nox/nox-protocol-contracts/contracts/sdk/Nox.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.28"
-      ],
-      "artifacts": [
-        "GhostPay"
-      ]
-    },
-    "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\access\\Ownable.sol": {
-      "lastModificationDate": 1775720339705,
-      "contentHash": "d3c790edc9ccf808a17c5a6cd13614fd",
-      "sourceName": "@openzeppelin/contracts/access/Ownable.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "evmVersion": "paris",
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "../utils/Context.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "Ownable"
-      ]
-    },
     "C:\\Work\\GhostPay\\contracts\\node_modules\\@iexec-nox\\nox-confidential-contracts\\contracts\\token\\ERC7984.sol": {
       "lastModificationDate": 1775720335343,
       "contentHash": "88071b19f1e1959f1ef5431a048d8dcf",
@@ -470,44 +390,6 @@
         "TypeUtils"
       ]
     },
-    "C:\\Work\\GhostPay\\contracts\\node_modules\\@iexec-nox\\nox-protocol-contracts\\contracts\\interfaces\\INoxCompute.sol": {
-      "lastModificationDate": 1775720335361,
-      "contentHash": "fd33c93bfc5356e926426aef28c7c072",
-      "sourceName": "@iexec-nox/nox-protocol-contracts/contracts/interfaces/INoxCompute.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "evmVersion": "paris",
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "../shared/TypeUtils.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.27"
-      ],
-      "artifacts": [
-        "INoxCompute"
-      ]
-    },
     "C:\\Work\\GhostPay\\contracts\\node_modules\\encrypted-types\\EncryptedTypes.sol": {
       "lastModificationDate": 1775720345200,
       "contentHash": "521a624fad71cd29fc4b7c443b41bb86",
@@ -653,42 +535,6 @@
       ],
       "artifacts": [
         "IERC20ToERC7984Wrapper"
-      ]
-    },
-    "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\interfaces\\IERC1363Receiver.sol": {
-      "lastModificationDate": 1775720339987,
-      "contentHash": "052bd461637a1a8060a31e32fa0b89da",
-      "sourceName": "@openzeppelin/contracts/interfaces/IERC1363Receiver.sol",
-      "solcConfig": {
-        "version": "0.8.28",
-        "settings": {
-          "evmVersion": "paris",
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        ">=0.5.0"
-      ],
-      "artifacts": [
-        "IERC1363Receiver"
       ]
     },
     "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\interfaces\\IERC20.sol": {
@@ -958,9 +804,86 @@
         "IERC721Errors"
       ]
     },
+    "C:\\Work\\GhostPay\\contracts\\contracts\\GhostPay.sol": {
+      "lastModificationDate": 1777659001545,
+      "contentHash": "4fdcf8bee07a9a8612665bf2abbb1246",
+      "sourceName": "contracts/GhostPay.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/IERC20.sol",
+        "@openzeppelin/contracts/access/Ownable.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.28"
+      ],
+      "artifacts": [
+        "GhostPay"
+      ]
+    },
+    "C:\\Work\\GhostPay\\contracts\\node_modules\\@openzeppelin\\contracts\\access\\Ownable.sol": {
+      "lastModificationDate": 1775720339705,
+      "contentHash": "d3c790edc9ccf808a17c5a6cd13614fd",
+      "sourceName": "@openzeppelin/contracts/access/Ownable.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../utils/Context.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "Ownable"
+      ]
+    },
     "C:\\Work\\GhostPay\\contracts\\contracts\\MockERC20.sol": {
-      "lastModificationDate": 1777594688323,
-      "contentHash": "a3cba7a3d756074657cca99564442cd6",
+      "lastModificationDate": 1777659167116,
+      "contentHash": "e3067aadd62842adfc58bd75f14c0ac1",
       "sourceName": "contracts/MockERC20.sol",
       "solcConfig": {
         "version": "0.8.28",

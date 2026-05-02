@@ -1,53 +1,85 @@
-GHOSTPAY PROTOCOL
-Confidential Bulk Payroll Infrastructure on Arbitrum Sepolia
+GhostPay: Confidential Institutional Payroll
 
-GhostPay is a privacy-centric, institutional-grade payroll application developed for the iExec Vibe Coding Challenge. The protocol utilizes iExec Nox Confidential Computing to facilitate mass salary distributions with complete privacy and cryptographic security on the Arbitrum Sepolia network.
+Built for the iExec Vibe Coding Challenge
+Confidential Bulk Payouts powered by iExec Nox and ChainGPT AI
 
-PROBLEM STATEMENT
-In standard blockchain payroll implementations, recipient addresses and payment amounts are visible on public explorers. This lack of privacy exposes sensitive corporate financial data and personal income information, creating a significant barrier to institutional adoption of decentralized payroll systems.
+Submission Video
+[Link to Demo Video (4:00)]
 
-THE GHOSTPAY SOLUTION
-GhostPay addresses the privacy requirements of modern enterprises by implementing end to end encryption via the iExec Nox protocol. This ensures that only the employer and the specific employee are aware of the individual distribution amounts. The system maintains a live, event-driven ledger that remains synchronized with the blockchain while preserving user confidentiality.
+Live Demo / Repository
+- GitHub: [Link to Repository]
+- Network: Arbitrum Sepolia
+- Protocol Layer: iExec Nox (Confidential Computing)
+- AI Partner: ChainGPT
 
-CORE FEATURES
+Overview
 
-1. Professional Confidential Dashboard
-The application provides a high-density financial workspace with live protocol metrics and an integrated analytical assistant.
+GhostPay is a privacy-first, institutional-grade payroll infrastructure designed to solve the public salary problem in Web3. While blockchain offers transparency, it lacks the financial privacy required for professional payroll. GhostPay leverages iExec Nox and the ERC-7984 (Confidential Token) standard to allow employers to distribute salaries in bulk while keeping recipient addresses and amounts completely hidden from the public ledger.
 
-2. Blockchain Event Indexing
-GhostPay incorporates a serverless indexing engine that retrieves on-chain history in real time. This provides verifiable proof of payroll execution without reliance on a centralized database.
+To enhance the institutional experience, GhostPay integrates a ChainGPT AI Assistant that provides real-time protocol insights and payroll optimization without ever compromising the underlying encrypted data.
 
-3. Artificial Intelligence Analyst
-An integrated analysis engine powered by ChainGPT has read access to protocol history, providing data analysis and payroll optimization insights to the employer.
+The Problem: Public Payouts
+In standard Web3 payroll (e.g., streaming or multisig transfers), every employee's salary and wallet address are visible on public explorers like Etherscan. This:
+1. Exposes sensitive corporate financial data.
+2. Compromises employee personal security and income privacy.
+3. Blocks institutional adoption of decentralized payroll systems.
 
-4. Secure Vault Infrastructure
-The protocol is powered by iExec Nox, ensuring that salary data is processed through secure enclaves, making it invisible to third parties and the underlying network.
+The GhostPay Solution
 
-TECHNICAL ARCHITECTURE
+1. iExec Nox Protocol Integration
+GhostPay utilizes the Nox Confidential Computing layer to process payments. 
+- Confidential Tokens (ERC-7984): Standard assets (USDC) are wrapped into confidential equivalents (cUSDC).
+- Encrypted Transfers: Payouts are executed via the distributeConfidentialPayroll function using encrypted data types (euint256).
+- TEE Security: The actual decryption and distribution logic occur within Trusted Execution Environments (TEEs), ensuring no one, not even the validators or GhostPay developers, can see the plaintext values.
 
-The technical foundation of GhostPay is built upon a multi-layered stack designed for maximum privacy and performance. The system operates on the Arbitrum Sepolia Layer 2 network to ensure high throughput and minimal transaction costs.
+2. ChainGPT AI Analytics
+We've integrated ChainGPT to act as a Confidential CFO. 
+- Privacy-Preserving Insights: The AI indexes protocol events (sanitized of sensitive data) to provide employers with high-level analytics on volume, burn rates, and historical trends.
+- Natural Language Interface: Employers can query their payroll health using the GhostPay Chat Assistant.
 
-iExec Nox Protocol Integration
-The core privacy logic is implemented through the iExec Nox confidential computing layer. GhostPay utilizes the ERC-7984 standard, which extends traditional ERC-20 tokens with confidentiality features. The smart contract inherits from the ERC20ToERC7984Wrapper, allowing users to deposit standard assets and receive their confidential equivalents.
+3. Professional Institutional UI
+A vibe-coded dashboard built for speed and aesthetics:
+- Shadow Mode: Instant UI masking for screen sharing or public demonstrations.
+- Bulk Dispatch: CSV-style input for rapid, confidential global distributions.
+- Cryptographic Identity: Secure Settings module accessible only after verifying on-chain identity.
 
-Payroll distributions are executed via the distributeConfidentialPayroll function. This function processes transfers using the euint256 data type, a specialized encrypted handle supported by the Nox protocol. This ensures that the specific amounts being transferred to employees are never decrypted on the public ledger. Instead, they are processed within Trusted Execution Environments (TEE), where the actual values are only visible to the authorized participants.
+Technical Architecture
 
-ChainGPT Artificial Intelligence Integration
-The analytical layer of GhostPay is powered by ChainGPT, providing the employer with real-time insights into protocol volume and historical trends. The frontend application actively indexes the Arbitrum Sepolia network for specific protocol events, including PayrollDistributed and SalaryClaimed.
+Core Stack
+- Frontend: Vite, React 18, TypeScript, Phosphor Icons.
+- Smart Contracts: Solidity (0.8.24+), Hardhat.
+- Confidentiality: iExec Nox SDK, ERC-7984 Wrapper.
+- AI Engine: ChainGPT Web3-LLM API.
+- Network: Arbitrum Sepolia.
 
-These events are processed and sanitized into a structured history. When a user interacts with the GhostAssistant, this live protocol data is fed into the ChainGPT large language model as context. This allows the AI to answer complex questions regarding total distribution volume, recipient counts, and historical payroll patterns without the need for a centralized database, maintaining the decentralized and private nature of the protocol.
+Repository Structure
+- /contracts: Solidity source code, Hardhat configuration, and deployment scripts.
+- /frontend: The GhostPay professional dashboard (Vite/React).
+- feedback.md: Our technical feedback on the iExec developer experience.
 
-Infrastructure and Styling
-The frontend is developed using React 18 and Vite for optimal performance. The user interface utilizes a custom design system built with vanilla CSS to achieve a premium, institutional aesthetic without the overhead of external utility frameworks.
+Installation and Setup
 
-INSTALLATION AND CONFIGURATION
+Prerequisites
+- Node.js (v18+)
+- Metamask (configured for Arbitrum Sepolia)
+- ChainGPT API Key
 
-1. Clone the repository from the provided source.
-2. Navigate to the frontend directory, install dependencies via npm, and launch the development server.
-3. Navigate to the contracts directory, install dependencies, and compile the smart contracts using Hardhat.
-4. Configure the environment variables in both directories, including the private keys, RPC endpoints, and the ChainGPT API key.
+1. Smart Contracts
+cd contracts
+npm install
+Configure .env with PRIVATE_KEY and ARBITRUM_SEPOLIA_RPC
+npx hardhat compile
+npx hardhat run scripts/deploy.ts --network arbitrumSepolia
 
-VISION
-The GhostPay team believes that privacy is a fundamental requirement for the decentralized economy. Our objective is to establish GhostPay as the industry standard for confidential distributions in the workspace.
+2. Frontend
+cd frontend
+npm install
+Configure .env with VITE_GHOST_PAY_ADDRESS and VITE_CHAINGPT_API_KEY
+npm run dev
 
-[User to add links here]
+Feedback
+We've documented our journey building with iExec Nox in feedback.md. We highlight the strengths of the ERC-7984 standard and provide suggestions for local TEE simulation tools.
+
+License
+GhostPay is open-source software licensed under the MIT License.
+

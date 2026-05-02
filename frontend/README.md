@@ -1,73 +1,48 @@
-# React + TypeScript + Vite
+# 👻 GhostPay Frontend
+**The Confidential Institutional Payroll Dashboard**
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Built with Vite, React, and TypeScript for the iExec Vibe Coding Challenge.
 
-Currently, two official plugins are available:
+## ✨ Features
+- **Confidential Dashboard**: Real-time protocol metrics synced from Arbitrum Sepolia.
+- **Bulk Dispatch Engine**: High-performance parser for mass confidential payouts.
+- **Shadow Mode**: Instant UI obfuscation for secure presentations.
+- **AI Analyst**: Integrated ChainGPT assistant for on-chain data insights.
+- **Secure Vaults**: Local contact management and session-based identity verification.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🛠️ Tech Stack
+- **Framework**: [React 18](https://reactjs.org/)
+- **Build Tool**: [Vite](https://vitejs.dev/)
+- **Icons**: [Phosphor Icons](https://phosphoricons.com/)
+- **Web3**: [Ethers.js](https://docs.ethers.org/v6/)
+- **Styling**: Vanilla CSS (CSS Modules) with glassmorphism and dynamic animations.
 
-## React Compiler
+## 🚀 Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 1. Environment Configuration
+Create a `.env` file in this directory based on `.env.example`:
+```env
+VITE_GHOST_PAY_ADDRESS=0x... # Deployed GhostPay contract address
+VITE_CHAINGPT_API_KEY=your_api_key_here
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 2. Install Dependencies
+```bash
+npm install
 ```
+
+### 3. Run Development Server
+```bash
+npm run dev
+```
+
+### 4. Build for Production
+```bash
+npm run build
+```
+
+---
+
+## 🔒 Privacy & Security
+The frontend communicates directly with the iExec Nox protocol on Arbitrum Sepolia. All sensitive transaction data is encrypted before being sent to the RPC, ensuring that individual salary amounts are never exposed in the browser's networking tab in plaintext.
+

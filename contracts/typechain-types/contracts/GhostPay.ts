@@ -27,46 +27,21 @@ export interface GhostPayInterface extends Interface {
   getFunction(
     nameOrSignature:
       | "confidentialBalanceOf"
-      | "confidentialTotalSupply"
-      | "confidentialTransfer(address,bytes32,bytes)"
-      | "confidentialTransfer(address,bytes32)"
-      | "confidentialTransferAndCall(address,bytes32,bytes)"
-      | "confidentialTransferAndCall(address,bytes32,bytes,bytes)"
-      | "confidentialTransferFrom(address,address,bytes32,bytes)"
-      | "confidentialTransferFrom(address,address,bytes32)"
-      | "confidentialTransferFromAndCall(address,address,bytes32,bytes,bytes)"
-      | "confidentialTransferFromAndCall(address,address,bytes32,bytes)"
-      | "contractURI"
-      | "decimals"
+      | "demoBalances"
       | "distributeConfidentialPayroll"
-      | "finalizeUnwrap"
-      | "inferredTotalSupply"
-      | "isOperator"
-      | "maxTotalSupply"
-      | "name"
-      | "onTransferReceived"
       | "owner"
       | "reclaimToUnderlying"
       | "renounceOwnership"
-      | "setOperator"
-      | "supportsInterface"
-      | "symbol"
       | "transferOwnership"
       | "underlying"
-      | "unwrap(address,address,bytes32,bytes)"
-      | "unwrap(address,address,bytes32)"
-      | "unwrapRequester"
       | "wrap"
   ): FunctionFragment;
 
   getEvent(
     nameOrSignatureOrTopic:
-      | "ConfidentialTransfer"
-      | "OperatorSet"
       | "OwnershipTransferred"
       | "PayrollDistributed"
       | "SalaryClaimRequested"
-      | "UnwrapFinalized"
       | "UnwrapRequested"
   ): EventFragment;
 
@@ -75,70 +50,12 @@ export interface GhostPayInterface extends Interface {
     values: [AddressLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "confidentialTotalSupply",
-    values?: undefined
+    functionFragment: "demoBalances",
+    values: [AddressLike]
   ): string;
-  encodeFunctionData(
-    functionFragment: "confidentialTransfer(address,bytes32,bytes)",
-    values: [AddressLike, BytesLike, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "confidentialTransfer(address,bytes32)",
-    values: [AddressLike, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "confidentialTransferAndCall(address,bytes32,bytes)",
-    values: [AddressLike, BytesLike, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "confidentialTransferAndCall(address,bytes32,bytes,bytes)",
-    values: [AddressLike, BytesLike, BytesLike, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "confidentialTransferFrom(address,address,bytes32,bytes)",
-    values: [AddressLike, AddressLike, BytesLike, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "confidentialTransferFrom(address,address,bytes32)",
-    values: [AddressLike, AddressLike, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "confidentialTransferFromAndCall(address,address,bytes32,bytes,bytes)",
-    values: [AddressLike, AddressLike, BytesLike, BytesLike, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "confidentialTransferFromAndCall(address,address,bytes32,bytes)",
-    values: [AddressLike, AddressLike, BytesLike, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "contractURI",
-    values?: undefined
-  ): string;
-  encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "distributeConfidentialPayroll",
     values: [AddressLike[], BytesLike[], BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "finalizeUnwrap",
-    values: [BytesLike, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "inferredTotalSupply",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "isOperator",
-    values: [AddressLike, AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "maxTotalSupply",
-    values?: undefined
-  ): string;
-  encodeFunctionData(functionFragment: "name", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "onTransferReceived",
-    values: [AddressLike, AddressLike, BigNumberish, BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
@@ -150,33 +67,12 @@ export interface GhostPayInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "setOperator",
-    values: [AddressLike, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "supportsInterface",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
-  encodeFunctionData(
     functionFragment: "transferOwnership",
     values: [AddressLike]
   ): string;
   encodeFunctionData(
     functionFragment: "underlying",
     values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "unwrap(address,address,bytes32,bytes)",
-    values: [AddressLike, AddressLike, BytesLike, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "unwrap(address,address,bytes32)",
-    values: [AddressLike, AddressLike, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "unwrapRequester",
-    values: [BytesLike]
   ): string;
   encodeFunctionData(
     functionFragment: "wrap",
@@ -188,66 +84,11 @@ export interface GhostPayInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "confidentialTotalSupply",
+    functionFragment: "demoBalances",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "confidentialTransfer(address,bytes32,bytes)",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "confidentialTransfer(address,bytes32)",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "confidentialTransferAndCall(address,bytes32,bytes)",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "confidentialTransferAndCall(address,bytes32,bytes,bytes)",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "confidentialTransferFrom(address,address,bytes32,bytes)",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "confidentialTransferFrom(address,address,bytes32)",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "confidentialTransferFromAndCall(address,address,bytes32,bytes,bytes)",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "confidentialTransferFromAndCall(address,address,bytes32,bytes)",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "contractURI",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "distributeConfidentialPayroll",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "finalizeUnwrap",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "inferredTotalSupply",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "isOperator", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "maxTotalSupply",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "onTransferReceived",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
@@ -260,68 +101,11 @@ export interface GhostPayInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setOperator",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "supportsInterface",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
-  decodeFunctionResult(
     functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "underlying", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "unwrap(address,address,bytes32,bytes)",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "unwrap(address,address,bytes32)",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "unwrapRequester",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "wrap", data: BytesLike): Result;
-}
-
-export namespace ConfidentialTransferEvent {
-  export type InputTuple = [
-    from: AddressLike,
-    to: AddressLike,
-    amount: BytesLike
-  ];
-  export type OutputTuple = [from: string, to: string, amount: string];
-  export interface OutputObject {
-    from: string;
-    to: string;
-    amount: string;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
-}
-
-export namespace OperatorSetEvent {
-  export type InputTuple = [
-    holder: AddressLike,
-    operator: AddressLike,
-    until: BigNumberish
-  ];
-  export type OutputTuple = [holder: string, operator: string, until: bigint];
-  export interface OutputObject {
-    holder: string;
-    operator: string;
-    until: bigint;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
 }
 
 export namespace OwnershipTransferredEvent {
@@ -338,11 +122,20 @@ export namespace OwnershipTransferredEvent {
 }
 
 export namespace PayrollDistributedEvent {
-  export type InputTuple = [employer: AddressLike, employeeCount: BigNumberish];
-  export type OutputTuple = [employer: string, employeeCount: bigint];
+  export type InputTuple = [
+    employer: AddressLike,
+    employeeCount: BigNumberish,
+    totalAmount: BigNumberish
+  ];
+  export type OutputTuple = [
+    employer: string,
+    employeeCount: bigint,
+    totalAmount: bigint
+  ];
   export interface OutputObject {
     employer: string;
     employeeCount: bigint;
+    totalAmount: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -363,34 +156,12 @@ export namespace SalaryClaimRequestedEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
-export namespace UnwrapFinalizedEvent {
-  export type InputTuple = [
-    receiver: AddressLike,
-    encryptedAmount: BytesLike,
-    plaintextAmount: BigNumberish
-  ];
-  export type OutputTuple = [
-    receiver: string,
-    encryptedAmount: string,
-    plaintextAmount: bigint
-  ];
-  export interface OutputObject {
-    receiver: string;
-    encryptedAmount: string;
-    plaintextAmount: bigint;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
-}
-
 export namespace UnwrapRequestedEvent {
-  export type InputTuple = [receiver: AddressLike, amount: BytesLike];
-  export type OutputTuple = [receiver: string, amount: string];
+  export type InputTuple = [to: AddressLike, unwrapAmount: BytesLike];
+  export type OutputTuple = [to: string, unwrapAmount: string];
   export interface OutputObject {
-    receiver: string;
-    amount: string;
+    to: string;
+    unwrapAmount: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -443,142 +214,27 @@ export interface GhostPay extends BaseContract {
 
   confidentialBalanceOf: TypedContractMethod<
     [account: AddressLike],
-    [string],
+    [bigint],
     "view"
   >;
 
-  confidentialTotalSupply: TypedContractMethod<[], [string], "view">;
-
-  "confidentialTransfer(address,bytes32,bytes)": TypedContractMethod<
-    [to: AddressLike, encryptedAmount: BytesLike, inputProof: BytesLike],
-    [string],
-    "nonpayable"
-  >;
-
-  "confidentialTransfer(address,bytes32)": TypedContractMethod<
-    [to: AddressLike, amount: BytesLike],
-    [string],
-    "nonpayable"
-  >;
-
-  "confidentialTransferAndCall(address,bytes32,bytes)": TypedContractMethod<
-    [to: AddressLike, amount: BytesLike, data: BytesLike],
-    [string],
-    "nonpayable"
-  >;
-
-  "confidentialTransferAndCall(address,bytes32,bytes,bytes)": TypedContractMethod<
-    [
-      to: AddressLike,
-      encryptedAmount: BytesLike,
-      inputProof: BytesLike,
-      data: BytesLike
-    ],
-    [string],
-    "nonpayable"
-  >;
-
-  "confidentialTransferFrom(address,address,bytes32,bytes)": TypedContractMethod<
-    [
-      from: AddressLike,
-      to: AddressLike,
-      encryptedAmount: BytesLike,
-      inputProof: BytesLike
-    ],
-    [string],
-    "nonpayable"
-  >;
-
-  "confidentialTransferFrom(address,address,bytes32)": TypedContractMethod<
-    [from: AddressLike, to: AddressLike, amount: BytesLike],
-    [string],
-    "nonpayable"
-  >;
-
-  "confidentialTransferFromAndCall(address,address,bytes32,bytes,bytes)": TypedContractMethod<
-    [
-      from: AddressLike,
-      to: AddressLike,
-      encryptedAmount: BytesLike,
-      inputProof: BytesLike,
-      data: BytesLike
-    ],
-    [string],
-    "nonpayable"
-  >;
-
-  "confidentialTransferFromAndCall(address,address,bytes32,bytes)": TypedContractMethod<
-    [from: AddressLike, to: AddressLike, amount: BytesLike, data: BytesLike],
-    [string],
-    "nonpayable"
-  >;
-
-  contractURI: TypedContractMethod<[], [string], "view">;
-
-  decimals: TypedContractMethod<[], [bigint], "view">;
+  demoBalances: TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
 
   distributeConfidentialPayroll: TypedContractMethod<
-    [
-      employees: AddressLike[],
-      encryptedAmounts: BytesLike[],
-      inputProof: BytesLike
-    ],
+    [employees: AddressLike[], encryptedAmounts: BytesLike[], arg2: BytesLike],
     [void],
-    "nonpayable"
-  >;
-
-  finalizeUnwrap: TypedContractMethod<
-    [unwrapRequestId: BytesLike, decryptedAmountAndProof: BytesLike],
-    [void],
-    "nonpayable"
-  >;
-
-  inferredTotalSupply: TypedContractMethod<[], [bigint], "view">;
-
-  isOperator: TypedContractMethod<
-    [holder: AddressLike, spender: AddressLike],
-    [boolean],
-    "view"
-  >;
-
-  maxTotalSupply: TypedContractMethod<[], [bigint], "view">;
-
-  name: TypedContractMethod<[], [string], "view">;
-
-  onTransferReceived: TypedContractMethod<
-    [
-      arg0: AddressLike,
-      from: AddressLike,
-      amount: BigNumberish,
-      data: BytesLike
-    ],
-    [string],
     "nonpayable"
   >;
 
   owner: TypedContractMethod<[], [string], "view">;
 
   reclaimToUnderlying: TypedContractMethod<
-    [encryptedAmount: BytesLike, inputProof: BytesLike],
+    [encryptedAmount: BytesLike, arg1: BytesLike],
     [string],
     "nonpayable"
   >;
 
   renounceOwnership: TypedContractMethod<[], [void], "nonpayable">;
-
-  setOperator: TypedContractMethod<
-    [operator: AddressLike, until: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
-
-  supportsInterface: TypedContractMethod<
-    [interfaceId: BytesLike],
-    [boolean],
-    "view"
-  >;
-
-  symbol: TypedContractMethod<[], [string], "view">;
 
   transferOwnership: TypedContractMethod<
     [newOwner: AddressLike],
@@ -587,29 +243,6 @@ export interface GhostPay extends BaseContract {
   >;
 
   underlying: TypedContractMethod<[], [string], "view">;
-
-  "unwrap(address,address,bytes32,bytes)": TypedContractMethod<
-    [
-      from: AddressLike,
-      to: AddressLike,
-      encryptedAmount: BytesLike,
-      inputProof: BytesLike
-    ],
-    [string],
-    "nonpayable"
-  >;
-
-  "unwrap(address,address,bytes32)": TypedContractMethod<
-    [from: AddressLike, to: AddressLike, amount: BytesLike],
-    [string],
-    "nonpayable"
-  >;
-
-  unwrapRequester: TypedContractMethod<
-    [unwrapAmount: BytesLike],
-    [string],
-    "view"
-  >;
 
   wrap: TypedContractMethod<
     [to: AddressLike, amount: BigNumberish],
@@ -623,132 +256,15 @@ export interface GhostPay extends BaseContract {
 
   getFunction(
     nameOrSignature: "confidentialBalanceOf"
-  ): TypedContractMethod<[account: AddressLike], [string], "view">;
+  ): TypedContractMethod<[account: AddressLike], [bigint], "view">;
   getFunction(
-    nameOrSignature: "confidentialTotalSupply"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "confidentialTransfer(address,bytes32,bytes)"
-  ): TypedContractMethod<
-    [to: AddressLike, encryptedAmount: BytesLike, inputProof: BytesLike],
-    [string],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "confidentialTransfer(address,bytes32)"
-  ): TypedContractMethod<
-    [to: AddressLike, amount: BytesLike],
-    [string],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "confidentialTransferAndCall(address,bytes32,bytes)"
-  ): TypedContractMethod<
-    [to: AddressLike, amount: BytesLike, data: BytesLike],
-    [string],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "confidentialTransferAndCall(address,bytes32,bytes,bytes)"
-  ): TypedContractMethod<
-    [
-      to: AddressLike,
-      encryptedAmount: BytesLike,
-      inputProof: BytesLike,
-      data: BytesLike
-    ],
-    [string],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "confidentialTransferFrom(address,address,bytes32,bytes)"
-  ): TypedContractMethod<
-    [
-      from: AddressLike,
-      to: AddressLike,
-      encryptedAmount: BytesLike,
-      inputProof: BytesLike
-    ],
-    [string],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "confidentialTransferFrom(address,address,bytes32)"
-  ): TypedContractMethod<
-    [from: AddressLike, to: AddressLike, amount: BytesLike],
-    [string],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "confidentialTransferFromAndCall(address,address,bytes32,bytes,bytes)"
-  ): TypedContractMethod<
-    [
-      from: AddressLike,
-      to: AddressLike,
-      encryptedAmount: BytesLike,
-      inputProof: BytesLike,
-      data: BytesLike
-    ],
-    [string],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "confidentialTransferFromAndCall(address,address,bytes32,bytes)"
-  ): TypedContractMethod<
-    [from: AddressLike, to: AddressLike, amount: BytesLike, data: BytesLike],
-    [string],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "contractURI"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "decimals"
-  ): TypedContractMethod<[], [bigint], "view">;
+    nameOrSignature: "demoBalances"
+  ): TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
   getFunction(
     nameOrSignature: "distributeConfidentialPayroll"
   ): TypedContractMethod<
-    [
-      employees: AddressLike[],
-      encryptedAmounts: BytesLike[],
-      inputProof: BytesLike
-    ],
+    [employees: AddressLike[], encryptedAmounts: BytesLike[], arg2: BytesLike],
     [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "finalizeUnwrap"
-  ): TypedContractMethod<
-    [unwrapRequestId: BytesLike, decryptedAmountAndProof: BytesLike],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "inferredTotalSupply"
-  ): TypedContractMethod<[], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "isOperator"
-  ): TypedContractMethod<
-    [holder: AddressLike, spender: AddressLike],
-    [boolean],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "maxTotalSupply"
-  ): TypedContractMethod<[], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "name"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "onTransferReceived"
-  ): TypedContractMethod<
-    [
-      arg0: AddressLike,
-      from: AddressLike,
-      amount: BigNumberish,
-      data: BytesLike
-    ],
-    [string],
     "nonpayable"
   >;
   getFunction(
@@ -757,7 +273,7 @@ export interface GhostPay extends BaseContract {
   getFunction(
     nameOrSignature: "reclaimToUnderlying"
   ): TypedContractMethod<
-    [encryptedAmount: BytesLike, inputProof: BytesLike],
+    [encryptedAmount: BytesLike, arg1: BytesLike],
     [string],
     "nonpayable"
   >;
@@ -765,46 +281,11 @@ export interface GhostPay extends BaseContract {
     nameOrSignature: "renounceOwnership"
   ): TypedContractMethod<[], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "setOperator"
-  ): TypedContractMethod<
-    [operator: AddressLike, until: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "supportsInterface"
-  ): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
-  getFunction(
-    nameOrSignature: "symbol"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
     nameOrSignature: "transferOwnership"
   ): TypedContractMethod<[newOwner: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "underlying"
   ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "unwrap(address,address,bytes32,bytes)"
-  ): TypedContractMethod<
-    [
-      from: AddressLike,
-      to: AddressLike,
-      encryptedAmount: BytesLike,
-      inputProof: BytesLike
-    ],
-    [string],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "unwrap(address,address,bytes32)"
-  ): TypedContractMethod<
-    [from: AddressLike, to: AddressLike, amount: BytesLike],
-    [string],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "unwrapRequester"
-  ): TypedContractMethod<[unwrapAmount: BytesLike], [string], "view">;
   getFunction(
     nameOrSignature: "wrap"
   ): TypedContractMethod<
@@ -813,20 +294,6 @@ export interface GhostPay extends BaseContract {
     "nonpayable"
   >;
 
-  getEvent(
-    key: "ConfidentialTransfer"
-  ): TypedContractEvent<
-    ConfidentialTransferEvent.InputTuple,
-    ConfidentialTransferEvent.OutputTuple,
-    ConfidentialTransferEvent.OutputObject
-  >;
-  getEvent(
-    key: "OperatorSet"
-  ): TypedContractEvent<
-    OperatorSetEvent.InputTuple,
-    OperatorSetEvent.OutputTuple,
-    OperatorSetEvent.OutputObject
-  >;
   getEvent(
     key: "OwnershipTransferred"
   ): TypedContractEvent<
@@ -849,13 +316,6 @@ export interface GhostPay extends BaseContract {
     SalaryClaimRequestedEvent.OutputObject
   >;
   getEvent(
-    key: "UnwrapFinalized"
-  ): TypedContractEvent<
-    UnwrapFinalizedEvent.InputTuple,
-    UnwrapFinalizedEvent.OutputTuple,
-    UnwrapFinalizedEvent.OutputObject
-  >;
-  getEvent(
     key: "UnwrapRequested"
   ): TypedContractEvent<
     UnwrapRequestedEvent.InputTuple,
@@ -864,28 +324,6 @@ export interface GhostPay extends BaseContract {
   >;
 
   filters: {
-    "ConfidentialTransfer(address,address,bytes32)": TypedContractEvent<
-      ConfidentialTransferEvent.InputTuple,
-      ConfidentialTransferEvent.OutputTuple,
-      ConfidentialTransferEvent.OutputObject
-    >;
-    ConfidentialTransfer: TypedContractEvent<
-      ConfidentialTransferEvent.InputTuple,
-      ConfidentialTransferEvent.OutputTuple,
-      ConfidentialTransferEvent.OutputObject
-    >;
-
-    "OperatorSet(address,address,uint48)": TypedContractEvent<
-      OperatorSetEvent.InputTuple,
-      OperatorSetEvent.OutputTuple,
-      OperatorSetEvent.OutputObject
-    >;
-    OperatorSet: TypedContractEvent<
-      OperatorSetEvent.InputTuple,
-      OperatorSetEvent.OutputTuple,
-      OperatorSetEvent.OutputObject
-    >;
-
     "OwnershipTransferred(address,address)": TypedContractEvent<
       OwnershipTransferredEvent.InputTuple,
       OwnershipTransferredEvent.OutputTuple,
@@ -897,7 +335,7 @@ export interface GhostPay extends BaseContract {
       OwnershipTransferredEvent.OutputObject
     >;
 
-    "PayrollDistributed(address,uint256)": TypedContractEvent<
+    "PayrollDistributed(address,uint256,uint256)": TypedContractEvent<
       PayrollDistributedEvent.InputTuple,
       PayrollDistributedEvent.OutputTuple,
       PayrollDistributedEvent.OutputObject
@@ -917,17 +355,6 @@ export interface GhostPay extends BaseContract {
       SalaryClaimRequestedEvent.InputTuple,
       SalaryClaimRequestedEvent.OutputTuple,
       SalaryClaimRequestedEvent.OutputObject
-    >;
-
-    "UnwrapFinalized(address,bytes32,uint256)": TypedContractEvent<
-      UnwrapFinalizedEvent.InputTuple,
-      UnwrapFinalizedEvent.OutputTuple,
-      UnwrapFinalizedEvent.OutputObject
-    >;
-    UnwrapFinalized: TypedContractEvent<
-      UnwrapFinalizedEvent.InputTuple,
-      UnwrapFinalizedEvent.OutputTuple,
-      UnwrapFinalizedEvent.OutputObject
     >;
 
     "UnwrapRequested(address,bytes32)": TypedContractEvent<

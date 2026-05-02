@@ -1,8 +1,8 @@
 {
   "network": "arbitrum-sepolia",
   "chainId": 421614,
-  "mockERC20": "0x87A5AB4d891613B152A7aA1AE8cC1884681c9EE1",
-  "ghostPay": "0x481f5f0efE90ACDbDafDB95a64fd3201Be8038AD",
-  "deployedAt": "2026-05-01T09:00:05.367Z",
-  "deployer": "0xc0Dd2bd75f7A2a77C622a62E08E5e534A5360867"
+  "mockERC20": "0xbCe322EaE33BB3587290B24292862Bb01563A981",
+  "ghostPay": "0xb373De19124BeE44488f54AA29E9425d1b714b41",
+  "deployedAt": "2026-05-01T20:24:45.460Z",
+  "deployer": "0x5D865e6fd3B239f8D6C91cfa12BfeDa2BE074FBA"
 }
