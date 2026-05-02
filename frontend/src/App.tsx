@@ -279,6 +279,11 @@ function App() {
     setIsVerifying(false);
   };
 
+  const handleRefresh = async () => {
+    await refreshBalance();
+    showNotification("Balances synchronized with Nox Protocol.");
+  };
+
   const handleBulkDistribute = async () => {
     if (!bulkInput.trim()) return;
     setIsProcessing(true);
@@ -543,7 +548,13 @@ function App() {
                     >
                       {isPending ? <CircleNotch size={24} className="animate-spin" /> : "Withdraw Funds"}
                     </button>
-                    <button className="btn-connect-pro" onClick={refreshBalance} disabled={isPending}>Refresh Balance</button>
+                    <button 
+                      className="btn-connect-pro" 
+                      onClick={handleRefresh} 
+                      disabled={isPending}
+                    >
+                      {isPending ? <CircleNotch size={20} className="animate-spin" /> : "Refresh Balance"}
+                    </button>
                   </div>
                 </div>
               )

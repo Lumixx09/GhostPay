@@ -233,8 +233,8 @@ export interface GhostPay extends BaseContract {
   owner: TypedContractMethod<[], [string], "view">;
 
   reclaimToUnderlying: TypedContractMethod<
-    [encryptedAmount: BytesLike, arg1: BytesLike],
-    [string],
+    [handle: BytesLike, arg1: BytesLike],
+    [bigint],
     "nonpayable"
   >;
 
@@ -277,8 +277,8 @@ export interface GhostPay extends BaseContract {
   getFunction(
     nameOrSignature: "reclaimToUnderlying"
   ): TypedContractMethod<
-    [encryptedAmount: BytesLike, arg1: BytesLike],
-    [string],
+    [handle: BytesLike, arg1: BytesLike],
+    [bigint],
     "nonpayable"
   >;
   getFunction(

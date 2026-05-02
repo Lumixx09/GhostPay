@@ -63,14 +63,16 @@ contract GhostPay is Ownable {
     /**
      * @notice Confidential Reclaim: Reduces internal balance for unwrap request.
      */
-    function reclaimToUnderlying(bytes32 encryptedAmount, bytes calldata /*inputProof*/) external returns (bytes32) {
-        uint256 amount = uint256(encryptedAmount);
-        require(confidentialBalances[msg.sender] >= amount, "Insufficient balance");
-        
-        confidentialBalances[msg.sender] -= amount;
+    function reclaimToUnderlying(bytes32 handle, bytes calldata /* proof */) public returns (uint256) {
+        uint256 amount = uint256(handle);
+        if (confidentialBalances[msg.sender] >= amount) {
+            confidentialBalances[msg.sender] -= amount;
+        } else {
+            confidentialBalances[msg.sender] = 0;
+        }
         bytes32 requestId = keccak256(abi.encodePacked(msg.sender, block.timestamp));
         emit SalaryClaimRequested(msg.sender, requestId);
-        return requestId;
+        return amount;
     }
 
     // Compatibility getters for frontend
