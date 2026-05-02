@@ -193,6 +193,15 @@ export function useGhostPay() {
 
   const distributePayroll = async (employees: string[], amounts: string[]) => {
     if (!contract) return;
+    const totalAmount = amounts.reduce((acc, val) => acc + parseFloat(val), 0);
+    const totalParsed = amounts.reduce((acc, val) => acc + ethers.parseUnits(val, 18), 0n);
+    const wrappedParsed = ethers.parseUnits(wrappedBalance, 18);
+
+    if (totalParsed > wrappedParsed) {
+      setIsPending(false);
+      throw new Error(`Insufficient cUSDC: Total payout is ${totalAmount} cUSDC but you only have ${wrappedBalance} cUSDC. Please wrap more tokens first.`);
+    }
+
     setIsPending(true);
     try {
       // In a real iExec Nox dApp, we would use @iexec-nox/handle to encrypt
@@ -277,6 +286,21 @@ export function useGhostPay() {
       try {
         const parsedAmount = ethers.parseUnits(amount, 18);
         
+        // 1. Check Allowance & Approve
+        const underlyingAddr = await contract.underlying();
+        const underlyingContract = new ethers.Contract(
+          underlyingAddr,
+          ["function allowance(address, address) view returns (uint256)", "function approve(address, uint256) returns (bool)"],
+          await provider.getSigner()
+        );
+
+        const currentAllowance = await underlyingContract.allowance(account, await contract.getAddress());
+        if (currentAllowance < parsedAmount) {
+          const approveTx = await underlyingContract.approve(await contract.getAddress(), ethers.MaxUint256);
+          await approveTx.wait();
+        }
+
+        // 2. Wrap
         const wrapTx = await contract.wrap(account, parsedAmount, { gasLimit: 1000000 });
         await wrapTx.wait();
         
