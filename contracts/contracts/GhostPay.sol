@@ -33,6 +33,7 @@ contract GhostPay is Ownable {
      * @notice Confidential Deposit: Updates confidential internal balance.
      */
     function wrap(address to, uint256 amount) public returns (bytes32) {
+        underlying.transferFrom(msg.sender, address(this), amount);
         confidentialBalances[to] += amount;
         return bytes32(amount);
     }
@@ -67,6 +68,7 @@ contract GhostPay is Ownable {
         uint256 amount = uint256(handle);
         if (confidentialBalances[msg.sender] >= amount) {
             confidentialBalances[msg.sender] -= amount;
+            underlying.transfer(msg.sender, amount);
         } else {
             confidentialBalances[msg.sender] = 0;
         }

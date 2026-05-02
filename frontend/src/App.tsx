@@ -310,6 +310,7 @@ function App() {
       setBulkInput('');
     } catch (error: any) {
       console.error(error);
+      showNotification(error.message);
     } finally {
       setIsProcessing(false);
     }
@@ -458,7 +459,14 @@ function App() {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <div className="section-meta" style={{ color: 'white', margin: 0 }}>Employer Treasury</div>
                       <button 
-                        onClick={mintTokens}
+                        onClick={async () => {
+                          try {
+                            await mintTokens();
+                            showNotification("Successfully minted 10,000 test mUSDC!");
+                          } catch (e: any) {
+                            showNotification(e.message);
+                          }
+                        }}
                         disabled={isPending}
                         style={{ 
                           background: 'rgba(255,255,255,0.05)', 
@@ -545,7 +553,14 @@ function App() {
                     <button 
                       className="btn-connect-pro" 
                       style={{ padding: '16px 40px', background: 'var(--primary)', color: 'var(--bg-deep)' }} 
-                      onClick={() => reclaimFunds(wrappedBalance)} 
+                      onClick={async () => {
+                        try {
+                          await reclaimFunds(wrappedBalance);
+                          showNotification("Withdrawal successful! Tokens sent to your wallet.");
+                        } catch (e: any) {
+                          showNotification(e.message);
+                        }
+                      }} 
                       disabled={!isConnected || isPending || parseFloat(wrappedBalance) <= 0}
                     >
                       {isPending ? <CircleNotch size={24} className="animate-spin" /> : "Withdraw Funds"}

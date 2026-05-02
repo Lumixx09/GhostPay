@@ -153,6 +153,20 @@ export function useGhostPay() {
     setBalance("0.00");
     setHistory([]);
   };
+  
+  const parseError = (error: any): string => {
+    const errorStr = String(error?.message || error).toLowerCase();
+    if (errorStr.includes("json-rpc") || errorStr.includes("coalesce")) {
+      return "MetaMask Sync Error: Please 'Clear Activity Tab' in MetaMask Settings > Advanced.";
+    }
+    if (errorStr.includes("user rejected")) {
+      return "Transaction Cancelled: You rejected the request in MetaMask.";
+    }
+    if (errorStr.includes("insufficient funds")) {
+      return "Insufficient ETH: You need more Arbitrum Sepolia ETH for gas.";
+    }
+    return "Protocol Reverted: The network rejected the transaction. Please refresh and try again.";
+  };
 
   const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -197,7 +211,7 @@ export function useGhostPay() {
       await Promise.all([refreshBalance(), fetchHistory()]);
     } catch (error) {
       console.error("Distribution error:", error);
-      throw error;
+      throw new Error(parseError(error));
     } finally {
       setIsPending(false);
     }
@@ -217,7 +231,7 @@ export function useGhostPay() {
       await Promise.all([refreshBalance(), fetchHistory()]);
     } catch (error) {
       console.error("Reclaim error:", error);
-      throw error;
+      throw new Error(parseError(error));
     } finally {
       setIsPending(false);
     }
@@ -270,7 +284,7 @@ export function useGhostPay() {
         await refreshBalance();
       } catch (error) {
         console.error("Wrap error:", error);
-        throw error;
+        throw new Error(parseError(error));
       } finally {
         setIsPending(false);
       }
