@@ -444,7 +444,7 @@ function App() {
                   <div className="pro-card" style={{ gridColumn: 'span 2', padding: '2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                     <div className="section-meta">Total Protocol Volume</div>
                     <div style={{ fontSize: '4rem', fontWeight: 900, margin: '0.5rem 0', color: 'var(--primary)', lineHeight: 1 }}>
-                      ${history.reduce((acc, tx) => acc + (tx.amount ? parseFloat(tx.amount) : 0), 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                      {isShadowMode ? <div className="masked-data" style={{ width: '280px', height: '48px' }}></div> : `$${history.reduce((acc, tx) => acc + (tx.amount ? parseFloat(tx.amount) : 0), 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}`}
                     </div>
                     <div style={{ display: 'flex', gap: '8px', alignItems: 'center', color: 'var(--success)', fontWeight: 700 }}>+Real-time synced</div>
                   </div>
@@ -472,11 +472,15 @@ function App() {
                     <div style={{ margin: '1rem 0', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                       <div>
                         <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>Available to Wrap</div>
-                        <div style={{ fontSize: '1.2rem', fontWeight: 800 }}>{balance} <span style={{ fontSize: '0.8rem' }}>mUSDC</span></div>
+                        <div style={{ fontSize: '1.2rem', fontWeight: 800 }}>
+                          {isShadowMode ? <div className="masked-data" style={{ width: '80px' }}></div> : balance} <span style={{ fontSize: '0.8rem' }}>mUSDC</span>
+                        </div>
                       </div>
                       <div style={{ padding: '8px', background: 'rgba(255,255,255,0.05)', borderRadius: '12px' }}>
                         <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>Confidential Balance</div>
-                        <div style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--primary)' }}>{wrappedBalance} <span style={{ fontSize: '0.8rem' }}>cUSDC</span></div>
+                        <div style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--primary)' }}>
+                          {isShadowMode ? <div className="masked-data" style={{ width: '80px' }}></div> : wrappedBalance} <span style={{ fontSize: '0.8rem' }}>cUSDC</span>
+                        </div>
                       </div>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -669,7 +673,9 @@ function App() {
                 <div className="settings-grid">
                   <div className="settings-card" style={{ gridColumn: 'span 2' }}>
                     <div className="settings-label"><Info size={18} weight="bold" /> Protocol Identity</div>
-                    <div className="settings-value">{account}</div>
+                    <div className="settings-value">
+                      {isShadowMode ? <div className="masked-data" style={{ width: '100%' }}></div> : account}
+                    </div>
                     <div style={{ marginTop: '1rem', color: 'var(--success)', fontSize: '0.8rem', fontWeight: 700 }}>
                       <ShieldCheck size={14} weight="bold" /> Identity cryptographically verified via Nox session.
                     </div>
@@ -677,7 +683,9 @@ function App() {
 
                   <div className="settings-card">
                     <div className="settings-label"><Cpu size={18} weight="bold" /> Nox Contract</div>
-                    <div className="settings-value">{import.meta.env.VITE_GHOST_PAY_ADDRESS || '0x...'}</div>
+                    <div className="settings-value">
+                      {isShadowMode ? <div className="masked-data" style={{ width: '100%' }}></div> : (import.meta.env.VITE_GHOST_PAY_ADDRESS || '0x...')}
+                    </div>
                   </div>
 
                   <div className="settings-card">
